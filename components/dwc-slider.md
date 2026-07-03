@@ -1,0 +1,160 @@
+---
+icon: images
+---
+
+# DWC Slider
+
+The actual sliding track, placed inside a **DWC Slider Wrapper**. Each Slider has its own settings (per page, speed, autoplay, loop, etc.). If a Wrapper contains two Sliders — for example a main gallery and a thumbnail strip — each one is configured independently, and a setting on the Slider itself always overrides the same setting on the Wrapper.
+
+Settings are grouped into panels matching the groups below. Each row shows the setting, its underlying prop key, the `data-*` attribute or CSS variable it renders to, and its default.
+
+***
+
+## SLIDER SETUP
+
+| Setting            | key                     | Renders to        | Default | Options                                                          |
+| -------------------- | ------------------------ | -------------------- | ------- | ------------------------------------------------------------------- |
+| **Slider Role**       | `sliderRole`              | `data-slider-role`    | `main`  | `Main Slider : main` / `Thumbnail : thumbnails`                     |
+| **Main/Thumbnail Sync Group** | `mainThumbnailSyncGroup` | `data-sync-group` | –       | Any name — only needed if the main and thumbnail sliders live in **different** Wrappers |
+| **Transition Type**   | `transitionType`          | `data-type` (lowercased) | `Slide` | `Slide` / `Fade` / `Loop`                                            |
+| **Sllde Direction**   | `slldeDirection`          | `data-direction`      | `ltr`   | `Left to Right : ltr` / `Right to Left : rtl` / `Vertical : ttb`     |
+
+> `Fade` type always rewinds internally (a true infinite loop isn't possible with a crossfade), and pairs with `Loop` for an instant, non-animated wrap.
+
+## LAYOUT
+
+| Setting                 | key                | Renders to           | Default | Description |
+| -------------------------- | -------------------- | ----------------------- | ------- | -------------- |
+| **Slides Per Page**         | `slidesPerPage`       | `data-per-page`          | `1`     | How many slides are visible at once. Set for the base breakpoint and others, e.g. `3 md:2 sm:1`. |
+| **Slides per Move**         | `slidesPerMove`       | `data-per-move`          | `1`     | How many slides advance per click/swipe. |
+| **Gap between Slides**      | `gapBetweenSlides`    | `data-gap`               | `1rem`  | Space between slides. |
+| **Slider Edge Offset**      | `sliderEdgeOffset`    | `data-padding`           | –       | Reveals a peek of neighboring slides on both sides. Accepts the same responsive shorthand as Slides Per Page, e.g. `8% lg:6% md:4% sm:2%`. |
+| **-- Left Offset**          | `leftOffset`          | `data-padding-left`      | –       | Overrides Slider Edge Offset on the left only. Same responsive shorthand. |
+| **-- Right Offset**         | `rightOffset`         | `data-padding-right`     | –       | Overrides Slider Edge Offset on the right only. Same responsive shorthand. |
+| **Padding Block**           | `paddingBlock`        | `--slider-padding-block` | `0px`   | Top/bottom padding inside the track. |
+
+## DIMENSIONS
+
+> Breakpoint tokens: `lg` ≤ 1024px (small laptop), `md` ≤ 768px (tablet), `sm` ≤ 640px (phone).
+
+| Setting          | key            | Renders to          | Default | Description |
+| ------------------- | ---------------- | ---------------------- | ------- | -------------- |
+| **Slider Width**     | `sliderWidth`     | `data-width`            | –       | Caps the slider's max width. |
+| **Slider Height**    | `sliderHeight`    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. |
+| **Aspect Ratio**     | `aspectRatio`     | `data-height-ratio`     | –       | Aspect-ratio-based height (0–1). Presets: `1:1 (Square) = 1.0`, `4:3 (Classic) = 0.75`, `16:9 (Widescreen) = 0.5625`, `2:1 (Panorama) = 0.5`, `21:9 (Ultrawide) = 0.4225`. Responsive shorthand, e.g. `0.5 md:0.5625 sm:0.75`. |
+
+Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically.
+
+## MOTION
+
+| Setting            | key             | Renders to      | Default | Description |
+| --------------------- | ----------------- | ------------------ | ------- | -------------- |
+| **Loop**               | `loop`             | `data-loop`         | `true`  | Wraps around endlessly. |
+| **Rewind**             | `rewind`           | `data-rewind`       | `false` | When Transition Type is `Slide`, controls whether reaching the last slide snaps back to the first. |
+| **Enable Drag**        | `enableDrag`       | `data-drag`         | `true`  | Enables swipe/drag navigation. |
+| **Speed**              | `speed`            | `data-speed`        | `400`   | Transition duration in milliseconds. |
+| **Focus**              | `focus`            | `data-focus`        | `0`     | Which position in view is treated as "active". E.g. `0`, `1`, `center`. |
+| **Update on Move**     | `updateOnMove`     | `data-update-on-move` | `true` | Updates the `is-active` status class just before moving the carousel. |
+
+## AUTOPLAY
+
+| Setting               | key                | Renders to               | Default | Description |
+| ------------------------ | -------------------- | --------------------------- | ------- | -------------- |
+| **Auto Play**             | `autoPlay`           | `data-autoplay`              | `true`  | Auto-advances slides. |
+| **Interval**              | `interval`           | `data-interval`              | `4000`  | Time (ms) each slide is shown before advancing. |
+| **Pause On Hover**        | `pauseOnHover`       | `data-pause-on-hover`        | `false` | Pauses autoplay while the mouse is over the slider. |
+| **Auto Play progress**    | `autoPlayProgress`   | `data-autoplay-progress`     | `false` | Shown only when Auto Play is on. For more control, use the standalone **DWC Slider Play-Pause** component instead. |
+| **Play/Pause Button**     | `playPauseButton`    | `data-autoplay-toggle`       | `true`  | For more control, use the standalone **DWC Slider Play-Pause** component instead. |
+
+Autoplay also automatically pauses when a slide or control receives keyboard focus — this is built in and not a separate setting.
+
+## PROGRESS
+
+> For more control, use the standalone **DWC Slider Progress** component instead of these flags.
+
+| Setting                  | key                   | Renders to                      | Default | Options |
+| --------------------------- | ------------------------ | ----------------------------------- | ------- | --------- |
+| **Bar Progress**             | `barProgress`            | `data-bar-progress` (lowercased)     | `False` | `False` / `Slides` / `Timer` — to use Timer mode, enable Auto Play |
+| **Circular Progress**        | `circularProgress`       | `data-circular-progress` (lowercased) | `False` | `False` / `Slides` / `Timer` — to use Timer mode, enable Auto Play |
+| **Counter Progress**         | `counterProgress`        | `data-counter`                       | `false` | Shows a simple "current / total" readout. |
+| **Counter Leading Zeros**    | `counterLeadingZeros`    | `data-leading-zeros`                 | `false` | Shown only when Circular Progress or Counter Progress is on. Pads numbers e.g. `01/04` instead of `1/4`. |
+
+## AUTOSCROLL
+
+| Setting          | key             | Renders to             | Default | Description |
+| -------------------- | ----------------- | -------------------------- | ------- | -------------- |
+| **Infinite Scroll**   | `infiniteScroll`   | `data-auto-scroll`          | `false` | Continuous, non-stop scrolling (like a logo marquee) instead of discrete slide steps. |
+| **Scroll Speed**      | `scrollSpeed`      | `data-auto-scroll-speed`    | `4`     | Shown only when Infinite Scroll is on. Pixels moved per frame; negative numbers reverse direction. |
+
+## NAVIGATION
+
+> For more control, use the standalone **DWC Slider Pagination** and **DWC Slider Nav Button** components instead of these flags.
+
+| Setting               | key               | Renders to    | Default |
+| ------------------------ | ------------------- | ---------------- | ------- |
+| **Navigation Arrows**     | `navigationArrows`   | `data-arrows`      | `true`  |
+| **Pagination Dots**       | `paginationDots`     | `data-pagination`  | `true`  |
+
+## SLIDES
+
+These control per-slide appearance in the active vs. inactive state, applied as inline CSS custom properties on the track.
+
+| Setting               | key                | CSS variable                | Default                        |
+| ------------------------ | -------------------- | ------------------------------- | ---------------------------------- |
+| **Overflow**              | `overflow`            | `data-overflow`                  | `false`                            |
+| **Opacity**               | `opacity`             | `--slide-opacity`                | `1`                                 |
+| **Opacity-Active**        | `opacityActive`       | `--slide-opacity-active`         | `1`                                 |
+| **Scale**                 | `scale`               | `--slide-scale`                  | `1`                                 |
+| **Scale-Active**          | `scaleActive`         | `--slide-scale-active`           | `1`                                 |
+| **TranslateY**            | `translateY`          | `--slide-translate-y`            | `0`                                 |
+| **TranslateY-Active**     | `translateYActive`    | `--slide-translate-y-active`     | `0`                                 |
+| **TranslateX**            | `translateX`          | `--slide-translate-x`            | `0`                                 |
+| **TranslateX-Active**     | `translateXActive`    | `--slide-translate-x-active`     | `0`                                 |
+| **Transform Origin**      | `transformOrigin`     | `--slide-transform-origin`       | `center center`                     |
+| **Border**                | `border`              | `--slide-border`                 | `solid 1px transparent`             |
+| **Border-Active**         | `borderActive`        | `--slide-border-active`          | `solid 1px transparent`             |
+| **Transition**            | `transition`          | `--slide-transition`             | `0.4s`                              |
+| **Transition-Active**     | `transitionActive`    | `--slide-transition-active`      | `0.4s`                              |
+| **Border Radius**         | `borderRadius`        | `--slide-radius`                 | –                                   |
+| **Height-Inactive**       | `heightInactive`      | `--slide-height-inactive`        | `var(--slide-height-active)`        |
+
+## Other settings
+
+| Setting            | key             | Renders to        | Default | Description |
+| ---------------------- | ----------------- | -------------------- | ------- | -------------- |
+| **Aria Label**          | `ariaLabel`        | `aria-label`          | –       | Accessible label for the slider. |
+| **data-slider-id**      | `dataSliderId`     | `data-slider-id`      | –       | Hook for the built-in named animation presets. See [Styling & Responsive Behaviour](../styling-and-responsive.md#animation-presets). |
+| **Slider Class**        | `sliderClass`      | appended to `class="splide {props.sliderClass}"` | seeded from `.slider-navigation-vars` | The per-instance styling class. See [Styling & Responsive Behaviour](../styling-and-responsive.md#per-instance-styling-slider-class) for how to give each slider independent arrow/dot/pagination colors. |
+
+***
+
+## Responsive settings
+
+**Slides Per Page**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
+
+***
+
+## Thumbnail / sync setup
+
+To link two Sliders (typically a big main image and a row of thumbnails):
+
+- **Same Wrapper:** set **Slider Role** to `main` on one and `thumbnails` on the other — they sync automatically, no Sync Group needed.
+- **Different Wrappers:** give both Sliders the same **Main/Thumbnail Sync Group** name.
+
+Clicking a thumbnail jumps the main Slider to that slide, and the active thumbnail is automatically highlighted as the main Slider moves.
+
+***
+
+## Marquee mode
+
+Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel.
+
+***
+
+## Slots
+
+| Slot                | Description                                                          |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `Top__Controls`         | Rendered above the track, inside a controls wrapper — for a Pagination, Nav Button, Progress, or Play-Pause component. |
+| `Slides`                | The **DWC Slide** components that make up the track.                     |
+| `Bottom__Controls`      | Rendered below the track, inside a controls wrapper.                     |

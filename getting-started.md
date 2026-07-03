@@ -10,10 +10,9 @@ Slider Pro for Etch ships as two pieces: a small WordPress plugin (loads the Spl
 
 ### 1. WordPress plugin
 
-1. Place the whole `dwc-slider-pro-etch` folder in `wp-content/plugins/`.
-2. Activate **Slider Pro for Etch** from the Plugins screen.
+Install and activate the `dwc-slider-pro-etch` plugin folder like any other WordPress plugin: place it in `wp-content/plugins/`, then activate **Slider Pro for Etch** from the Plugins screen.
 
-This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), and in the parent admin window — you don't need to create or paste a stylesheet into Etch yourself. It also adds a **Settings → Slider Pro for Etch** screen — see [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
+This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), and in the parent admin window. It also adds a **Settings → Slider Pro for Etch** screen — see [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
 
 ### 2. Component JSON
 
@@ -53,7 +52,7 @@ DWC Slider Wrapper
 └── DWC Slider Nav Button × N         ← optional, one per prev/next/jump control
 ```
 
-The **DWC Slider Wrapper** is the outer container — it holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component. Settings on the Wrapper act as defaults for everything inside it. The **DWC Slider** is the actual sliding track; if a Wrapper contains two Sliders, each is configured independently, and a setting on the Slider itself always overrides the same setting on the Wrapper.
+The **DWC Slider Wrapper** is the outer container — it holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component. The **DWC Slider** is the actual sliding track; if a Wrapper contains two Sliders, each is configured independently.
 
 Everything else — DWC Slider Nav Button, DWC Slider Pagination, DWC Slider Progress, DWC Slider Play-Pause — is a small component you drop wherever you want it to appear. It doesn't have to sit right next to the Slider; it just has to be somewhere inside the same Wrapper (or inside the Slider itself). These components look for the Slider **in this order: inside the Slider first, then inside the Wrapper** — so you can place them anywhere in the Wrapper and they connect automatically, no manual linking required.
 

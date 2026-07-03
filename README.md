@@ -6,7 +6,7 @@ icon: images
 
 **Slider Pro for Etch** is a component-based slider/carousel system built for the Etch page builder for WordPress, powered by [Splide](https://splidejs.com/). Every visible piece — the slide track, arrows, dots, counter, progress bar, thumbnails — is its own Etch component with its own settings panel. You build a slider by combining these components and adjusting their settings; you never need to write code.
 
-There are two levels of components: a **Wrapper** that holds one or more sliders (plus any extra pieces like a counter or progress bar) and sets defaults for everything inside it, and one or more **Slider** components — the actual sliding track — placed inside it. A setting on the Slider itself always overrides the same setting on the Wrapper. Everything else (navigation buttons, pagination, counters, progress indicators, the autoplay toggle) is a small component you drop wherever you want it to appear inside the same Wrapper — it finds the Slider automatically, no manual linking required.
+There are two levels of components: a **Wrapper** that holds one or more sliders (plus any extra pieces like a counter or progress bar), and one or more **Slider** components — the actual sliding track — placed inside it. Everything else (navigation buttons, pagination, counters, progress indicators, the autoplay toggle) is a small component you drop wherever you want it to appear inside the same Wrapper — it finds the Slider automatically, no manual linking required.
 
 ***
 
@@ -16,7 +16,7 @@ There are two levels of components: a **Wrapper** that holds one or more sliders
 
 | Component                                                       | Purpose                                                                                     |
 | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [DWC Slider Wrapper](components/dwc-slider-wrapper.md)           | The outer container — holds one or more Sliders and sets defaults for everything inside it   |
+| [DWC Slider Wrapper](components/dwc-slider-wrapper.md)           | The outer container — holds one or more Sliders and any extra pieces like a counter or progress bar   |
 | [DWC Slider](components/dwc-slider.md)                           | The actual sliding track — layout, motion, autoplay, progress, and slide-state settings       |
 | [DWC Slide](components/dwc-slide.md)                              | A single slide — a plain slot wrapper with no settings of its own                             |
 | [DWC Slider Progress](components/dwc-slider-progress.md)         | A standalone circular, bar, or counter progress indicator with its own full style controls    |

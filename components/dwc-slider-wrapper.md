@@ -4,17 +4,17 @@ icon: rectangle
 
 # DWC Slider Wrapper
 
-The outer container. It holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component. Settings on the Wrapper act as **defaults** for everything inside it — a setting on a child Slider always overrides the same setting on the Wrapper.
+The outer container. It holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component.
 
 ***
 
 ## Settings
 
-| Setting                | key                    | Type   | Default | Description                                                                 |
-| ----------------------- | ---------------------- | ------ | ------- | ----------------------------------------------------------------------------- |
-| **Wrapper Height**      | `wrapperHeight`         | string | `auto`  | Sets `--slider-wrapper-height`, used as the wrapper's `min-block-size`.       |
-| **Space Between Sliders** | `spaceBetweenSliders` | string | –       | Sets `--sliders-gap`, the gap between a main Slider and a thumbnail Slider (or any other direct children) inside the wrapper. |
-| **Custom Class**        | `customClass`           | class  | `[]`    | Additional CSS class applied to the wrapper element for custom targeting.     |
+| Setting                | Type   | Default | Description                                                                 |
+| ----------------------- | ------ | ------- | ----------------------------------------------------------------------------- |
+| **Wrapper Height**      | string | `auto`  | Sets `--slider-wrapper-height`, used as the wrapper's `min-block-size`.       |
+| **Space Between Sliders** | string | –       | Sets `--sliders-gap`, the gap between a main Slider and a thumbnail Slider (or any other direct children) inside the wrapper. |
+| **Custom Class**        | class  | `[]`    | Additional CSS class applied to the wrapper element for custom targeting.     |
 
 ***
 

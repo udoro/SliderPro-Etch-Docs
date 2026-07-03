@@ -64,7 +64,7 @@ Editable **SM**, **MD**, and **LG** breakpoint pixel-width fields (defaults `640
 
 Arrow, dot, pagination, progress, and play/pause colors and sizing are controlled through CSS custom properties, not component settings — this keeps every slider on a site visually consistent by default while still letting you override a single instance.
 
-Each **DWC Slider** has a **Slider Class** prop (default seeded from a style block called `.slider-navigation-vars`) — a template containing every arrow/dot/pagination/play-pause variable at its default value, with the instructions inline as a comment:
+Each **DWC Slider** has a **Slider Class** prop. The default prop class is `.slider-navigation-vars` — a template containing every arrow/dot/pagination/play-pause variable at its default value, with the instructions inline as a comment:
 
 ```
 /* 1. Copy these CSS variables
@@ -77,7 +77,11 @@ To give one specific slider its own look:
 2. Create a new class and set it as that Slider's **Slider Class** prop.
 3. Paste the variables into that class's CSS and change whichever ones you want to differ from the site default.
 
-The parent-window script `dwc-slider-class-sync.js` can also mint a fresh, unique class automatically per slider instance so each one is independently editable without name collisions.
+Slider Pro also keeps each slider's styling independent for you automatically, so you don't have to manage class names by hand:
+
+1. On page load, every slider gets its own unique class (e.g. `dwc-nav-vars-xlwro`), generated from the default `.slider-navigation-vars` template.
+2. If you duplicate a slider, the duplicate gets its own new unique class too — so styling one slider never affects the other.
+3. To make two or more sliders share the same styling, delete the generated class from the Slider Class prop. With it removed, the prop falls back to showing `.slider-navigation-vars` — don't style directly on that class, since it will be replaced with a fresh unique class again the next time the slider is duplicated or the page reloads. Instead, add your own class (e.g. `.my-custom-slider-class`) — classes you add yourself are never touched by the automatic renaming, so multiple sliders can safely share one. Note that the variables aren't copied into your custom class automatically, which is exactly what the inline comment instructions above are for.
 
 ### Full variable reference
 
@@ -112,7 +116,7 @@ Play/Pause button:
 
 ### Global theme defaults
 
-`dwc-slider-pro-etch/assets/dwc-slider-pro.css` also defines a `:root` block of `--sc-*` theme defaults (fonts, background/surface/text/accent/border colors, arrow/dot/progress base colors and sizes, transition timing). These are hard-coded site-wide fallbacks used by the plugin's own demo/reference markup — they are not exposed as component props and are a developer-side CSS change, not a per-slider setting.
+`dwc-slider-pro-etch/assets/dwc-slider-pro.css` also defines a set of site-wide theme defaults (fonts, background/surface/text/accent/border colors, arrow/dot/progress base colors and sizes, transition timing). These are fallback values used by the plugin's own demo/reference markup — they're not exposed as component props and aren't something you'd change per slider.
 
 ***
 

@@ -1,0 +1,18 @@
+---
+icon: gear
+---
+
+# Admin Settings
+
+The plugin adds a **Settings → Slider Pro for Etch** screen in wp-admin with two sections.
+
+## Splide Library Source
+
+Choose where the Splide library and its auto-scroll extension are loaded from. This applies everywhere the slider runs: the frontend, the Etch editor, and the admin.
+
+- **Local (bundled)** — the default. Works with no external requests.
+- **CDN (jsDelivr)** — adds Subresource Integrity (SRI) hashes pinned to the same bundled version, so the CDN copy is verified.
+
+## Breakpoints
+
+Editable **SM**, **MD**, and **LG** breakpoint pixel-width fields (defaults `640`, `768`, `1024`) used for the responsive shorthand described in [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints), e.g. `data-per-page="2 sm:3 md:4 lg:1"`. These apply everywhere the slider runs.

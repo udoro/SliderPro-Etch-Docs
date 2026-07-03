@@ -42,21 +42,7 @@ This gives 3 per row above 1024px, 2 per row from 641–1024px (no `lg:` set, so
 
 ### Setting the breakpoint pixel values
 
-The 640 / 768 / 1024 pixel values above are the defaults. They're configurable site-wide from **Settings → Slider Pro for Etch** in wp-admin (see below) — they are not fixed in code and not something you set per-slider.
-
-***
-
-## Admin settings screen
-
-The plugin adds a **Settings → Slider Pro for Etch** screen in wp-admin with two sections:
-
-### Splide Library Source
-Choose where the Splide library and its auto-scroll extension are loaded from — applies everywhere the slider runs (frontend, Etch editor, admin):
-- **Local (bundled)** — the default. Works with no external requests.
-- **CDN (jsDelivr)** — adds Subresource Integrity (SRI) hashes pinned to the same bundled version, so the CDN copy is verified.
-
-### Breakpoints
-Editable **SM**, **MD**, and **LG** breakpoint pixel-width fields (defaults `640`, `768`, `1024`) used for the responsive shorthand described above, e.g. `data-per-page="2 sm:3 md:4 lg:1"`. These apply everywhere the slider runs.
+The 640 / 768 / 1024 pixel values above are the defaults. They're configurable site-wide from the [Admin Settings](admin-settings.md) screen in wp-admin — they are not fixed in code and not something you set per-slider.
 
 ***
 

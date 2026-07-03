@@ -18,7 +18,8 @@ icon: wrench
 
 | Symptom                                          | Likely cause                                                                                                                    |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Slider doesn't move / arrows do nothing               | Check the Slider is actually inside a DWC Slider Wrapper component.                                                                    |
+| Slider doesn't move / arrows do nothing               | If you're viewing this inside the Etch editor, make sure you're in **Preview** mode — arrows, pagination, and autoplay are intentionally inactive in Edit mode since the real slider isn't mounted there. See [Installation & Getting Started](getting-started.md#using-the-slider-inside-etch-editor-vs.-preview-vs.-live-site). |
+| Nothing works anywhere on the site (arrows, drag, autoplay all dead) | The Splide library failed to load — see [Admin Settings](admin-settings.md#splide-library-source) and try switching between Local (bundled) and CDN (jsDelivr) in case one is being blocked. |
 | Thumbnails don't sync to the main slider               | Confirm one Slider's Slider Role is `main` and the other is `thumbnails`; if they're in different Wrappers, give both the same Sync Group. |
 | Timer-mode progress bar/ring never fills               | Timer mode requires Auto Play to be turned on for the tracked Slider — without it, the component quietly falls back to slides mode.  |
 | Height not changing at a breakpoint                    | Double-check you used the `sm:`/`md:`/`lg:` shorthand correctly, and that you're testing at or below 640px/768px/1024px — these are max-width breakpoints, not min-width. See [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints). |

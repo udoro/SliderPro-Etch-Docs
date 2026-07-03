@@ -23,7 +23,7 @@ There are two levels of components: a **Wrapper** that holds one or more sliders
 | [DWC Slider Play-Pause](components/dwc-slider-play-pause.md)     | A standalone play/pause button for autoplay, with its own style controls                      |
 | [DWC Slider Pagination](components/dwc-slider-pagination.md)     | Splide's default dots, or a fully custom pagination template                                  |
 | [DWC Slider Nav Button](components/dwc-slider-nav-button.md)     | A clickable prev/next/first/last/jump-to-slide control, with optional custom SVG icon         |
-| [AI Connector](ai-connector/README.md)                           | Planned AI agent integration for Slider Pro — documentation pending                           |
+| [AI Connector](https://design-with-cracka.gitbook.io/etch-slider-pro/ai-connector) | Planned AI agent integration for Slider Pro — documentation pending                           |
 
 ***
 

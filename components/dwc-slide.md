@@ -12,4 +12,4 @@ A single slide, placed inside the **DWC Slider**'s `Slides` slot. It's a plain l
 
 | Slot      | Description                          |
 | --------- | --------------------------------------- |
-| `Content` (`default`) | The slide's content — image, text, anything. |
+| `Content` (`default`) | The slide's content — div, image, text, anything. |

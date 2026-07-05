@@ -52,4 +52,7 @@ A standalone pagination component for full control over how each dot looks, as a
 
 ## Template mode
 
-Set **Custom Pagination Mode** to `Template` and design the *first* item as your template — it gets cloned once per slide automatically. Inside your template, put a single number, letter, or roman numeral placeholder as its own word: `1`, `a`, `A`, `i`, or `I`. It's automatically replaced with that slide's number in the matching format (numbers, lowercase/uppercase letters, or lowercase/uppercase roman numerals).
+Set **Custom Pagination Mode** to `Template` and design the *first* item as your template — it gets cloned once per slide automatically. Inside your template, put a number, letter, or roman numeral placeholder as its own word: any digits (`1`, `007`, `2003`), or `a`, `A`, `i`, `I`. It's automatically replaced with that slide's number in the matching format.
+
+- **Numbers** count up starting from whatever number you type, so `1` produces `1, 2, 3, ...` while `2003` produces `2003, 2004, 2005, ...`. Leading zeros are preserved as the number grows (`007` → `007, 008, ..., 010, 011, ...`).
+- **Letters and roman numerals** (`a`, `A`, `i`, `I`) always start at the beginning of their sequence (a/b/c…, i/ii/iii…) — only numbers support a custom starting point.

@@ -35,13 +35,16 @@ Settings are grouped into panels matching the groups below. Each row shows the s
 
 ## DIMENSIONS
 
-> Breakpoint tokens: `lg` ≤ 1024px (small laptop), `md` ≤ 768px (tablet), `sm` ≤ 640px (phone).
+> Breakpoint tokens: `lg` ≤ 1120px (laptop), `md` ≤ 1024px (tablet), `sm` ≤ 640px (phone).
 
 | Setting          | Renders to          | Default | Description |
 | ------------------- | ---------------------- | ------- | -------------- |
 | **Slider Width**     | `data-width`            | –       | Caps the slider's max width. |
 | **Slider Height**    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. |
 | **Aspect Ratio**     | `data-height-ratio`     | –       | Aspect-ratio-based height (0–1). Presets: `1:1 (Square) = 1.0`, `4:3 (Classic) = 0.75`, `16:9 (Widescreen) = 0.5625`, `2:1 (Panorama) = 0.5`, `21:9 (Ultrawide) = 0.4225`. Responsive shorthand, e.g. `0.5 md:0.5625 sm:0.75`. |
+| **SM Breakpoint**    | `data-breakpoint-sm`    | `auto`  | Overrides the site-wide `sm:` pixel width for this slider only. `auto` uses the global [Admin Settings](../admin-settings.md) value (default `640px`). |
+| **MD Breakpoint**    | `data-breakpoint-md`    | `auto`  | Overrides the site-wide `md:` pixel width for this slider only. `auto` uses the global value (default `1024px`). |
+| **LG Breakpoint**    | `data-breakpoint-lg`    | `auto`  | Overrides the site-wide `lg:` pixel width for this slider only. `auto` uses the global value (default `1120px`). |
 
 Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically.
 
@@ -63,7 +66,6 @@ Use **either** Slider Height or Aspect Ratio — don't set both on the same slid
 | **Auto Play**             | `data-autoplay`              | `true`  | Auto-advances slides. |
 | **Interval**              | `data-interval`              | `4000`  | Time (ms) each slide is shown before advancing. |
 | **Pause On Hover**        | `data-pause-on-hover`        | `false` | Pauses autoplay while the mouse is over the slider. |
-| **Auto Play progress**    | `data-autoplay-progress`     | `false` | Shown only when Auto Play is on. For more control, use the standalone **DWC Slider Play-Pause** component instead. |
 | **Play/Pause Button**     | `data-autoplay-toggle`       | `true`  | For more control, use the standalone **DWC Slider Play-Pause** component instead. |
 
 Autoplay also automatically pauses when a slide or control receives keyboard focus — this is built in and not a separate setting.
@@ -131,6 +133,8 @@ These control per-slide appearance in the active vs. inactive state, applied as 
 ## Responsive settings
 
 **Slides Per Page**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
+
+The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the **SM/MD/LG Breakpoint** settings above (leave them at `auto` to inherit the global values).
 
 ***
 

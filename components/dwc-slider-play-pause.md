@@ -10,7 +10,7 @@ A standalone play/pause button for autoplay, with its own style controls. Drop i
 
 ## Settings
 
-Rendered as inline CSS custom properties on the button's container element (marked `data-autoplay-toggle-container`, which the runtime auto-detects — no flag needed on the Slider itself when this component is used).
+Rendered as inline CSS custom properties on the button's container element (marked `data-autoplay-toggle-container`, which the runtime auto-detects — no flag needed on the Slider itself when this component is used). Turning the Slider's own **Play/Pause Button** setting off does **not** disable this standalone; only the Slider's **Auto Play** being off does (a play/pause button has nothing to control without autoplay).
 
 | Setting                      | CSS variable                   | Default                            |
 | --------------------------------- | ------------------------------------ | ---------------------------------------- |

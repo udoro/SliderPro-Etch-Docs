@@ -11,8 +11,8 @@ icon: palette
 | Token  | Breakpoint (default) |
 | -------- | ------------------------ |
 | (none)   | Base value                |
-| `lg:`    | ≤ 1024px (small laptop)   |
-| `md:`    | ≤ 768px (tablet)          |
+| `lg:`    | ≤ 1120px (laptop)         |
+| `md:`    | ≤ 1024px (tablet)         |
 | `sm:`    | ≤ 640px (phone)           |
 
 ### This is desktop-first (max-width), not mobile-first — read this carefully
@@ -23,9 +23,9 @@ Concretely, with all three overrides set:
 
 | Screen width         | Value used                                                          |
 | ----------------------- | ------------------------------------------------------------------------ |
-| Wider than 1024px        | Base value                                                                |
-| 769px to 1024px          | `lg:` value                                                               |
-| 641px to 768px           | `md:` value (falls back to `lg:`, then base, if not set)                 |
+| Wider than 1120px        | Base value                                                                |
+| 1025px to 1120px         | `lg:` value                                                               |
+| 641px to 1024px          | `md:` value (falls back to `lg:`, then base, if not set)                 |
 | 640px and narrower       | `sm:` value (falls back to `md:`, then `lg:`, then base, if not set)     |
 
 Smaller-screen values take priority as the screen gets narrower, cascading down from whichever breakpoints you've actually set. You don't have to set all three — if you only set `sm:`, everything above 640px just uses the base value.
@@ -36,13 +36,13 @@ Smaller-screen values take priority as the screen gets narrower, cascading down 
 Slides Per Page: 3 md:2 sm:1
 ```
 
-This gives 3 per row above 1024px, 2 per row from 641–1024px (no `lg:` set, so `md:` covers that whole range too), and 1 per row at 640px and below.
+This gives 3 per row above 1120px, 2 per row from 641–1120px (no `lg:` set, so `md:` covers that whole range too), and 1 per row at 640px and below.
 
 > Any other setting (Gap, Speed, Autoplay, Arrows, etc.) does **not** have breakpoint versions — it applies the same at every screen size.
 
 ### Setting the breakpoint pixel values
 
-The 640 / 768 / 1024 pixel values above are the defaults. They're configurable site-wide from the [Admin Settings](admin-settings.md) screen in wp-admin — they are not fixed in code and not something you set per-slider.
+The 640 / 1024 / 1120 pixel values above are the defaults. They're configurable site-wide from the [Admin Settings](admin-settings.md) screen in wp-admin, and each Slider can additionally override them for itself via its **SM/MD/LG Breakpoint** settings (`data-breakpoint-sm/md/lg`) — see the [DWC Slider DIMENSIONS panel](components/dwc-slider.md#dimensions). Leave a slider's breakpoint at `auto` to inherit the site-wide value.
 
 ***
 

@@ -15,4 +15,4 @@ Choose where the Splide library and its auto-scroll extension are loaded from. T
 
 ## Breakpoints
 
-Editable **SM**, **MD**, and **LG** breakpoint pixel-width fields (defaults `640`, `768`, `1024`) used for the responsive shorthand described in [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints), e.g. `data-per-page="2 sm:3 md:4 lg:1"`. These apply everywhere the slider runs.
+Editable **SM**, **MD**, and **LG** breakpoint pixel-width fields (defaults `640`, `1024`, `1120`) used for the responsive shorthand described in [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints), e.g. `data-per-page="2 sm:3 md:4 lg:1"`. These apply everywhere the slider runs, and are the fallback for any individual Slider — each Slider can override them per-instance from its [DIMENSIONS panel](components/dwc-slider.md#dimensions) (`data-breakpoint-sm/md/lg`, `auto` = inherit these values).

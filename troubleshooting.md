@@ -10,7 +10,9 @@ icon: wrench
 - **Product gallery with thumbnails:** two DWC Sliders in one Wrapper, Slider Role `main`/`thumbnails`, Aspect Ratio set on the main Slider.
 - **Testimonials:** Slides Per Page `1`, Loop on, a Counter (DWC Slider Progress in `counter` mode) with Leading Zeros, Nav Buttons for prev/next.
 - **Logo strip / marquee:** Infinite Scroll on, Scroll Speed `1`–`2`, no arrows or pagination needed.
-- **Responsive card row:** Slides Per Page `3 md:2 sm:1`, Gap set to a fixed size.
+- **Responsive card row:** Slides Per Page `3 md:2 sm:1`, Gap `1.5rem md:1rem sm:0.5rem` (Gap takes the same breakpoint shorthand).
+- **Cards that stop being a slider on desktop:** Layout Mode `static md:slider` with Grid Columns `3 sm:1` — a static grid of cards on wide screens, a real swipeable carousel at `md` and below.
+- **Faster page loads with many sliders:** enable **Lazy Load Sliders** on wrappers below the fold so they only initialize as the visitor scrolls near them. See [Lazy loading](styling-and-responsive.md#lazy-loading-below-the-fold-sliders).
 
 ***
 
@@ -21,8 +23,11 @@ icon: wrench
 | Slider doesn't move / arrows do nothing               | If you're viewing this inside the Etch editor, make sure you're in **Preview** mode — arrows, pagination, and autoplay are intentionally inactive in Edit mode since the real slider isn't mounted there. See [Installation & Getting Started](getting-started.md#using-the-slider-inside-etch-editor-vs.-preview-vs.-live-site). |
 | Nothing works anywhere on the site (arrows, drag, autoplay all dead) | The Splide library failed to load — see [Admin Settings](admin-settings.md#splide-library-source) and try switching between Local (bundled) and CDN (jsDelivr) in case one is being blocked. |
 | Thumbnails don't sync to the main slider               | Confirm one Slider's Slider Role is `main` and the other is `thumbnails`; if they're in different Wrappers, give both the same Sync Group. |
+| A lazy-loaded slider loads right away, plus a console note about a "sync-group … initializing immediately" | Expected safety behavior: a synced main/thumbnail pair can only be lazy-loaded if both defer together. If they're split (one lazy and one not, or in two different lazy wrappers) the whole group loads immediately so sync can't break. Put both sliders in **one** lazy Wrapper to lazy-load them. See [Lazy loading](styling-and-responsive.md#lazy-loading-below-the-fold-sliders). |
+| Lazy-loaded slider never appears / stays blank          | It should activate ~`Lazy Preload Distance` px before entering view. If it never does, check the element actually scrolls into (or near) the viewport; a slider that's permanently off-screen won't initialize. Very old browsers without `IntersectionObserver` fall back to loading immediately. |
 | Timer-mode progress bar/ring never fills               | Timer mode requires Auto Play to be turned on for the tracked Slider — without it, the component quietly falls back to slides mode.  |
-| Height not changing at a breakpoint                    | Double-check you used the `sm:`/`md:`/`lg:` shorthand correctly, and that you're testing at or below 640px/768px/1024px — these are max-width breakpoints, not min-width. See [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints). |
+| Height not changing at a breakpoint                    | Double-check you used the `sm:`/`md:`/`lg:` shorthand correctly, and that you're testing at or below 640px/1024px/1120px (sm/md/lg) — these are max-width breakpoints, not min-width. See [Styling & Responsive Behaviour](styling-and-responsive.md#responsive-breakpoints). |
+| Responsive settings (per page, gap, height, layout mode) don't change while editing in Etch | Switch to **Preview** mode and use Etch's responsive/device-width controls — responsive values are only evaluated once the real slider is mounted, which happens in Preview, not Edit. |
 | Custom Pagination shows plain numbered buttons instead of your design | Make sure Custom Pagination Mode is set to `Template` and there's a real first child element to use as the template.                |
 | Navigation Button with a slide number does nothing     | Slide numbers are 1-based and must be within range (e.g. `1` through the total slide count).                                          |
 | Console errors while editing in the Etch canvas        | Expected — Splide expects a strict parent/child DOM structure and Etch's editing wrapper elements interfere with that inside Edit mode. These don't affect the published page. See [Installation & Getting Started](getting-started.md#using-the-slider-inside-etch-editor-vs.-preview-vs.-live-site). |

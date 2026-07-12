@@ -10,6 +10,16 @@ Settings are grouped into panels matching the groups below. Each row shows the s
 
 ***
 
+## BREAKPOINTS
+
+Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pixel width (a `max-width`, so it applies at that size and below). Leave blank to inherit the site-wide [Admin Settings](../admin-settings.md) values.
+
+| Setting          | Renders to          | Default | Description |
+| ------------------- | ---------------------- | ------- | -------------- |
+| **Laptop (lg)**      | `data-breakpoint-lg`    | `1120px` (inherited) | Max-width where `lg:` applies. |
+| **Tablet (md)**      | `data-breakpoint-md`    | `1024px` (inherited) | Max-width where `md:` applies. |
+| **Phone (sm)**       | `data-breakpoint-sm`    | `640px` (inherited)  | Max-width where `sm:` applies. |
+
 ## SLIDER SETUP
 
 | Setting            | Renders to        | Default | Options                                                          |
@@ -27,11 +37,13 @@ Settings are grouped into panels matching the groups below. Each row shows the s
 | -------------------------- | ----------------------- | ------- | -------------- |
 | **Slides Per Page**         | `data-per-page`          | `1`     | How many slides are visible at once. Set for the base breakpoint and others, e.g. `3 md:2 sm:1`. |
 | **Slides per Move**         | `data-per-move`          | `1`     | How many slides advance per click/swipe. |
-| **Gap between Slides**      | `data-gap`               | `1rem`  | Space between slides. |
+| **Gap between Slides**      | `data-gap`               | `1rem`  | Space between slides. Accepts the same responsive shorthand as Slides Per Page (e.g. `20px md:12px sm:8px`), or a single `clamp()` value. |
 | **Slider Edge Offset**      | `data-padding`           | –       | Reveals a peek of neighboring slides on both sides. Accepts the same responsive shorthand as Slides Per Page, e.g. `8% lg:6% md:4% sm:2%`. |
 | **-- Left Offset**          | `data-padding-left`      | –       | Overrides Slider Edge Offset on the left only. Same responsive shorthand. |
 | **-- Right Offset**         | `data-padding-right`     | –       | Overrides Slider Edge Offset on the right only. Same responsive shorthand. |
 | **Padding Block**           | `--slider-padding-block` | `0px`   | Top/bottom padding inside the track. |
+| **Layout Mode**             | `data-layout-mode`       | – (always slider) | Turn the slider into a plain, CSS-controlled grid at chosen breakpoints. `slider` / `static`, responsive shorthand, e.g. `slider md:static`. See [Layout mode](../styling-and-responsive.md#layout-mode-slider-or-static-grid). |
+| **Grid Columns**            | `data-grid-columns`      | `3`     | Columns for the static-mode grid. **Only applies while Layout Mode is `static`** (Etch shows this field only once Layout Mode includes `static`). Responsive, e.g. `3 md:2 sm:1`. |
 
 ## DIMENSIONS
 
@@ -41,12 +53,9 @@ Settings are grouped into panels matching the groups below. Each row shows the s
 | ------------------- | ---------------------- | ------- | -------------- |
 | **Slider Width**     | `data-width`            | –       | Caps the slider's max width. |
 | **Slider Height**    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. |
-| **Aspect Ratio**     | `data-height-ratio`     | –       | Aspect-ratio-based height (0–1). Presets: `1:1 (Square) = 1.0`, `4:3 (Classic) = 0.75`, `16:9 (Widescreen) = 0.5625`, `2:1 (Panorama) = 0.5`, `21:9 (Ultrawide) = 0.4225`. Responsive shorthand, e.g. `0.5 md:0.5625 sm:0.75`. |
-| **SM Breakpoint**    | `data-breakpoint-sm`    | `auto`  | Overrides the site-wide `sm:` pixel width for this slider only. `auto` uses the global [Admin Settings](../admin-settings.md) value (default `640px`). |
-| **MD Breakpoint**    | `data-breakpoint-md`    | `auto`  | Overrides the site-wide `md:` pixel width for this slider only. `auto` uses the global value (default `1024px`). |
-| **LG Breakpoint**    | `data-breakpoint-lg`    | `auto`  | Overrides the site-wide `lg:` pixel width for this slider only. `auto` uses the global value (default `1120px`). |
+| **Aspect Ratio**     | `data-height-ratio`     | –       | Aspect-ratio-based height (0–1), shown only when Slider Height is `auto`. Presets: `1:1 (Square) = 1.0`, `4:3 (Classic) = 0.75`, `16:9 (Widescreen) = 0.5625`, `2:1 (Panorama) = 0.5`, `21:9 (Ultrawide) = 0.4225`. Responsive shorthand, e.g. `0.5 md:0.5625 sm:0.75`. |
 
-Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically.
+Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically. To override where the `sm:`/`md:`/`lg:` tokens kick in for this slider, use the [BREAKPOINTS](#breakpoints) panel.
 
 ## MOTION
 
@@ -97,6 +106,15 @@ Autoplay also automatically pauses when a slide or control receives keyboard foc
 | **Navigation Arrows**     | `data-arrows`      | `true`  |
 | **Pagination Dots**       | `data-pagination`  | `true`  |
 
+## OVERLAY
+
+Draws a full-cover tint layer over the slider (a `::before` on the slider, behind the slide captions and controls) — handy for improving text contrast over busy images.
+
+| Setting                | Renders to             | Default | Description |
+| ------------------------- | -------------------------- | ------- | -------------- |
+| **Enable**                 | `data-overlay`             | `false` | Turns the overlay layer on. |
+| **Overlay Background**     | `--slider-overlay-bg`      | `color-mix(in oklch, black 55%, transparent)` | Any CSS color or gradient for the tint. |
+
 ## SLIDES
 
 These control per-slide appearance in the active vs. inactive state, applied as inline CSS custom properties on the track.
@@ -120,6 +138,15 @@ These control per-slide appearance in the active vs. inactive state, applied as 
 | **Border Radius**         | `--slide-radius`                 | –                                   |
 | **Height-Inactive**       | `--slide-height-inactive`        | `var(--slide-height-active)`        |
 
+## PERFORMANCE
+
+| Setting                  | Renders to          | Default | Description |
+| --------------------------- | ---------------------- | ------- | -------------- |
+| **Lazy Load Slider**         | `data-lazy-init`        | `false` | Defer this slider's setup until it's about to scroll into view — useful for sliders below the fold. |
+| **Lazy Preload Distance**    | `data-lazy-preload`     | `200`   | Shown only when Lazy Load Slider is on. How many pixels before the slider reaches the viewport it activates (e.g. `300` or `300px`); `0` waits until its edge is exactly at the viewport. |
+
+To defer a **whole wrapper** (every slider inside it) instead of one slider, use **Lazy Load Sliders** on the [DWC Slider Wrapper](dwc-slider-wrapper.md). See [Lazy loading below-the-fold sliders](../styling-and-responsive.md#lazy-loading-below-the-fold-sliders) for the thumbnail-sync rule and details.
+
 ## Other settings
 
 | Setting            | Renders to        | Default | Description |
@@ -132,9 +159,11 @@ These control per-slide appearance in the active vs. inactive state, applied as 
 
 ## Responsive settings
 
-**Slides Per Page**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
+**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
 
-The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the **SM/MD/LG Breakpoint** settings above (leave them at `auto` to inherit the global values).
+The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the [BREAKPOINTS](#breakpoints) panel above.
+
+The length fields — **Gap**, **Slider Width**, **Slider Height**, and the edge-offset settings — additionally accept CSS functions (`clamp()`, `calc()`, `var()`, `min()`, `max()`) for values that scale fluidly with the viewport instead of stepping at breakpoints. See [Fluid values](../styling-and-responsive.md#fluid-values-with-clamp-calc-and-var).
 
 ***
 

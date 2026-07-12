@@ -4,7 +4,7 @@ icon: arrow-right
 
 # DWC Slider Nav Button
 
-A clickable prev/next/first/last/jump-to-slide control. Drop it anywhere inside the Wrapper or Slider. Use as many as you like — a prev button, a next button, and a row of "jump to slide" buttons can all coexist.
+A clickable prev/next/first/last/jump-to-slide control. Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or even inside a **thumbnail** slider — and it always drives the main slider. Use as many as you like — a prev button, a next button, and a row of "jump to slide" buttons can all coexist.
 
 ***
 

@@ -65,7 +65,7 @@ Use **either** Slider Height or Aspect Ratio — don't set both on the same slid
 | **Rewind**             | `data-rewind`       | `false` | When Transition Type is `Slide`, controls whether reaching the last slide snaps back to the first. |
 | **Enable Drag**        | `data-drag`         | `true`  | Enables swipe/drag navigation. |
 | **Speed**              | `data-speed`        | `400`   | Transition duration in milliseconds. |
-| **Focus**              | `data-focus`        | `0`     | Which position in view is treated as "active". E.g. `0`, `1`, `center`. |
+| **Focus**              | `data-focus`        | `0`     | Which position in view is treated as "active". `center` or a 0-based index. Accepts responsive shorthand, e.g. `0 md:1 sm:center`. |
 | **Update on Move**     | `data-update-on-move` | `true` | Updates the `is-active` status class just before moving the carousel. |
 
 ## AUTOPLAY
@@ -159,7 +159,7 @@ To defer a **whole wrapper** (every slider inside it) instead of one slider, use
 
 ## Responsive settings
 
-**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
+**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, and **Focus** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
 
 The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the [BREAKPOINTS](#breakpoints) panel above.
 

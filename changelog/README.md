@@ -15,7 +15,7 @@ First release of Slider Pro for Etch. Highlights:
 
 **Responsive**
 
-* Desktop-first `sm:` / `md:` / `lg:` shorthand on Slides Per Page, **Gap**, Slider Height, Aspect Ratio, and the edge-offset settings. Breakpoint pixel widths are configurable site-wide and per-slider.
+* Desktop-first `sm:` / `md:` / `lg:` shorthand on Slides Per Page, **Gap**, Slider Height, Aspect Ratio, the edge-offset settings, and **Focus** (e.g. `0 md:1 sm:center`). Breakpoint pixel widths are configurable site-wide and per-slider.
 * **Fluid CSS values** — Gap, Slider Width, Slider Height, and the edge-offset settings also accept `clamp()` / `calc()` / `var()` / `min()` / `max()` for values that scale smoothly with the viewport. See [Fluid values](../styling-and-responsive.md#fluid-values-with-clamp-calc-and-var).
 * **Layout Mode** — switch a slider between a live carousel and a plain, CSS-controlled grid at a breakpoint (e.g. `slider md:static`), with a responsive **Grid Columns** count for the static grid. See [Layout mode](../styling-and-responsive.md#layout-mode-slider-or-static-grid).
 

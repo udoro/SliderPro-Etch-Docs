@@ -6,7 +6,7 @@ icon: palette
 
 ## Responsive breakpoints
 
-**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, and **Right Offset** can each be given different values at different screen widths by adding a suffix to the value: `lg:`, `md:`, or `sm:`. The **Layout Mode** setting below uses the same shorthand too.
+**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, and **Focus** can each be given different values at different screen widths by adding a suffix to the value: `lg:`, `md:`, or `sm:`. The **Layout Mode** setting below uses the same shorthand too.
 
 | Token  | Breakpoint (default) |
 | -------- | ------------------------ |

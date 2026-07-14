@@ -97,6 +97,8 @@ Autoplay also automatically pauses when a slide or control receives keyboard foc
 | **Infinite Scroll**   | `data-auto-scroll`          | `false` | Continuous, non-stop scrolling (like a logo marquee) instead of discrete slide steps. |
 | **Scroll Speed**      | `data-auto-scroll-speed`    | `4`     | Shown only when Infinite Scroll is on. Pixels moved per frame; negative numbers reverse direction. |
 
+> **Note:** Infinite Scroll only animates when the **Auto-Scroll Extension** is enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (it is on by default).
+
 ## NAVIGATION
 
 > For more control, use the standalone **DWC Slider Pagination** and **DWC Slider Nav Button** components instead of these flags.
@@ -180,7 +182,7 @@ Clicking a thumbnail jumps the main Slider to that slide, and the active thumbna
 
 ## Marquee mode
 
-Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel.
+Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel. This requires the **Auto-Scroll Extension** to be enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (on by default) — if it's off, the slider won't move.
 
 ***
 

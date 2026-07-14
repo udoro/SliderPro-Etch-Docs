@@ -4,14 +4,21 @@ icon: gear
 
 # Admin Settings
 
-The plugin adds a **Settings → Slider Pro for Etch** screen in wp-admin with two sections.
+The plugin adds a **Settings → Slider Pro for Etch** screen in wp-admin with three sections.
 
 ## Splide Library Source
 
-Choose where the Splide library and its auto-scroll extension are loaded from. This applies everywhere the slider runs: the frontend, the Etch editor, and the admin.
+Choose where the Splide library and its auto-scroll extension are loaded from. This applies everywhere the slider runs: the frontend, and the Etch editor.
 
 - **Local (bundled)** — the default. Works with no external requests.
 - **CDN (jsDelivr)** — adds Subresource Integrity (SRI) hashes pinned to the same bundled version, so the CDN copy is verified.
+
+## Auto-Scroll Extension
+
+A toggle that controls whether the Splide **auto-scroll extension** is loaded. It is used only by sliders with **Infinite Scroll** turned on (the continuous logo-marquee mode).
+
+- **On** — the default. Needed for Infinite Scroll / marquee sliders to animate.
+- **Off** — skips loading the extension, saving one script request everywhere the slider runs. Any Slider with Infinite Scroll on simply won't move. Leave this on unless you never use auto-scroll.
 
 ## Breakpoints
 

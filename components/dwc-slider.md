@@ -52,10 +52,12 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | Setting          | Renders to          | Default | Description |
 | ------------------- | ---------------------- | ------- | -------------- |
 | **Slider Width**     | `data-width`            | –       | Caps the slider's max width. |
-| **Slider Height**    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. |
-| **Aspect Ratio**     | `data-height-ratio`     | –       | Aspect-ratio-based height (0–1), shown only when Slider Height is `auto`. Presets: `1:1 (Square) = 1.0`, `4:3 (Classic) = 0.75`, `16:9 (Widescreen) = 0.5625`, `2:1 (Panorama) = 0.5`, `21:9 (Ultrawide) = 0.4225`. Responsive shorthand, e.g. `0.5 md:0.5625 sm:0.75`. |
+| **Slider Height**    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. `auto` means "no fixed height" — leave it there to use Aspect Ratio. |
+| **Aspect Ratio**     | `data-height-ratio`     | –       | Sets the slide height as a proportion of the slider's width, so the shape holds as the slider resizes — the smaller the number, the shorter the slide. This only applies while Slider Height is `auto`, because a fixed height always wins. Use `1.0` for a square (1:1), `0.75` for classic (4:3), `0.5625` for widescreen (16:9), `0.5` for panorama (2:1), or `0.4225` for ultrawide (21:9). Leave it empty to size the slider with Slider Height instead. It takes the responsive shorthand too, e.g. `0.5 md:0.5625 sm:0.75`. |
 
-Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically. To override where the `sm:`/`md:`/`lg:` tokens kick in for this slider, use the [BREAKPOINTS](#breakpoints) panel.
+Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. If you do, Slider Height wins and the slider logs a console warning saying so. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically. To override where the `sm:`/`md:`/`lg:` tokens kick in for this slider, use the [BREAKPOINTS](#breakpoints) panel.
+
+The two combine across breakpoints, since both take the shorthand: `Slider Height: auto sm:300px` with `Aspect Ratio: 0.5625` gives you a 16:9 slider that switches to a flat 300px on phones.
 
 ## MOTION
 

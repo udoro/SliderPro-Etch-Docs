@@ -29,6 +29,10 @@ First release of Slider Pro for Etch. Highlights:
 * **Refresh** button in Preview — edits made while previewing don't appear on their own, so this reloads the canvas and returns you straight to Preview in one click, instead of toggling Edit and then Preview again.
 * Reliable slider rebuild when crossing a breakpoint (no duplicated controls, clones, or leftover state), and authored slider custom properties are preserved across Preview toggles and layout-mode switches.
 
+**Fixes**
+
+* **Aspect Ratio now works.** Slider Height defaults to `auto`, and `auto` was being passed through as a real height — which silently suppressed Aspect Ratio, so `data-height-ratio` appeared to do nothing. `auto` is now correctly read as "no fixed height". Setting a real height *and* a ratio still lets the height win, but now says so in the console.
+
 **Styling**
 
 * Per-instance styling through a **Slider Class** of CSS custom properties, an **Overlay** tint layer (`data-overlay`), and named animation presets (`data-slider-id`).

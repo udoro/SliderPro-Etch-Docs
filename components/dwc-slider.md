@@ -27,7 +27,7 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | **Slider Role**       | `data-slider-role`    | `main`  | `Main Slider` / `Thumbnail`                     |
 | **Main/Thumbnail Sync Group** | `data-sync-group` | –       | Any name — only needed if the main and thumbnail sliders live in **different** Wrappers |
 | **Transition Type**   | `data-type` (lowercased) | `Slide` | `Slide` / `Fade` / `Loop`                                            |
-| **Sllde Direction**   | `data-direction`      | `ltr`   | `Left to Right` / `Right to Left` / `Vertical`     |
+| **Sllde Direction**   | `data-direction`      | `ltr`   | Typed, not a dropdown: `ltr` (Left to Right), `rtl` (Right to Left), or `ttb` (Vertical). Accepts responsive shorthand, e.g. `ttb sm:ltr` — vertical, turning horizontal on phones. Vertical needs a **Slider Height** or **Aspect Ratio**, or the slider collapses. |
 
 > `Fade` type always rewinds internally (a true infinite loop isn't possible with a crossfade), and pairs with `Loop` for an instant, non-animated wrap.
 
@@ -161,7 +161,7 @@ To defer a **whole wrapper** (every slider inside it) instead of one slider, use
 
 ## Responsive settings
 
-**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, and **Focus** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
+**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, **Focus**, and **Sllde Direction** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works — it's desktop-first (max-width), not mobile-first.
 
 The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the [BREAKPOINTS](#breakpoints) panel above.
 

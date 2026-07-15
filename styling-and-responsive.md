@@ -6,7 +6,7 @@ icon: palette
 
 ## Responsive breakpoints
 
-**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, and **Focus** can each be given different values at different screen widths by adding a suffix to the value: `lg:`, `md:`, or `sm:`. The **Layout Mode** setting below uses the same shorthand too.
+**Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, **Focus**, and **Sllde Direction** can each be given different values at different screen widths by adding a suffix to the value: `lg:`, `md:`, or `sm:`. The **Layout Mode** setting below uses the same shorthand too.
 
 | Token  | Breakpoint (default) |
 | -------- | ------------------------ |
@@ -50,6 +50,21 @@ Slider Height: min(70vh, 640px)
 ```
 
 You can use a function as the base value or inside any `sm:`/`md:`/`lg:` slot (e.g. `md:clamp(1rem, 2rem)`), and mix functions and plain values across breakpoints. `var()` references resolve against your own CSS custom properties, so a shared token like `var(--content-gap)` works too.
+
+### Changing direction at a breakpoint
+
+**Sllde Direction** (`data-direction`) takes the shorthand like any other responsive setting — it's typed by hand, not picked from a dropdown. This is how you get a vertical slider on desktop that turns horizontal on phones:
+
+```
+Sllde Direction: ttb sm:ltr
+```
+
+The values are `ltr`, `rtl`, and `ttb`. The slider is fully rebuilt when the direction changes, so arrows, drag, and pagination all re-orient to the new axis on their own.
+
+Two things to watch:
+
+* **Vertical needs a height.** A `ttb` slider with **Slider Height** left at `auto` and no **Aspect Ratio** has nothing to size itself against, and collapses. Set one — it takes the shorthand too, so `500px sm:auto` pairs naturally with `ttb sm:ltr`.
+* **The cascade is max-width.** `ttb sm:ltr` reads as "vertical, going horizontal on small screens". If you're used to a mobile-first framework, note that `ltr sm:ttb` does the opposite of what you'd expect — see the desktop-first warning above.
 
 ### Setting the breakpoint pixel values
 
@@ -182,5 +197,5 @@ Set the Slider's **data-slider-id** prop to one of these built-in preset names f
 
 | Value              | Effect                                                                                  |
 | --------------------- | ------------------------------------------------------------------------------------------ |
-| `scale-fade-in`        | A single-slide crossfade + scale transition. Requires **Slides Per Page** to be `1`.       |
+| `scale-fade-in`        | A single-slide crossfade + scale transition. Requires **Slides Per Page** to be `1`. With a responsive value it applies at whichever breakpoints resolve to `1` — e.g. `1 sm:2` gives the effect on desktop but not on phones. |
 | `thumbnail-grid`       | Forces a thumbnail Slider's slide list into a 2-column grid instead of a scrolling row.    |

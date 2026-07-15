@@ -71,6 +71,7 @@ The slider behaves differently in three contexts. This is handled automatically 
 ### Preview mode (click "Preview")
 - The slider is rebuilt and actually mounted with Splide, so it behaves exactly as it will on the live site — autoplay, arrows, drag, sync, everything.
 - Links inside slides are disabled while in Preview mode so clicking around doesn't navigate you away from the editor.
+- A **Refresh** button appears next to the Edit button while you're in Preview. Changes you make to a slider *while previewing* don't show up on their own — Preview runs against a rebuilt copy of the slider that Etch can no longer reach. Refresh reloads the canvas and drops you straight back into Preview with your changes applied, so you don't have to click Edit and then Preview again.
 - Click the button again (now labeled "Edit") to leave Preview mode. This destroys the live slider instance, restores the edit grid, and automatically refreshes the Etch canvas.
 
 ### Live/published site

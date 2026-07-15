@@ -32,7 +32,9 @@ icon: wrench
 | Custom Pagination shows plain numbered buttons instead of your design | Make sure Custom Pagination Mode is set to `Template` and there's a real first child element to use as the template.                |
 | Navigation Button with a slide number does nothing     | Slide numbers are 1-based and must be within range (e.g. `1` through the total slide count).                                          |
 | Console errors while editing in the Etch canvas        | Expected — Splide expects a strict parent/child DOM structure and Etch's editing wrapper elements interfere with that inside Edit mode. These don't affect the published page. See [Installation & Getting Started](getting-started.md#using-the-slider-inside-etch-editor-vs.-preview-vs.-live-site). |
-| Preview mode looks stuck after toggling                | Manually reload the Etch editor — this is the same thing the "Edit" button normally triggers automatically.                          |
+| Changes you make while in **Preview** don't show up    | Expected — Preview runs against a rebuilt copy of the slider that Etch can no longer reach, so your edits never land on what you're looking at. Click **Refresh** (next to the Edit button, Preview only): it reloads the canvas and puts you back in Preview with the changes applied. |
+| Vertical (`ttb`) slider collapses or shows nothing     | A vertical slider can't derive its height from its width the way a horizontal one does — give it a **Slider Height** or an **Aspect Ratio**. Both take the shorthand, so `500px sm:auto` pairs with a `ttb sm:ltr` direction. |
+| Preview mode looks stuck after toggling                | Click **Refresh** (shown in Preview), or manually reload the Etch editor — the same reload the "Edit" button normally triggers automatically.                          |
 
 ***
 

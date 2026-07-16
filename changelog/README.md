@@ -4,6 +4,14 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.0.1
+
+**Gutenberg block editor**
+
+* Etch-authored sliders now render as a live, interactive slider directly in the WordPress block editor — previously they initialized only on the frontend and in the Etch canvas, and showed as a static stack of slides while editing a page.
+* **Fixed** — the slider no longer disappears when you click it or its controls in the block editor. Selecting the block made Gutenberg strip Splide's runtime classes; the slider's live state is now restored automatically.
+* Slider blocks are locked in the block editor so their structure can't be accidentally moved, duplicated, or deleted — the whole wrapper and everything inside it is display-only (author it in Etch). Locking is applied only in the editor and never changes the saved content.
+
 ## Version 1.0 — Initial release
 
 First release of Slider Pro for Etch. Highlights:

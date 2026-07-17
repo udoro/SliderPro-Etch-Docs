@@ -36,6 +36,8 @@ icon: wrench
 | Changes you make while in **Preview** don't show up    | Expected — Preview runs against a rebuilt copy of the slider that Etch can no longer reach, so your edits never land on what you're looking at. Click **Refresh** (next to the Edit button, Preview only): it reloads the canvas and puts you back in Preview with the changes applied. |
 | Vertical (`ttb`) slider collapses or shows nothing     | A vertical slider can't derive its height from its width the way a horizontal one does — give it a **Slider Height** or an **Aspect Ratio**. Both take the shorthand, so `500px sm:auto` pairs with a `ttb sm:ltr` direction. |
 | Preview mode looks stuck after toggling                | Click **Refresh** (shown in Preview), or manually reload the Etch editor — the same reload the "Edit" button normally triggers automatically.                          |
+| Slider blocks can't be moved, duplicated, or deleted in the WordPress block editor | Intentional — the slider wrapper and everything inside it are locked so the structure Etch authored can't be displaced by accident. Edit the slider in Etch; the lock applies only in the editor and never changes your saved page. |
+| Slider autoplays / arrows work while editing a normal page in the block editor | Expected — on a WordPress post/page the slider mounts **live** in the block editor, the same as the frontend. (This differs from the Etch canvas, where the real slider only runs in **Preview**.) |
 
 ***
 

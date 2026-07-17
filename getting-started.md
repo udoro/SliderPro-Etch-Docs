@@ -12,7 +12,7 @@ Slider Pro for Etch ships as two pieces: a small WordPress plugin (loads the Spl
 
 Install and activate the `dwc-slider-pro-etch` plugin folder like any other WordPress plugin: place it in `wp-content/plugins/`, then activate **Slider Pro for Etch** from the Plugins screen.
 
-This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), and in the parent admin window. It also adds a **Settings → Slider Pro for Etch** screen — see [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
+This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), inside the WordPress block editor, and in the parent admin window. It also adds a **Settings → Slider Pro for Etch** screen — see [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
 
 ### 2. Component JSON
 
@@ -76,6 +76,11 @@ The slider behaves differently in three contexts. This is handled automatically 
 
 ### Live/published site
 - The frontend always loads and mounts the real slider directly — no edit grid, no control bar, no Preview toggle.
+
+### WordPress block editor (Gutenberg)
+Etch authors your components as WordPress blocks, so a slider built in Etch can be dropped onto an ordinary post or page. Inside the block editor:
+- It renders **live** — the real Splide slider mounts and runs just like the frontend (autoplay, arrows, drag). There's no edit grid or Preview toggle here; those are Etch-canvas concepts.
+- Its blocks are **locked** — the slider wrapper and everything inside it can't be moved, dragged, duplicated, or deleted, so the structure Etch authored can't be displaced by accident. Edit the slider's design or content in Etch. The lock applies only in the editor and never changes your saved page.
 
 ### Things to know
 - **Don't be alarmed by console errors while in Edit mode.** Splide expects a strict parent/child DOM structure, and Etch's own editing wrapper elements interfere with that. These errors are expected inside the canvas and don't affect the published page.

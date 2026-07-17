@@ -6,6 +6,8 @@ icon: ellipsis
 
 A standalone pagination component for full control over how each dot looks, as an alternative to the Slider's built-in **Pagination Dots** toggle (see [DWC Slider](dwc-slider.md#navigation)).
 
+Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or even inside a **thumbnail** slider — and it always drives the main slider. Use as many as you like: put one above the slider and one below, and they'll stay in step. Each one keeps its own **Custom Pagination Mode**, so a `Template` pagination and a `Default` one can sit on the same slider.
+
 ***
 
 ## Settings

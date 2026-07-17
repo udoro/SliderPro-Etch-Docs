@@ -91,7 +91,7 @@ Examples:
 - `static md:slider` — static grid above 1024px, carousel at 1024px and below.
 - `static` — never a slider; a static grid at every width.
 
-It cascades exactly like the other breakpoints (desktop-first / max-width): the base value applies to the widest screens, and each `sm:`/`md:`/`lg:` override applies at that width and narrower. When the viewport crosses the breakpoint the slider is rebuilt or torn down live — including inside the Etch Preview — so it always matches the current width. While a slider is `static`, its own controls (arrows, dots, progress, play/pause) are hidden, since there's no live slider to drive them.
+It cascades exactly like the other breakpoints (desktop-first / max-width): the base value applies to the widest screens, and each `sm:`/`md:`/`lg:` override applies at that width and narrower. When the viewport crosses the breakpoint the slider is rebuilt or torn down live — including inside the Etch Preview — so it always matches the current width. While a slider is `static`, its controls are hidden, since there's no live slider to drive them — both the Slider's own built-ins (arrows, dots, progress, play/pause) and any standalone control components that drive it, wherever you've placed them in the Wrapper.
 
 ### Grid Columns
 

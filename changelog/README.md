@@ -4,6 +4,23 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.0.2 - July 17, 2026
+
+**Controls**
+
+* Add as many Custom Paginations to a slider as you like — one above and one below, for example. Before, only the first one worked.
+* Controls now work in both places at once. If you have a Pagination, Play-Pause, or Progress inside the slider *and* another at wrapper level, both work now — previously the one at wrapper level did nothing. (Nav Buttons already worked this way.)
+* Each Custom Pagination keeps its own **Custom Pagination Mode**, so a `Template` one and a `Default` one can sit on the same slider.
+* With two Sliders in one Wrapper, a control you place inside one Slider now belongs to that Slider alone. Before, the other Slider could add its own buttons and bars inside it.
+
+**Fixes**
+
+* Controls at wrapper level now disappear when a Slider switches to `static` Layout Mode, the same as controls placed inside the Slider. Before, they stayed on screen with nothing left to control.
+* Custom Pagination no longer adds a duplicate set of buttons each time a Slider switches between `slider` and `static` at a breakpoint.
+* `Template` Custom Pagination now keeps your design when a Slider switches between `slider` and `static`. Before, it dropped back to plain numbered buttons after the first switch.
+* Pagination buttons keep working normally after a slider has switched between `slider` and `static` several times.
+* The grey placeholders you see while designing — the dashed pagination box, the plain progress bar, the play/pause circle — no longer appear on your live site when a control has nothing to show (a Play-Pause with **Auto Play** turned off, for example), and no longer flash briefly while the page loads. You'll still see them while designing in Etch and in the block editor.
+
 ## Version 1.0.1 - July 17, 2026
 
 * Sliders now render live and stay protected inside the Gutenberg block editor.

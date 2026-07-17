@@ -4,11 +4,11 @@ icon: arrows-retweet
 
 # Changelog
 
-## Version 1.0.1
+## Version 1.0.1 - July 17, 2026
 
 * Sliders now render live and stay protected inside the Gutenberg block editor.
 
-## Version 1.0 — Initial release
+## Version 1.0 - July 17, 2026
 
 First release of Slider Pro for Etch.
 

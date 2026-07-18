@@ -37,7 +37,7 @@ The result: sliders that are accessible, quick to load, and genuinely capable â€
 | [DWC Slider Pagination](components/dwc-slider-pagination.md)     | Splide's default dots, or a fully custom pagination template                                  |
 | [DWC Slider Nav Button](components/dwc-slider-nav-button.md)     | A clickable prev/next/first/last/jump-to-slide control, with optional custom SVG icon         |
 
-**Coming soon:** an [AI Connector](https://design-with-cracka.gitbook.io/etch-slider-pro/ai-connector) that lets you build and configure sliders through a conversational AI agent.
+**Coming soon:** an [AI Connector](https://design-with-cracka.gitbook.io/etchsliderpro/ai-connector) that lets you build and configure sliders through a conversational AI agent.
 
 ***
 

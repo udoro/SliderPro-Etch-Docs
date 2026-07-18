@@ -8,9 +8,9 @@ icon: sparkles
 
 In the meantime, here's everything you need to build sliders yourself:
 
-- [Documentation](../README.md)
-- [Installation & Getting Started](../getting-started.md)
-- [Styling & Responsive Behaviour](../styling-and-responsive.md)
-- [JavaScript API](../javascript-api.md)
+- [Documentation](https://design-with-cracka.gitbook.io/etchsliderpro)
+- [Installation & Getting Started](https://design-with-cracka.gitbook.io/etchsliderpro/getting-started)
+- [Styling & Responsive Behaviour](https://design-with-cracka.gitbook.io/etchsliderpro/styling-and-responsive)
+- [JavaScript API](https://design-with-cracka.gitbook.io/etchsliderpro/javascript-api)
 
 We'll update this page when the connector is ready.

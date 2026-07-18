@@ -10,6 +10,19 @@ There are two levels of components: a **Wrapper** that holds one or more sliders
 
 ***
 
+## Why Splide?
+
+Slider Pro is built on [Splide](https://splidejs.com/), and that choice is deliberate. In independent 2026 comparisons of the leading carousel libraries — Embla, Swiper, and Splide — Splide leads on the things that matter most on a real website:
+
+- **Accessible by default.** Splide is the accessibility front-runner of the major carousel libraries — WCAG 2.1 AA out of the box. It sets correct ARIA roles and labels, announces slide changes to screen readers, manages focus, and ships full keyboard navigation, with no extra work from you. Your sliders stay usable by everyone and won't drag down an accessibility audit.
+- **Light and fast.** The engine is roughly 27&nbsp;KB gzipped with zero dependencies, so a slider adds very little to your page. Slider Pro loads it locally (or from a CDN with Subresource Integrity) and can lazy-load below-the-fold sliders so they only initialize as visitors scroll to them.
+- **The right amount of power.** Splide sits between Embla's bare-bones minimalism and Swiper's heavyweight, do-everything API — a clean, focused core that still covers fade, vertical, loop, autoplay, thumbnails, and breakpoints. Slider Pro wraps all of it in Etch components, so you get the capability without ever touching its configuration.
+- **Stable and battle-tested.** Splide is a mature, dependency-free library with a settled API that isn't churning through breaking changes — and Slider Pro pins a specific, tested version, so your sliders behave the same on every site and won't shift under you.
+
+The result: sliders that are accessible, quick to load, and genuinely capable — the reasons we chose Splide, without you ever having to learn it.
+
+***
+
 ## What's included
 
 **Slider Pro for Etch** ships seven builder components:

@@ -32,13 +32,13 @@ A standalone progress indicator — circular, bar, or counter — with its own f
 
 | Setting  | Description |
 | ------------ | -------------- |
-| **Class**     | Additional CSS class on the wrapper element. |
+| **Class**     | Add your own CSS class in this **Class** field to style this component. |
 
 ***
 
 ## STYLE
 
-Rendered as inline CSS custom properties on the component's wrapper element.
+These control the colors, spacing, and look of the progress indicator.
 
 Shown when Progress type is Counter, or when it's Circular with Circular Counter on:
 

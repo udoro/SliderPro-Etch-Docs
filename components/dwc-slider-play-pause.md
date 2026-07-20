@@ -10,7 +10,7 @@ A standalone play/pause button for autoplay, with its own style controls. Drop i
 
 ## Settings
 
-Rendered as inline CSS custom properties on the button's container element (marked `data-autoplay-toggle-container`, which the runtime auto-detects — no flag needed on the Slider itself when this component is used). Turning the Slider's own **Play/Pause Button** setting off does **not** disable this standalone; only the Slider's **Auto Play** being off does (a play/pause button has nothing to control without autoplay).
+These style the button. It connects to the main Slider on its own — you don't need to switch anything on for it to be found. It works whenever the Slider's **Auto Play** is on, and stays active even if you turn the Slider's own built-in **Play/Pause Button** off. (With Auto Play off there's nothing to play or pause, so the button does nothing.)
 
 | Setting                      | CSS variable                   | Default                            |
 | --------------------------------- | ------------------------------------ | ---------------------------------------- |
@@ -22,4 +22,4 @@ Rendered as inline CSS custom properties on the button's container element (mark
 | **Background**                     | `--play-pause-bg`                      | `rgba(0, 0, 0, 0.4)`                      |
 | **Hover/Active Background**        | `--play-pause-hover-bg`                | `rgba(255, 77, 106, 0.1)`                 |
 | **Background Blur**                | `--play-pause-bg-blur`                 | `8px`                                     |
-| **Class**                          | appended to `class="autoplay-toggle-container {props.class}"` | `[]` |
+| **Class**                          | Add your own CSS class in this **Class** field to style the button. | `[]` |

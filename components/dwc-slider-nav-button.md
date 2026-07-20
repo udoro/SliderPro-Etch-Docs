@@ -14,11 +14,11 @@ A clickable prev/next/first/last/jump-to-slide control. Drop it anywhere inside 
 | --------------------------- | ---------------------------------------------- | ------- | --------- |
 | **Navigation Type**          | `data-go-to`                                     | `next`  | `Next Slide` / `Previous Slide` / `First Slide` / `Last Slide` / `Go to Slide` |
 | **Custom Slide**             | `data-go-to` (used instead, when type is `custom`) | `1`   | Any slide number. Slide numbers are **1-based** — the first slide is `1`, not `0`. |
-| **Button Class**             | appended to `class="dwc-slider-nav-btn {props.buttonClass}"` | `[]` | Add a class to style your navigation button. |
+| **Button Class**             | `class` | `[]` | Add your own CSS class in this **Button Class** field to style the button. |
 | **Use Custom Arrow**         | –                                                 | `false` | Shown only when Navigation Type is Next or Previous. Allows you to use a custom SVG instead of the default arrow icon. |
 | **Custom SVG**                | –                                                 | –       | Shown only when Use Custom Arrow is on. Paste SVG markup here. **Note:** to use custom SVG, enable "Allow \"unsafe\" HTML" in Etch Settings. |
 
-If Use Custom Arrow is off, Next and Previous buttons render a default chevron icon (`.dwc-default-slider-nav-icon`); First and Last always use their own default markup. The button's `aria-label` is generated automatically as "go to {type} slide".
+If Use Custom Arrow is off, Next and Previous buttons show a default chevron icon; First and Last always use their own default icons. Each button also gets an accessible label automatically (like "go to next slide") for screen readers.
 
 ***
 

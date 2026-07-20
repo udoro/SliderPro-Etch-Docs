@@ -48,7 +48,7 @@ Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or ev
 
 | Setting  | Description |
 | ------------ | -------------- |
-| **Class**     | Additional CSS class, appended to `class="dwc-slider-pagination-wrapper {props.class}"`. |
+| **Class**     | Add your own CSS class in this **Class** field to style this component. |
 
 ***
 

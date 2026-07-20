@@ -28,6 +28,8 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | **Main/Thumbnail Sync Group** | `data-sync-group` | –       | Any name — only needed if the main and thumbnail sliders live in **different** Wrappers |
 | **Transition Type**   | `data-type` (lowercased) | `Slide` | `Slide` / `Fade` / `Loop`                                            |
 | **Sllde Direction**   | `data-direction`      | `ltr`   | Typed, not a dropdown: `ltr` (Left to Right), `rtl` (Right to Left), or `ttb` (Vertical). Accepts responsive shorthand, e.g. `ttb sm:ltr` — vertical, turning horizontal on phones. Vertical needs a **Slider Height** or **Aspect Ratio**, or the slider collapses. |
+| **Sync Custom Element** | `data-sync-custom-el` | –     | A CSS selector for elements elsewhere on the page that should follow the slider. The plugin adds `is-active`, `is-prev`, and `is-next` classes to them as it moves, so your CSS can restyle them per slide. Empty = off. See [Sync Custom Element](#sync-custom-element). |
+| **Custom Options**    | `data-custom-options` | –       | Type extra Splide settings the panels don't cover, as `name: value` pairs. Empty = off. See [Custom Options](#custom-options). |
 
 > `Fade` type always rewinds internally (a true infinite loop isn't possible with a crossfade), and pairs with `Loop` for an instant, non-animated wrap.
 
@@ -52,10 +54,13 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | Setting          | Renders to          | Default | Description |
 | ------------------- | ---------------------- | ------- | -------------- |
 | **Slider Width**     | `data-width`            | –       | Caps the slider's max width. |
+| **Slide Auto Width** | `data-slide-auto-width` | `false` | When on, each slide takes the width of its own content instead of a fixed number of slides per view. Turn it on for rows of items that are different widths (logos, tags, mixed-size cards). See the note below. |
 | **Slider Height**    | `data-height`           | `auto`  | Fixed height. Set for base and other breakpoints, e.g. `700px lg:600px md:450px sm:300px`. `auto` means "no fixed height" — leave it there to use Aspect Ratio. |
 | **Aspect Ratio**     | `data-height-ratio`     | –       | Sets the slide height as a proportion of the slider's width, so the shape holds as the slider resizes — the smaller the number, the shorter the slide. This only applies while Slider Height is `auto`, because a fixed height always wins. Use `1.0` for a square (1:1), `0.75` for classic (4:3), `0.5625` for widescreen (16:9), `0.5` for panorama (2:1), or `0.4225` for ultrawide (21:9). Leave it empty to size the slider with Slider Height instead. It takes the responsive shorthand too, e.g. `0.5 md:0.5625 sm:0.75`. |
 
 Use **either** Slider Height or Aspect Ratio — don't set both on the same slider. If you do, Slider Height wins and the slider logs a console warning saying so. Aspect Ratio is the better choice for responsive image sliders since it scales with width automatically. To override where the `sm:`/`md:`/`lg:` tokens kick in for this slider, use the [BREAKPOINTS](#breakpoints) panel.
+
+**Slide Auto Width:** with this on, **Slides Per Page** no longer applies — the width of each slide comes from what's inside it. So your slides need a width of their own, either from their content (an image at its natural size) or from your own CSS (for example a fixed card width). If the slides have no width to fall back on, they'll collapse to nothing or overflow. It works with looping and Infinite Scroll (marquee) sliders too. If you only need it on one slider and would rather not use the toggle, you can apply it from code instead — see [Using Splide settings the plugin doesn't cover](../javascript-api.md).
 
 The two combine across breakpoints, since both take the shorthand: `Slider Height: auto sm:300px` with `Aspect Ratio: 0.5625` gives you a 16:9 slider that switches to a flat 300px on phones.
 
@@ -156,8 +161,8 @@ To defer a **whole wrapper** (every slider inside it) instead of one slider, use
 | Setting            | Renders to        | Default | Description |
 | ---------------------- | -------------------- | ------- | -------------- |
 | **Aria Label**          | `aria-label`          | –       | Accessible label for the slider. |
-| **data-slider-id**      | `data-slider-id`      | –       | Hook for the built-in named animation presets. See [Styling & Responsive Behaviour](../styling-and-responsive.md#animation-presets). |
-| **Slider Class**        | appended to `class="splide {props.sliderClass}"` | `.slider-navigation-vars` | The per-instance styling class. See [Styling & Responsive Behaviour](../styling-and-responsive.md#per-instance-styling-slider-class) for how to give each slider independent arrow/dot/pagination colors. |
+| **data-slider-id**      | `data-slider-id`      | –       | Turns on one of the built-in named animation presets. See [Styling & Responsive Behaviour](../styling-and-responsive.md#animation-presets). |
+| **Slider Class**        | `class`               | `.slider-navigation-vars` | The class that carries this slider's own arrow/dot/pagination colors, so you can style each slider independently. See [Styling & Responsive Behaviour](../styling-and-responsive.md#per-instance-styling-slider-class). |
 
 ***
 
@@ -185,6 +190,73 @@ Clicking a thumbnail jumps the main Slider to that slide, and the active thumbna
 ## Marquee mode
 
 Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel. This requires the **Auto-Scroll Extension** to be enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (on by default) — if it's off, the slider won't move.
+
+***
+
+## Nested sliders
+
+You can place a Slider **inside a slide** of another Slider — for example, a slide that is itself a little gallery. It's detected automatically: just drop a Slider into a Slide's content and both work. Each keeps its own settings, arrows, pagination, and progress.
+
+A few things to set up for it to behave well:
+
+- **The outer (parent) Slider must be `Slide` or `Fade` — not `Loop` or `Infinite Scroll`.** A looping slider makes hidden copies of its slides, which would duplicate and break the inner slider. If you want the parent to cycle back to the start, use **Fade**, or **Slide** with **Rewind** turned on — both wrap around without making copies. (If you do set a looping type on a slider that contains another, the slider logs a console warning telling you this.)
+- **Give the parent a fixed Slider Height or an Aspect Ratio**, so it has a stable size to hold the inner slider.
+- **Controls stay with their own slider.** The parent's arrows/pagination move only the parent; controls you place inside the inner slider move only the inner.
+
+**Dragging:** by default the **inner slider doesn't swipe** — you navigate it with its own arrows or pagination — and the parent swipes freely everywhere. This avoids a dead-end where an inner slider that fills the whole slide would otherwise swallow the swipe and leave no way to move the parent. If you *do* want to swipe the inner as well (turn on **Enable Drag** for it), make the **parent vertical** (`Slide Direction` = `ttb`) and keep the inner horizontal — then an up/down swipe moves the parent and a left/right swipe moves the inner, with no conflict.
+
+> Nesting is supported **one level deep** (a slider inside a slider). Deeper nesting isn't officially supported.
+
+**Structure:**
+
+```
+DWC Slider Wrapper
+└─ DWC Slider  (parent — Slide/Fade, fixed height)
+   └─ DWC Slide
+      └─ DWC Slider  (inner — its own per-page, gap, arrows/pagination)
+         └─ DWC Slide × N
+```
+
+***
+
+## Sync Custom Element
+
+Point the slider at other elements on your page — like a stack of headings next to a hero — and it keeps them in step with the current slide.
+
+In **Sync Custom Element**, enter the CSS selector that matches *your own* elements — whatever class you gave them. For example, if your headings all use the class `header-txt`, type `.header-txt` (with the leading dot). Any selector works; there's no special or required class name.
+
+As the slider moves, the plugin keeps three classes up to date on the matched elements:
+
+- `is-active` on the element for the current slide,
+- `is-prev` on the one before it, and
+- `is-next` on the one after it.
+
+These three names (`is-active`, `is-prev`, `is-next`) are the only fixed part — the plugin adds them for you. The selector you type above is entirely your own.
+
+Then style them however you like:
+
+```css
+.header-txt { opacity: 0.3; transition: opacity 0.4s; }
+.header-txt.is-active { opacity: 1; }
+```
+
+The elements can live anywhere on the page — they don't have to be inside the slider. They also **don't have to match the number of slides**: if there are fewer elements than slides, several slides share an element; if there are more, the extras simply never light up. Leave the field empty to turn the feature off.
+
+> Prefer to drive this from your own script instead? The same effect is available through the `ready()` helper — see [JavaScript API](../javascript-api.md).
+
+***
+
+## Custom Options
+
+An escape hatch for the occasional Splide setting that doesn't have its own control in the panels. In **Custom Options**, type the settings you want as a comma-separated list of `name: value` pairs:
+
+```
+wheel: true, waitForTransition: false, drag: 'free', speed: 800
+```
+
+Values can be `true`/`false`, numbers, or text in quotes. These are applied when the slider starts, and **override the panel settings** if they set the same thing, so reach for this only when a normal control won't do. Leave the field empty to ignore it.
+
+For anything more structured (like per-breakpoint settings or lists), use the `setOptions()` helper in the [JavaScript API](../javascript-api.md) instead — it's built for that.
 
 ***
 

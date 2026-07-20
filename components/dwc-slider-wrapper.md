@@ -10,13 +10,13 @@ The outer container. It holds one Slider (or a main Slider plus a thumbnail Slid
 
 ## Settings
 
-| Setting                | Type   | Default | Description                                                                 |
+| Setting                | Renders to   | Default | Description                                                                 |
 | ----------------------- | ------ | ------- | ----------------------------------------------------------------------------- |
-| **Wrapper Height**      | string | `auto`  | Sets `--slider-wrapper-height`, used as the wrapper's `min-block-size`.       |
-| **Space Between Sliders** | string | –       | Sets `--sliders-gap`, the gap between a main Slider and a thumbnail Slider (or any other direct children) inside the wrapper. |
-| **Custom Class**        | class  | `[]`    | Additional CSS class applied to the wrapper element for custom targeting.     |
-| **Lazy Load Sliders**   | boolean | `false` | Renders `data-lazy-init`. Defers **every** slider in this wrapper until it's about to scroll into view, as one unit. Good for wrappers below the fold. |
-| **Lazy Preload Distance** | string | `200` | Renders `data-lazy-preload`. Shown once Lazy Load Sliders is on. Pixels before the wrapper reaches the viewport to activate (e.g. `200` or `300px`). |
+| **Wrapper Height**      | `--slider-wrapper-height` | `auto`  | Sets a minimum height for the wrapper.       |
+| **Space Between Sliders** | `--sliders-gap` | –       | The space between a main Slider and its thumbnail Slider (or any other items placed directly in the wrapper). |
+| **Custom Class**        | `class`  | `[]`    | Add your own CSS class in this **Custom Class** field to style the wrapper.     |
+| **Lazy Load Sliders**   | `data-lazy-init` | `false` | Waits to build **every** slider in this wrapper until it's about to scroll into view, as one group. Good for wrappers below the fold. |
+| **Lazy Preload Distance** | `data-lazy-preload` | `200` | Shown once Lazy Load Sliders is on. How many pixels before the wrapper reaches the screen it should start (e.g. `200` or `300px`). |
 
 > To lazy-load a **single** slider rather than the whole wrapper, use the **PERFORMANCE** panel on the [DWC Slider](dwc-slider.md#performance) instead. Full details, including the thumbnail-sync safety rule, are in [Lazy loading below-the-fold sliders](../styling-and-responsive.md#lazy-loading-below-the-fold-sliders).
 

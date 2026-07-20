@@ -9,17 +9,17 @@ icon: arrows-retweet
 **Slider**
 
 * New **Slide Auto Width** option — each slide takes the width of its own content instead of a fixed number of slides per view. Great for rows of mixed-width items like logos or tags. Works with looping and Infinite Scroll sliders too.
-* **Nested sliders** — place a Slider inside a slide of another Slider. It's detected automatically; each slider keeps its own controls, and the inner one is navigated by its arrows/pagination while the outer swipes freely. See [DWC Slider → Nested sliders](../components/dwc-slider.md#nested-sliders).
-* New **Sync Custom Element** option — point the slider at other elements on the page (by CSS selector) and it keeps `is-active`/`is-prev`/`is-next` classes on them in step with the current slide, so your CSS can restyle them per slide. See [DWC Slider → Sync Custom Element](../components/dwc-slider.md#sync-custom-element).
-* New **Custom Options** option — type extra Splide settings that don't have their own control, as `name: value` pairs, right on the Slider. See [DWC Slider → Custom Options](../components/dwc-slider.md#custom-options).
+* **Nested sliders** — place a Slider inside a slide of another Slider. It's detected automatically; each slider keeps its own controls, and the inner one is navigated by its arrows/pagination while the outer swipes freely. See [DWC Slider → Nested sliders](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#nested-sliders).
+* New **Sync Custom Element** option — point the slider at other elements on the page (by CSS selector) and it keeps `is-active`/`is-prev`/`is-next` classes on them in step with the current slide, so your CSS can restyle them per slide. See [DWC Slider → Sync Custom Element](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#sync-custom-element).
+* New **Custom Options** option — type extra Splide settings that don't have their own control, as `name: value` pairs, right on the Slider. See [DWC Slider → Custom Options](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#custom-options).
 
 **Slide**
 
-* DWC Slide now has a **Class** field, so you can add your own CSS class to an individual slide. See [DWC Slide](../components/dwc-slide.md#settings).
+* DWC Slide now has a **Class** field, so you can add your own CSS class to an individual slide. See [DWC Slide](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slide#settings).
 
 **For developers**
 
-* New `SplideComponent.setOptions()` and `SplideComponent.ready()` helpers let you switch on Splide settings the plugin doesn't have a control for, or run your own code that reacts to a slider. See [JavaScript API](../javascript-api.md).
+* New `SplideComponent.setOptions()` and `SplideComponent.ready()` helpers let you switch on Splide settings the plugin doesn't have a control for, or run your own code that reacts to a slider. See [JavaScript API](https://design-with-cracka.gitbook.io/etchsliderpro/javascript-api).
 
 ## Version 1.0.2 - July 17, 2026
 

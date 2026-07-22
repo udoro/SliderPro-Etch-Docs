@@ -4,7 +4,14 @@ icon: arrows-retweet
 
 # Changelog
 
-## Version 1.0.3
+## Version 1.0.4
+
+**Fixes**
+
+* Slide **overlay** no longer shows when a slider switches to **static (grid)** layout mode — it's only drawn while the slider is a live carousel.
+* **Etch editor:** added a workaround for an Etch bug where selecting a slider scrolled the settings panel back up to the Slider Class field (the first setting). The panel now keeps its position when you move between sliders. This will be removed once Etch fixes it upstream.
+
+## Version 1.0.3 - July 20, 2026
 
 **Slider**
 

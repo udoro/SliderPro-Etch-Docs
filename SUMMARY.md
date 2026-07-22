@@ -6,6 +6,7 @@
 * [Styling & Responsive Behaviour](styling-and-responsive.md)
 * [JavaScript API](javascript-api.md)
 * [Troubleshooting](troubleshooting.md)
+* [Tips & Recipes](tips.md)
 
 ## Components
 

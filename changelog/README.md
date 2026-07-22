@@ -4,7 +4,7 @@ icon: arrows-retweet
 
 # Changelog
 
-## Version 1.0.4
+## Version 1.0.4 - July 22, 2026
 
 **Fixes**
 

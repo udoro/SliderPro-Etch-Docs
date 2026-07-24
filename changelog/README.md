@@ -4,6 +4,18 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.1 - July 24, 2026
+
+**Slider**
+
+* New **Lightbox** option — click a slide to open it full-screen in an overlay viewer with its own arrows, swipe, and keyboard navigation. Two modes: `Images` (just the slide's image, enlarged) or `Slides` (the whole slide — captions, videos, any markup — styled by your CSS). Optional overlay arrows, a "current / total" counter, and a **Lightbox Transition** choice (`Rewind` / `Loop` / `Slide` / `Fade`). The overlay is themeable **per slider** via `--lightbox-*` vars in the Slider Class — including inside media queries. Works with looping, lazy-loaded, and Infinite Scroll sliders; while it's open, background sliders' keyboards and the source's autoplay/marquee are paused and restored on close. See [DWC Slider → Lightbox](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#lightbox).
+* **Sync Custom Element** now accepts multiple selectors — a comma-separated list like `.headings, .thumb-strip` tracks each set **independently and at the same time**, each with its own `is-active`/`is-prev`/`is-next` cycling on its own element count. Commas inside `:is()`, `:not()`, or attribute selectors are preserved as one set, and an invalid selector in the list no longer disables the whole feature. See [DWC Slider → Sync Custom Element](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#sync-custom-element).
+* New **Sync Custom Element Nav** option makes the sync **two-way** — the synced elements also become go-to buttons that jump the slider to their slide (element 1 → slide 1, and so on). They're keyboard-operable (the plugin adds `role="button"`/`tabindex` when absent) and get a `dwc-sync-nav` pointer cursor. Great for turning a heading list or thumbnail strip into slide navigation. Off by default. See [DWC Slider → Sync Custom Element](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#sync-custom-element).
+
+**Nav Button**
+
+* New **Button Wrapper Class** field adds your own class to a Nav Button's outer wrapper — handy for positioning styles like flex `order` when arranging several buttons. Works for every navigation type. See [DWC Slider Nav Button](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider-nav-button#settings).
+
 ## Version 1.0.4 - July 22, 2026
 
 **Fixes**

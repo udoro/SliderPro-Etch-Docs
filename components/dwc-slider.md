@@ -29,6 +29,7 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | **Transition Type**   | `data-type` (lowercased) | `Slide` | `Slide` / `Fade` / `Loop`                                            |
 | **Sllde Direction**   | `data-direction`      | `ltr`   | Typed, not a dropdown: `ltr` (Left to Right), `rtl` (Right to Left), or `ttb` (Vertical). Accepts responsive shorthand, e.g. `ttb sm:ltr` — vertical, turning horizontal on phones. Vertical needs a **Slider Height** or **Aspect Ratio**, or the slider collapses. |
 | **Sync Custom Element** | `data-sync-custom-el` | –     | A CSS selector for elements elsewhere on the page that should follow the slider. The plugin adds `is-active`, `is-prev`, and `is-next` classes to them as it moves, so your CSS can restyle them per slide. Empty = off. See [Sync Custom Element](#sync-custom-element). |
+| **Sync Custom Element Nav** | `data-sync-custom-el-nav` | `false` | Also make those synced elements act as **go-to buttons** — clicking (or keyboard-activating) the element for a slide jumps to it. Requires **Sync Custom Element**. See [Sync Custom Element](#sync-custom-element). |
 | **Custom Options**    | `data-custom-options` | –       | Type extra Splide settings the panels don't cover, as `name: value` pairs. Empty = off. See [Custom Options](#custom-options). |
 
 > `Fade` type always rewinds internally (a true infinite loop isn't possible with a crossfade), and pairs with `Loop` for an instant, non-animated wrap.
@@ -123,6 +124,30 @@ Draws a full-cover tint layer over the slider (a `::before` on the slider, behin
 | ------------------------- | -------------------------- | ------- | -------------- |
 | **Enable**                 | `data-overlay`             | `false` | Turns the overlay layer on. |
 | **Overlay Background**     | `--slider-overlay-bg`      | `color-mix(in oklch, black 55%, transparent)` | Any CSS color or gradient for the tint. |
+
+## LIGHTBOX
+
+Click a slide to open it full-screen in an overlay viewer with its own arrows, swipe/drag, and keyboard navigation. Close it with the ✕ button, the **Esc** key, or a click on the dark backdrop around the content.
+
+| Setting              | Renders to                    | Default | Description |
+| -------------------- | ----------------------------- | ------- | -------------- |
+| **Lightbox**          | `data-lightbox` (lowercased)   | `False` | `False` / `Images` / `Slides`. `Images` enlarges just the slide's image. `Slides` shows the whole slide — image, captions, buttons, any markup — styled by your own CSS. |
+| **Lightbox Arrows**   | `data-lightbox-arrows`         | `true`  | Prev/next arrows inside the overlay. |
+| **Lightbox Counter**  | `data-lightbox-counter`        | `false` | A "current / total" readout at the bottom of the overlay. Honors **Counter Leading Zeros**. |
+| **Lightbox Transition** | `data-lightbox-type` (lowercased) | `Rewind` | `Rewind` / `Loop` / `Slide` / `Fade` — how the overlay moves between slides. See the note below. |
+
+How it behaves:
+
+* **`Images` mode needs an `<img>` in the slide.** The overlay collects each slide's first image (full-resolution, even if the slider hasn't lazy-loaded it yet). Slides without an image are simply left out of the overlay, and clicking them does nothing. CSS background images don't count.
+* **`Slides` mode carries videos and HTML along.** A YouTube/Vimeo embed or `<video>` in your slide plays inside the overlay too. Embeds start fresh in the overlay (the copy reloads), and the plugin stops overlay media when you move to another slide or close — no audio playing on behind the scenes.
+* **Clicks that belong to something else are left alone.** Links, buttons, form fields, video/audio player controls, and Nav Buttons (`data-go-to`) inside a slide keep working — only a click on the slide itself opens the lightbox. A drag/swipe never opens it.
+* **The page pauses while the overlay is up.** Arrow keys drive only the lightbox (every background slider's keyboard is suspended), and the source slider's autoplay, Infinite Scroll marquee, and playing videos are paused — then restored when you close.
+* **Thumbnails ignore the setting** — their click is sync navigation.
+* **A slide containing a nested slider** can't be cloned into the overlay; that slider falls back to `Images` mode with a console note.
+* **Lightbox Transition:** `Rewind` (default) wraps from the last slide back to the first with an animated snap-back. `Loop` wraps seamlessly instead — it duplicates a couple of edge slides inside the overlay, so a slide with a video embed at the ends loads its player once more. `Slide` stops at the ends (arrows disable there). `Fade` crossfades between slides and wraps around.
+* Arrows and the counter hide automatically when the overlay would hold a single item, and the transition degrades to plain `Slide`.
+
+**Styling:** the overlay is themeable **per slider, from your Slider Class** — the same place you style arrows and dots. Set any `--lightbox-*` var there and the plugin copies it onto the overlay each time that slider opens it, so two sliders on one page can have differently themed lightboxes. The vars: `--lightbox-bg` (backdrop tint, default `rgba(0,0,0,.9)`), `--lightbox-img-height` (image max-height, default `90vh`), `--lightbox-slide-height` (slide-content max height in `Slides` mode, default `70vh`), `--lightbox-padding`, `--lightbox-close-size`, `--lightbox-arrow-bg`, `--lightbox-arrow-hover-bg`, and `--lightbox-clr` (close ✕, arrow icons, and counter color). Any *custom* `--lightbox-*` var you add to the class is carried over too, and media queries inside the class work as expected — the overlay tracks the value for the current viewport, even if the window is resized while it's open. Site-wide values on `:root` also work; a slider's own value wins.
 
 ## SLIDES
 
@@ -241,6 +266,10 @@ Then style them however you like:
 ```
 
 The elements can live anywhere on the page — they don't have to be inside the slider. They also **don't have to match the number of slides**: if there are fewer elements than slides, several slides share an element; if there are more, the extras simply never light up. Leave the field empty to turn the feature off.
+
+**Multiple sets at once.** You can list several selectors separated by commas — for example `.headings, .thumb-strip` — and each set is tracked **independently and at the same time**. Every set gets its own `is-active`/`is-prev`/`is-next` relative to the current slide, cycling within its own elements (so a 4-item set and a 2-item set each wrap on their own count). Commas *inside* a selector — `:is(.a, .b)`, `:not(.x, .y)`, `[data-role="a,b"]` — are left intact and count as one set. Keep the sets distinct: if one element happens to match two of your selectors, the last set listed wins for that element.
+
+**Two-way: use them as go-to buttons.** Turn on **Sync Custom Element Nav** (`data-sync-custom-el-nav`) and the sync becomes two-directional — as well as receiving the classes, each synced element becomes a control that jumps the slider to *its* slide: the first element goes to slide 1, the second to slide 2, and so on. They're keyboard-operable too — the plugin gives each one `role="button"` and `tabindex="0"` (only if you haven't set your own), so Tab, then Enter or Space, works. It also adds a `dwc-sync-nav` class that shows a pointer cursor. This pairs naturally with matched sets — a strip of thumbnails or a list of headings with one element per slide. If a set has **fewer** elements than there are slides, only the slides it can reach become clickable; any elements **beyond** the slide count aren't made interactive. Leave it off (the default) to keep the one-way behavior above.
 
 > Prefer to drive this from your own script instead? The same effect is available through the `ready()` helper — see [JavaScript API](../javascript-api.md).
 

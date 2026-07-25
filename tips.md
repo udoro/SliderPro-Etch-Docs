@@ -27,7 +27,7 @@ object-fit: cover;
 For this to work, the slide needs a size to fill — set it on the Slider. Which setting to use depends on the slider:
 
 - **Main slider:** a **Slider Height**, or an **Aspect Ratio** (like `16:9`) when you want the slide area to keep its shape as the screen resizes.
-- **Thumbnail slider:** a fixed **Slider Height** — for example `80px`, adjusted to whatever suits your tiles. **Don't use Aspect Ratio on a thumbnail strip:** Aspect Ratio applies to the whole slider container, not the individual thumbnails, so on a full-width strip it makes the whole thing far too tall.
+- **Thumbnail slider:** a fixed **Slider Height** — for example `80px`, adjusted to whatever suits your tiles — is usually simplest. **Aspect Ratio** works too, but it sizes the strip height as a proportion of the *whole slider's width* (not each individual thumbnail), so on a full-width strip use a **small** ratio like `0.2`; a large one such as `0.5625` makes the strip far too tall.
 
 See [DWC Slider → Dimensions](components/dwc-slider.md#dimensions), and set different values per screen size with the [responsive shorthand](styling-and-responsive.md#responsive-breakpoints) if you need to.
 

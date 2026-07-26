@@ -58,3 +58,9 @@ DWC Slider
 ```
 
 Here every item is dropped **inside a single slide**, so you get one giant slide with all your images at once — and nothing for the slider to move between. If your slider "shows everything at once" or won't move, this is almost always why: move the loop up to the **DWC Slide**.
+
+***
+
+## Template animations vs the Speed setting
+
+If you're using a [premade template](premade-templates.md) and changing **MOTION → Speed** doesn't affect one of its animations, that's expected. **Speed** controls Splide's slide transition — not the custom CSS animations a template adds (like Slider Zeon's background zoom/fade), which are set in the template's own CSS and can be marked `!important`. To retime one, edit that template's CSS class directly. See [Customizing a template's animations](premade-templates.md#customizing-a-templates-animations).

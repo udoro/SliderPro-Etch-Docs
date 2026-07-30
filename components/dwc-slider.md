@@ -107,6 +107,12 @@ Autoplay also automatically pauses when a slide or control receives keyboard foc
 
 > **Note:** Infinite Scroll only animates when the **Auto-Scroll Extension** is enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (it is on by default).
 
+### Pause Sliders on Hover (wrapper-level)
+
+**Pause Sliders on Hover** is a toggle on the [Slider Wrapper](dwc-slider-wrapper.md#settings). Turn it on when a wrapper holds several animating sliders that should behave as one unit: hovering or keyboard-focusing **any** slider in the wrapper then pauses **all** of them (both Infinite Scroll marquees and native autoplay carousels), and they resume only once both the pointer and keyboard focus have left. This is what you want for stacked logo-marquee rows.
+
+It overrides each slider's own **Pause On Hover** (the wrapper becomes the single pause controller, so moving the pointer between rows doesn't restart the row you just left). Nested sliders are not affected.
+
 ## NAVIGATION
 
 > For more control, use the standalone **DWC Slider Pagination** and **DWC Slider Nav Button** components instead of these flags.
@@ -124,6 +130,18 @@ Draws a full-cover tint layer over the slider (a `::before` on the slider, behin
 | ------------------------- | -------------------------- | ------- | -------------- |
 | **Enable**                 | `data-overlay`             | `false` | Turns the overlay layer on. |
 | **Overlay Background**     | `--slider-overlay-bg`      | `color-mix(in oklch, black 55%, transparent)` | Any CSS color or gradient for the tint. |
+
+## EDGE FADE
+
+Fades the slider's left and right edges into transparency, so slides seem to dissolve at the sides instead of ending on a hard line. It's a great finish for logo marquees and any row that scrolls or peeks partial slides. It's a pure CSS mask, so it doesn't affect layout or interaction. It's a toggle on both the **Slider** and the **[Slider Wrapper](dwc-slider-wrapper.md#settings)** — enable it on the wrapper to fade a whole stack of sliders as one.
+
+| Setting            | Renders to        | Default | Description |
+| --------------------- | -------------------- | ------- | -------------- |
+| **Edge Fade**          | `data-edge-fade`      | `false` | Turns the edge fade on. |
+| **Fade Distance**      | `--fade-width`        | `15%`   | How far the fade reaches in from each edge. Any CSS length or percentage (`15%`, `80px`). |
+| **Fade Softness**      | `--fade-softness`     | `0.8`   | How gradual the fade is, on a `0`–`1` scale: `1` is the softest, longest fade; `0` is a sharp edge. |
+
+> Because it works by masking the container, anything that overflows the slider's edges (arrows placed outside, custom captions) will fade too. If you need those to stay crisp, enable Edge Fade on an inner slider rather than the wrapper.
 
 ## LIGHTBOX
 

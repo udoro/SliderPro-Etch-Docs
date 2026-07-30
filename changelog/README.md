@@ -4,6 +4,16 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.1.1 - July 30, 2026
+
+**Slider Wrapper**
+
+* New **Pause Sliders on Hover** option — set it on a slider **wrapper** and every animating slider inside it pauses together when you hover or keyboard-focus any one of them, resuming once the pointer and focus both leave. Built for stacked logo-marquee rows that should read as one unit; it overrides each member's own Pause On Hover so moving between rows doesn't restart the one you just left. Works with both Infinite Scroll marquees and autoplay carousels. See [DWC Slider Wrapper → Settings](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider-wrapper#settings).
+
+**Slider & Wrapper**
+
+* New **Edge Fade** option — fades the left and right edges of a slider (or a whole wrapper) into transparency for a soft, dissolving finish, with **Fade Distance** and **Fade Softness** controls. Perfect for logo marquees and rows that peek partial slides. It's a pure CSS mask, so it doesn't touch layout or interaction. See [DWC Slider → Edge Fade](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#edge-fade).
+
 ## Version 1.1 - July 24, 2026
 
 **Slider**

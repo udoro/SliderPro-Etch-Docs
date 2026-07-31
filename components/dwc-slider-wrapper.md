@@ -21,6 +21,7 @@ The outer container. It holds one Slider (or a main Slider plus a thumbnail Slid
 | **Edge Fade**           | `data-edge-fade` | `false` | Fades the left and right edges of the whole wrapper into transparency. |
 | **Fade Distance**       | `--fade-width` | `15%` | Shown once Edge Fade is on. How far the fade reaches in from each edge (any CSS length/percentage). |
 | **Fade Softness**       | `--fade-softness` | `0.8` | Shown once Edge Fade is on. How gradual the fade is on a `0`–`1` scale — `1` softest, `0` a sharp edge. |
+| **Fade Opacity**        | `--fade-opacity` | `0%` | Shown once Edge Fade is on. How visible the very edge stays — `0%` fades it fully out (default), up to `100%` for no fade at the edge. |
 
 > To lazy-load a **single** slider rather than the whole wrapper, use the **PERFORMANCE** panel on the [DWC Slider](dwc-slider.md#performance) instead. Full details, including the thumbnail-sync safety rule, are in [Lazy loading below-the-fold sliders](../styling-and-responsive.md#lazy-loading-below-the-fold-sliders).
 

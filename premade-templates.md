@@ -30,6 +30,7 @@ When you paste an **updated** component or template, first enable **"Overwrite o
 - **Slider Chronos** — A horizontal timeline slider: year-marked nodes along a center line, with the active entry highlighted (image, year, title, description) while neighbours fade back.
 - **Slider Flow** — A cover-flow carousel: the active slide sits front-and-center with angled, perspective-tilted slides flanking it, over a category tag and title, with arrows and dots.
 - **Slider Team** — A staff showcase with a split layout: the selected member fills a large portrait on one side while the other shows their name and a synced strip of headshot cards (name + role).
+- **Slider Marquee** — A continuous logo/brand marquee: auto-scrolling rows of auto-width slides that loop seamlessly, with the row edges softly faded (Edge Fade). The rows drift in opposite directions for a layered ticker effect. Great for logo walls, partner strips, and "as seen in" bars.
 
 **New templates are added regularly**, so check your Gumroad dashboard for the latest set.
 

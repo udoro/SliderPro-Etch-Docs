@@ -45,7 +45,7 @@ Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in — enter a pi
 | **-- Left Offset**          | `data-padding-left`      | –       | Overrides Slider Edge Offset on the left only. Same responsive shorthand. |
 | **-- Right Offset**         | `data-padding-right`     | –       | Overrides Slider Edge Offset on the right only. Same responsive shorthand. |
 | **Padding Block**           | `--slider-padding-block` | `0px`   | Top/bottom padding inside the track. |
-| **Layout Mode**             | `data-layout-mode`       | – (always slider) | Turn the slider into a plain, CSS-controlled grid at chosen breakpoints. `slider` / `static`, responsive shorthand, e.g. `slider md:static`. See [Layout mode](../styling-and-responsive.md#layout-mode-slider-or-static-grid). |
+| **Layout Mode**             | `data-layout-mode`       | – (always slider) | Turn the slider into a plain, CSS-controlled grid at chosen breakpoints. `slider` / `static`, responsive shorthand, e.g. `slider md:static`. Pair with **Static Lightbox** ([Lightbox](#lightbox)) to keep the fullscreen viewer clickable in the grid. See [Layout mode](../styling-and-responsive.md#layout-mode-slider-or-static-grid). |
 | **Grid Columns**            | `data-grid-columns`      | `3`     | Columns for the static-mode grid. **Only applies while Layout Mode is `static`** (Etch shows this field only once Layout Mode includes `static`). Responsive, e.g. `3 md:2 sm:1`. |
 
 ## DIMENSIONS
@@ -140,6 +140,7 @@ Fades the slider's left and right edges into transparency, so slides seem to dis
 | **Edge Fade**          | `data-edge-fade`      | `false` | Turns the edge fade on. |
 | **Fade Distance**      | `--fade-width`        | `15%`   | How far the fade reaches in from each edge. Any CSS length or percentage (`15%`, `80px`). |
 | **Fade Softness**      | `--fade-softness`     | `0.8`   | How gradual the fade is, on a `0`–`1` scale: `1` is the softest, longest fade; `0` is a sharp edge. |
+| **Fade Opacity**       | `--fade-opacity`      | `0%`    | How visible the very edge stays. `0%` fades it fully out (the default); higher values keep more of the edge, up to `100%` for no fade at the edge at all. |
 
 > Because it works by masking the container, anything that overflows the slider's edges (arrows placed outside, custom captions) will fade too. If you need those to stay crisp, enable Edge Fade on an inner slider rather than the wrapper.
 
@@ -153,6 +154,7 @@ Click a slide to open it full-screen in an overlay viewer with its own arrows, s
 | **Lightbox Arrows**   | `data-lightbox-arrows`         | `true`  | Prev/next arrows inside the overlay. |
 | **Lightbox Counter**  | `data-lightbox-counter`        | `false` | A "current / total" readout at the bottom of the overlay. Honors **Counter Leading Zeros**. |
 | **Lightbox Transition** | `data-lightbox-type` (lowercased) | `Rewind` | `Rewind` / `Loop` / `Slide` / `Fade` — how the overlay moves between slides. See the note below. |
+| **Static Lightbox**   | `data-static-lightbox`         | `true` | Also open the lightbox while the slider is in **static (grid)** [Layout Mode](#settings). On by default; still needs **Lightbox** set and **Layout Mode** reaching `static` to do anything. Switch it off to keep static grids non-clickable. See the note below. |
 
 How it behaves:
 
@@ -161,6 +163,7 @@ How it behaves:
 * **Clicks that belong to something else are left alone.** Links, buttons, form fields, video/audio player controls, and Nav Buttons (`data-go-to`) inside a slide keep working — only a click on the slide itself opens the lightbox. A drag/swipe never opens it.
 * **The page pauses while the overlay is up.** Arrow keys drive only the lightbox (every background slider's keyboard is suspended), and the source slider's autoplay, Infinite Scroll marquee, and playing videos are paused — then restored when you close.
 * **Thumbnails ignore the setting** — their click is sync navigation.
+* **Static Lightbox works in the grid layout.** Normally the lightbox is a carousel feature, so when a slider drops to `static` [Layout Mode](#settings) at a breakpoint the grid tiles wouldn't be clickable. **Static Lightbox** (on by default) keeps them clickable: clicking a tile opens the same overlay, reusing this slider's Lightbox mode, arrows, counter, transition, and `--lightbox-*` theming. It only takes effect while the slider is actually static, so **Layout Mode** must be set for it to reach `static`; on a slider that never goes static it does nothing. Switch it off if you'd rather static grids not open the lightbox.
 * **A slide containing a nested slider** can't be cloned into the overlay; that slider falls back to `Images` mode with a console note.
 * **Lightbox Transition:** `Rewind` (default) wraps from the last slide back to the first with an animated snap-back. `Loop` wraps seamlessly instead — it duplicates a couple of edge slides inside the overlay, so a slide with a video embed at the ends loads its player once more. `Slide` stops at the ends (arrows disable there). `Fade` crossfades between slides and wraps around.
 * Arrows and the counter hide automatically when the overlay would hold a single item, and the transition degrades to plain `Slide`.

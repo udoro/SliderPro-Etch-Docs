@@ -4,6 +4,21 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.1.2 - July 31, 2026
+
+**Slider**
+
+* New **Static Lightbox** option — the fullscreen Lightbox now opens even when your slider is showing as a static grid, not only as a carousel. Clicking a slide opens the same lightbox you get in slider mode, with the same look and controls. On by default; switch it off per slider if you'd rather static grids not open the lightbox. See [DWC Slider → Lightbox](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#lightbox).
+* New **Fade Opacity** control for Edge Fade — choose how visible the very edges stay instead of always dissolving to nothing. Leave it at `0%` for the current full fade, or raise it to let the edges peek through (up to no fade at all). See [DWC Slider → Edge Fade](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#edge-fade).
+
+**Templates**
+
+* New **Slider Marquee** premade template — an auto-scrolling logo/brand marquee with softly faded edges and auto-width slides, with rows drifting in opposite directions. Import it from your Gumroad dashboard. See [Premade Templates](https://design-with-cracka.gitbook.io/etchsliderpro/premade-templates).
+
+**Fixes**
+
+* **Etch editor:** fixed the settings panel jumping back to the top when you switch between sliders. It now keeps its scroll position, so your place is held as you move from one slider to the next, and you can still scroll it freely right after selecting a slider.
+
 ## Version 1.1.1 - July 30, 2026
 
 **Slider Wrapper**

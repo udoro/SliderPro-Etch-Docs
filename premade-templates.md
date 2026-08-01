@@ -8,7 +8,13 @@ Slider Pro ships with a set of ready-made, pre-styled slider templates — drop 
 
 ## Where to find them
 
-The templates are **included with Slider Pro** — there's no separate purchase. You'll find them in your **Gumroad dashboard/library**, the same place you downloaded the WordPress plugin and the component JSON.
+The templates are **included with Slider Pro**, with no separate purchase. They sit in the same Gumroad content as the plugin and component JSON, just under their own menu entry that's easy to miss.
+
+1. Go to your **Gumroad Library** and open **Slider Pro for Etch**.
+2. On the product's content page, look at the **menu on the left**. It lists a few entries, including **Component - Slider Pro + Plugin**, **Premade Sliders**, and **Support**.
+3. Click **Premade Sliders**. That's where every template `.json` is listed for download.
+
+> Don't overlook the left-side menu. The plugin and the premade sliders are **separate entries** there, so if you only downloaded from **Component - Slider Pro + Plugin**, click **Premade Sliders** to grab the templates too.
 
 ## How to import a template
 

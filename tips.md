@@ -4,13 +4,13 @@ icon: lightbulb
 
 # Tips & Recipes
 
-Some things that look like slider problems are really about how your slides and images are built in Etch. This page collects fixes for those — small CSS and Etch habits that make sliders behave the way you expect.
+Some things that look like slider problems are really about how your slides and images are built in Etch. This page collects fixes for those: small CSS and Etch habits that make sliders behave the way you expect.
 
 ***
 
 ## Making images fill a slide consistently
 
-If your slides come out different heights, or images stretch and change shape as you resize the screen, the images are being shown at their natural size — so each one sets its own slide's size. This shows up most on **thumbnail** strips, where you want every tile to match.
+If your slides come out different heights, or images stretch and change shape as you resize the screen, the images are being shown at their natural size, so each one sets its own slide's size. This shows up most on **thumbnail** strips, where you want every tile to match.
 
 The fix is to make each image **fill its slide** and crop to fit. Add this CSS to the image inside your slide:
 
@@ -22,12 +22,12 @@ height: 100%;
 object-fit: cover;
 ```
 
-`object-fit: cover` fills the whole slide and trims any overflow, so every image ends up the same shape with no stretching. If you'd rather show the **whole** image without cropping, use `object-fit: contain` instead — just know it will letterbox (leave empty space) when the image and slide shapes don't match.
+`object-fit: cover` fills the whole slide and trims any overflow, so every image ends up the same shape with no stretching. If you'd rather show the **whole** image without cropping, use `object-fit: contain` instead, though it will letterbox (leave empty space) when the image and slide shapes don't match.
 
-For this to work, the slide needs a size to fill — set it on the Slider. Which setting to use depends on the slider:
+For this to work, the slide needs a size to fill, set on the Slider. Which setting to use depends on the slider:
 
 - **Main slider:** a **Slider Height**, or an **Aspect Ratio** (like `16:9`) when you want the slide area to keep its shape as the screen resizes.
-- **Thumbnail slider:** a fixed **Slider Height** — for example `80px`, adjusted to whatever suits your tiles — is usually simplest. **Aspect Ratio** works too, but it sizes the strip height as a proportion of the *whole slider's width* (not each individual thumbnail), so on a full-width strip use a **small** ratio like `0.2`; a large one such as `0.5625` makes the strip far too tall.
+- **Thumbnail slider:** a fixed **Slider Height**, for example `80px` adjusted to whatever suits your tiles, is usually simplest. **Aspect Ratio** works too, but it sizes the strip height as a proportion of the *whole slider's width* (not each individual thumbnail), so on a full-width strip use a **small** ratio like `0.2`; a large one such as `0.5625` makes the strip far too tall.
 
 See [DWC Slider → Dimensions](components/dwc-slider.md#dimensions), and set different values per screen size with the [responsive shorthand](styling-and-responsive.md#responsive-breakpoints) if you need to.
 
@@ -37,9 +37,9 @@ See [DWC Slider → Dimensions](components/dwc-slider.md#dimensions), and set di
 
 ## Building slides from an Etch Loop
 
-To build slides automatically from a collection (posts, products, a repeater, and so on), use an Etch **Loop** — but put the loop on the **DWC Slide** itself, so each pass through the loop makes **one slide**.
+To build slides automatically from a collection (posts, products, a repeater, and so on), use an Etch **Loop**, but put the loop on the **DWC Slide** itself, so each pass through the loop makes **one slide**.
 
-**Correct — loop the DWC Slide:**
+**Correct: loop the DWC Slide**
 
 ```
 DWC Slider
@@ -49,7 +49,7 @@ DWC Slider
 
 Each item in your collection becomes its own slide, and the slider can page through them normally.
 
-**Incorrect — loop the content inside one slide:**
+**Incorrect: loop the content inside one slide**
 
 ```
 DWC Slider
@@ -57,10 +57,10 @@ DWC Slider
    └─ your content   ← the Loop is on this
 ```
 
-Here every item is dropped **inside a single slide**, so you get one giant slide with all your images at once — and nothing for the slider to move between. If your slider "shows everything at once" or won't move, this is almost always why: move the loop up to the **DWC Slide**.
+Here every item is dropped **inside a single slide**, so you get one giant slide with all your images at once, and nothing for the slider to move between. If your slider "shows everything at once" or won't move, this is almost always why: move the loop up to the **DWC Slide**.
 
 ***
 
 ## Template animations vs the Speed setting
 
-If you're using a [premade template](premade-templates.md) and changing **MOTION → Speed** doesn't affect one of its animations, that's expected. **Speed** controls Splide's slide transition — not the custom CSS animations a template adds (like Slider Zeon's background zoom/fade), which are set in the template's own CSS and can be marked `!important`. To retime one, edit that template's CSS class directly. See [Customizing a template's animations](premade-templates.md#customizing-a-templates-animations).
+If you're using a [premade template](premade-templates.md) and changing **MOTION → Speed** doesn't affect one of its animations, that's expected. **Speed** controls Splide's slide transition, not the custom CSS animations a template adds (like Slider Zeon's background zoom/fade), which are set in the template's own CSS and can be marked `!important`. To retime one, edit that template's CSS class directly. See [Customizing a template's animations](premade-templates.md#customizing-a-templates-animations).

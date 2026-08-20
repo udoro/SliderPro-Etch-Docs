@@ -6,7 +6,7 @@ icon: ellipsis
 
 A standalone pagination component for full control over how each dot looks, as an alternative to the Slider's built-in **Pagination Dots** toggle (see [DWC Slider](dwc-slider.md#navigation)).
 
-Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or even inside a **thumbnail** slider — and it always drives the main slider. Use as many as you like: put one above the slider and one below, and they'll stay in step. Each one keeps its own **Custom Pagination Mode**, so a `Template` pagination and a `Default` one can sit on the same slider.
+Drop it anywhere inside the Wrapper (the main slider, at wrapper level, or even inside a **thumbnail** slider) and it always drives the main slider. Use as many as you like: put one above the slider and one below, and they'll stay in step. Each one keeps its own **Custom Pagination Mode**, so a `Template` pagination and a `Default` one can sit on the same slider.
 
 ***
 
@@ -54,7 +54,7 @@ Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or ev
 
 ## Template mode
 
-Set **Custom Pagination Mode** to `Template` and design the *first* item as your template — it gets cloned once per slide automatically. Inside your template, put a number, letter, or roman numeral placeholder as its own word: any digits (`1`, `007`, `2003`), or `a`, `A`, `i`, `I`. It's automatically replaced with that slide's number in the matching format.
+Set **Custom Pagination Mode** to `Template` and design the *first* item as your template: it gets cloned once per slide automatically. Inside your template, put a number, letter, or roman numeral placeholder as its own word: any digits (`1`, `007`, `2003`), or `a`, `A`, `i`, `I`. It's automatically replaced with that slide's number in the matching format.
 
 - **Numbers** count up starting from whatever number you type, so `1` produces `1, 2, 3, ...` while `2003` produces `2003, 2004, 2005, ...`. Leading zeros are preserved as the number grows (`007` → `007, 008, ..., 010, 011, ...`).
-- **Letters and roman numerals** (`a`, `A`, `i`, `I`) always start at the beginning of their sequence (a/b/c…, i/ii/iii…) — only numbers support a custom starting point.
+- **Letters and roman numerals** (`a`, `A`, `i`, `I`) always start at the beginning of their sequence (a/b/c…, i/ii/iii…). Only numbers support a custom starting point.

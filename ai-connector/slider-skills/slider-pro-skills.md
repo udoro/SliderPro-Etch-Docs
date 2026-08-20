@@ -4,9 +4,9 @@ icon: sparkles
 
 # Slider Pro Skills
 
-*Pending — not yet written.*
+*Pending: not yet written.*
 
-This will be the main skills file for AI agents (e.g. Claude) configuring Slider Pro in Etch via the etch-connector — the day-to-day reference covering connector setup, the component/prop reference, and common scripting patterns, mirroring the structure of Mega Menu Pro's `mega-menu-pro-skills.md`.
+This will be the main skills file for AI agents (e.g. Claude) configuring Slider Pro in Etch via the etch-connector. It is the day-to-day reference covering connector setup, the component/prop reference, and common scripting patterns, mirroring the structure of Mega Menu Pro's `mega-menu-pro-skills.md`.
 
 Until this is written, use the human-facing docs in this space instead:
 - [Documentation](../../README.md)

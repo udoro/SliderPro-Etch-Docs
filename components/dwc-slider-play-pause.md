@@ -4,13 +4,13 @@ icon: circle-play
 
 # DWC Slider Play-Pause
 
-A standalone play/pause button for autoplay, with its own style controls. Drop it anywhere inside the Wrapper — the main slider, at wrapper level, or inside a **thumbnail** slider — and it always controls the main slider's autoplay. It only does anything when the tracked Slider's **Auto Play** setting is on. This is the richer alternative to the Slider's own built-in Play/Pause Button flag (see [DWC Slider](dwc-slider.md#autoplay)).
+A standalone play/pause button for autoplay, with its own style controls. Drop it anywhere inside the Wrapper (the main slider, at wrapper level, or inside a **thumbnail** slider) and it always controls the main slider's autoplay. It only does anything when the tracked Slider's **Auto Play** setting is on. This is the richer alternative to the Slider's own built-in Play/Pause Button flag (see [DWC Slider](dwc-slider.md#autoplay)).
 
 ***
 
 ## Settings
 
-These style the button. It connects to the main Slider on its own — you don't need to switch anything on for it to be found. It works whenever the Slider's **Auto Play** is on, and stays active even if you turn the Slider's own built-in **Play/Pause Button** off. (With Auto Play off there's nothing to play or pause, so the button does nothing.)
+These style the button. It connects to the main Slider on its own, so you don't need to switch anything on for it to be found. It works whenever the Slider's **Auto Play** is on, and stays active even if you turn the Slider's own built-in **Play/Pause Button** off. (With Auto Play off there's nothing to play or pause, so the button does nothing.)
 
 | Setting                      | CSS variable                   | Default                            |
 | --------------------------------- | ------------------------------------ | ---------------------------------------- |

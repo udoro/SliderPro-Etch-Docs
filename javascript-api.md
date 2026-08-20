@@ -36,13 +36,13 @@ instance.go('+1');
 
 ## Using Splide settings the plugin doesn't cover
 
-The slider is built on [Splide](https://splidejs.com/), which has many more settings than the plugin gives you a control for. These two helpers let you switch on the extra ones with a small snippet — no need to touch the plugin.
+The slider is built on [Splide](https://splidejs.com/), which has many more settings than the plugin gives you a control for. These two helpers let you switch on the extra ones with a small snippet, with no need to touch the plugin.
 
 > **Prefer no code?** Two of these jobs have a built-in control right on the Slider: **Custom Options** turns on extra Splide settings without a snippet (the `setOptions` job below), and **Sync Custom Element** keeps `is-active`/`is-prev`/`is-next` classes on other elements as the slider moves (the `ready` job below). See [DWC Slider → Custom Options](components/dwc-slider.md#custom-options) and [Sync Custom Element](components/dwc-slider.md#sync-custom-element). Use the helpers here when you need more than those fields allow.
 
-First, **give the slider a class** so your snippet knows which one to target. In Etch, add a class to the Slider (for example `my-slider`). Use that class in the snippets below. Don't use the slider's ID — the plugin replaces it automatically, so a class is the reliable handle.
+First, **give the slider a class** so your snippet knows which one to target. In Etch, add a class to the Slider (for example `my-slider`). Use that class in the snippets below. Don't use the slider's ID, because the plugin replaces it automatically, so a class is the reliable handle.
 
-### `setOptions` — turn on extra settings
+### `setOptions`: turn on extra settings
 
 Pass your slider's class and the Splide settings you want:
 
@@ -53,19 +53,19 @@ SplideComponent.setOptions('.my-slider', {
 });
 ```
 
-- **Add as many settings as you like** — one per line, inside the `{ }`.
+- **Add as many settings as you like**, one per line, inside the `{ }`.
 - **When it takes effect:** right away on a normal slider. On a slider set to load only when scrolled into view, the settings apply the moment it appears.
-- Some settings change the slider's size or layout and need it to rebuild itself — `setOptions` handles that for you, so you don't have to think about it.
+- Some settings change the slider's size or layout and need it to rebuild itself. `setOptions` handles that for you, so you don't have to think about it.
 
-> For **auto-width** specifically, you don't need this — use the **Slide Auto Width** toggle on the Slider instead (see [DWC Slider → Dimensions](components/dwc-slider.md#dimensions)).
+> For **auto-width** specifically, you don't need this. Use the **Slide Auto Width** toggle on the Slider instead (see [DWC Slider → Dimensions](components/dwc-slider.md#dimensions)).
 
-### `ready` — run your own code with the slider
+### `ready`: run your own code with the slider
 
 Use this when you want something else on your page to **react** to the slider. Your code runs once the slider is ready, and gets the slider handed to it as `splide`. The examples below react to `moved`, which runs every time the slider settles on a new slide. Change `.gallery` (etc.) to your slider's class.
 
-> **`move` vs `moved`:** `move` fires the moment a change **starts** (as the animation begins), while `moved` fires once it **finishes** (the slider has settled on the new slide). Both hand your callback the new slide's index. Use `move` when you want the page to react instantly — the built-in **Sync Custom Element** uses it so class changes feel immediate — and `moved` when you'd rather wait for the slide to arrive first (for example, playing a video only once it's in place).
+> **`move` vs `moved`:** `move` fires the moment a change **starts** (as the animation begins), while `moved` fires once it **finishes** (the slider has settled on the new slide). Both hand your callback the new slide's index. Use `move` when you want the page to react instantly: the built-in **Sync Custom Element** uses it so class changes feel immediate, and `moved` when you'd rather wait for the slide to arrive first (for example, playing a video only once it's in place).
 
-> **Setting the *initial* state:** your code runs *after* the slider has already started (it's showing its first slide). So do the first update **right away**, then use `moved` to keep it in step. Don't bind a `mounted` handler in here expecting it to set the starting state — the slider mounted before your code ran, so that event has already passed and won't fire again.
+> **Setting the *initial* state:** your code runs *after* the slider has already started (it's showing its first slide). So do the first update **right away**, then use `moved` to keep it in step. Don't bind a `mounted` handler in here expecting it to set the starting state, because the slider mounted before your code ran, so that event has already passed and won't fire again.
 
 **Show a "3 / 8" label that keeps up with the slider**
 
@@ -111,19 +111,19 @@ SplideComponent.ready('.docs-carousel', (splide) => {
 });
 ```
 
-The slider can react to many other moments too (dragging, becoming visible, autoplay starting, and more) — see [Splide's events list](https://splidejs.com/guides/events/).
+The slider can react to many other moments too (dragging, becoming visible, autoplay starting, and more). See [Splide's events list](https://splidejs.com/guides/events/).
 
 ***
 
 ## Attribute architecture reference
 
-This is how the settings documented on each component page are actually read at runtime — useful if you're setting `data-*` attributes directly (e.g. via Etch's Custom Attributes field) instead of through component props.
+This is how the settings documented on each component page are actually read at runtime, useful if you're setting `data-*` attributes directly (e.g. via Etch's Custom Attributes field) instead of through component props.
 
-- **Feature flags** (`data-circular-progress`, `data-bar-progress`, `data-counter`, `data-leading-zeros`) can be set on either the Slider or the Wrapper — the Slider's value takes precedence.
-- **Slider config** (`data-per-page`, `data-gap`, `data-speed`, `data-autoplay`, `data-loop`, `data-arrows`, `data-pagination`, `data-drag`, `data-autoplay-progress`, `data-autoplay-toggle`, `data-type`, `data-direction`, `data-rewind`, etc.) lives on the `.splide` element itself — each Slider holds its own config.
+- **Feature flags** (`data-circular-progress`, `data-bar-progress`, `data-counter`, `data-leading-zeros`) can be set on either the Slider or the Wrapper, and the Slider's value takes precedence.
+- **Slider config** (`data-per-page`, `data-gap`, `data-speed`, `data-autoplay`, `data-loop`, `data-arrows`, `data-pagination`, `data-drag`, `data-autoplay-progress`, `data-autoplay-toggle`, `data-type`, `data-direction`, `data-rewind`, etc.) lives on the `.splide` element itself, and each Slider holds its own config.
 - **Multi-slider sync**: `data-slider-role="main|thumbnails"` plus `data-sync-group="name"`. Without a sync group, syncing is Wrapper-scoped only (strict boundaries). With a sync group, all matching sliders across the page sync, regardless of which Wrapper they're in.
 - **Progress containers**: `[data-progress-type="circular|bar|counter"]`, with `data-progress-mode` and `data-circular-*` attributes read per-container.
-- **Nav buttons**: `[data-go-to="N|next|prev|first|last"]` — `N` is a one-based slide number; keyword values are case-insensitive. Auto-detected inside the Slider or Wrapper, no flag needed.
-- **Custom pagination**: `[data-custom-pagination]` — set to `"template"` to use the first child as a cloned design template. Auto-detected inside the Slider or Wrapper, no flag needed.
+- **Nav buttons**: `[data-go-to="N|next|prev|first|last"]`. `N` is a one-based slide number; keyword values are case-insensitive. Auto-detected inside the Slider or Wrapper, no flag needed.
+- **Custom pagination**: `[data-custom-pagination]`. Set it to `"template"` to use the first child as a cloned design template. Auto-detected inside the Slider or Wrapper, no flag needed.
 - **Autoplay controls**: `[data-autoplay-progress-container]` and `[data-autoplay-toggle-container]` are auto-detected on any element inside the Wrapper.
 - Sliders with `data-slider-role` can live outside a Wrapper entirely and still sync via `data-sync-group`.

@@ -6,13 +6,13 @@ icon: desktop-arrow-down
 
 ## Installation
 
-Slider Pro for Etch ships as two pieces: a small WordPress plugin (loads the Splide library and the CSS automatically — no manual stylesheet paste needed) and an Etch component JSON export (the 7 reusable DWC Slider components).
+Slider Pro for Etch ships as two pieces: a small WordPress plugin (loads the Splide library and the CSS automatically, with no manual stylesheet paste needed) and an Etch component JSON export (the 7 reusable DWC Slider components).
 
 ### 1. WordPress plugin
 
 Install and activate the `dwc-slider-pro-etch` plugin folder like any other WordPress plugin: place it in `wp-content/plugins/`, then activate **Slider Pro for Etch** from the Plugins screen.
 
-This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), inside the WordPress block editor, and in the parent admin window. It also adds a **Settings → Slider Pro for Etch** screen — see [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
+This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, inside the Etch editor canvas (via a bridge script), inside the WordPress block editor, and in the parent admin window. It also adds a **Settings → Slider Pro for Etch** screen. See [Styling & Responsive Behaviour](styling-and-responsive.md) for what's configurable there.
 
 ### 2. Component JSON
 
@@ -34,7 +34,7 @@ This plugin loads the Splide library and `dwc-slider-pro.css` on the frontend, i
 2. Inside it, add two **DWC Slider** components.
 3. Set the first Slider's **Slider Role** setting to `main`.
 4. Set the second Slider's **Slider Role** setting to `thumbnails`.
-5. That's it — they sync automatically because they're in the same Wrapper. No extra setting needed.
+5. That's it: they sync automatically because they're in the same Wrapper. No extra setting needed.
 
 ***
 
@@ -52,35 +52,35 @@ DWC Slider Wrapper
 └── DWC Slider Nav Button × N         ← optional, one per prev/next/jump control
 ```
 
-The **DWC Slider Wrapper** is the outer container — it holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component. The **DWC Slider** is the actual sliding track; if a Wrapper contains two Sliders, each is configured independently.
+The **DWC Slider Wrapper** is the outer container: it holds one Slider (or a main Slider plus a thumbnail Slider) and any extra pieces like a counter or progress component. The **DWC Slider** is the actual sliding track; if a Wrapper contains two Sliders, each is configured independently.
 
-Everything else — DWC Slider Nav Button, DWC Slider Pagination, DWC Slider Progress, DWC Slider Play-Pause — is a small component you drop wherever you want it to appear. It doesn't have to sit right next to the Slider; it just has to be somewhere inside the same Wrapper (or inside the Slider itself). These components look for the Slider **in this order: inside the Slider first, then inside the Wrapper** — so you can place them anywhere in the Wrapper and they connect automatically, no manual linking required.
+Everything else (DWC Slider Nav Button, DWC Slider Pagination, DWC Slider Progress, DWC Slider Play-Pause) is a small component you drop wherever you want it to appear. It doesn't have to sit right next to the Slider; it just has to be somewhere inside the same Wrapper (or inside the Slider itself). These components look for the Slider **in this order: inside the Slider first, then inside the Wrapper**, so you can place them anywhere in the Wrapper and they connect automatically, no manual linking required.
 
 ***
 
 ## Using the slider inside Etch (editor vs. preview vs. live site)
 
-The slider behaves differently in three contexts. This is handled automatically — you don't configure it — but it helps to know what you're looking at.
+The slider behaves differently in three contexts. This is handled automatically, and you don't configure it, but it helps to know what you're looking at.
 
 ### Edit mode (default, inside the Etch canvas)
 - The real Splide slider is **not** running here. Instead, all slides are laid out in a simple grid so you can see, select, and edit every slide at once.
 - Arrows, pagination dots, and the autoplay bar are hidden in this mode since they'd have nothing to do.
-- A small control bar appears in the top-right corner of each Wrapper (or of an un-wrapped Slider): a **1 / 2 / 3 / 4 column selector** (editing convenience only — doesn't affect Per Page or what visitors see; remembered per slider in your browser) and a **Preview** button. On a main/thumbnail pair joined by a sync group, only the main slider gets the Preview button.
+- A small control bar appears in the top-right corner of each Wrapper (or of an un-wrapped Slider): a **1 / 2 / 3 / 4 column selector** (editing convenience only, and doesn't affect Per Page or what visitors see; remembered per slider in your browser) and a **Preview** button. On a main/thumbnail pair joined by a sync group, only the main slider gets the Preview button.
 - A small badge reading "Slider - click Preview to test" appears on sliders that have a Preview button.
 
 ### Preview mode (click "Preview")
-- The slider is rebuilt and actually mounted with Splide, so it behaves exactly as it will on the live site — autoplay, arrows, drag, sync, everything.
+- The slider is rebuilt and actually mounted with Splide, so it behaves exactly as it will on the live site: autoplay, arrows, drag, sync, everything.
 - Links inside slides are disabled while in Preview mode so clicking around doesn't navigate you away from the editor.
-- A **Refresh** button appears next to the Edit button while you're in Preview. Changes you make to a slider *while previewing* don't show up on their own — Preview runs against a rebuilt copy of the slider that Etch can no longer reach. Refresh reloads the canvas and drops you straight back into Preview with your changes applied, so you don't have to click Edit and then Preview again.
+- A **Refresh** button appears next to the Edit button while you're in Preview. Changes you make to a slider *while previewing* don't show up on their own, because Preview runs against a rebuilt copy of the slider that Etch can no longer reach. Refresh reloads the canvas and drops you straight back into Preview with your changes applied, so you don't have to click Edit and then Preview again.
 - Click the button again (now labeled "Edit") to leave Preview mode. This destroys the live slider instance, restores the edit grid, and automatically refreshes the Etch canvas.
 
 ### Live/published site
-- The frontend always loads and mounts the real slider directly — no edit grid, no control bar, no Preview toggle.
+- The frontend always loads and mounts the real slider directly, with no edit grid, no control bar, no Preview toggle.
 
 ### WordPress block editor (Gutenberg)
 Etch authors your components as WordPress blocks, so a slider built in Etch can be dropped onto an ordinary post or page. Inside the block editor:
-- It renders **live** — the real Splide slider mounts and runs just like the frontend (autoplay, arrows, drag). There's no edit grid or Preview toggle here; those are Etch-canvas concepts.
-- Its blocks are **locked** — the slider wrapper and everything inside it can't be moved, dragged, duplicated, or deleted, so the structure Etch authored can't be displaced by accident. Edit the slider's design or content in Etch. The lock applies only in the editor and never changes your saved page.
+- It renders **live**: the real Splide slider mounts and runs just like the frontend (autoplay, arrows, drag). There's no edit grid or Preview toggle here; those are Etch-canvas concepts.
+- Its blocks are **locked**: the slider wrapper and everything inside it can't be moved, dragged, duplicated, or deleted, so the structure Etch authored can't be displaced by accident. Edit the slider's design or content in Etch. The lock applies only in the editor and never changes your saved page.
 
 ### Things to know
 - **Don't be alarmed by console errors while in Edit mode.** Splide expects a strict parent/child DOM structure, and Etch's own editing wrapper elements interfere with that. These errors are expected inside the canvas and don't affect the published page.

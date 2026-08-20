@@ -4,7 +4,7 @@ icon: gauge-circle-bolt
 
 # DWC Slider Progress
 
-A standalone progress indicator — circular, bar, or counter — with its own full set of style controls. Drop it anywhere inside a Wrapper or Slider; it always tracks the **main** (or role-less) Slider, never a `thumbnails` Slider. This is the richer alternative to the Slider's own built-in Bar Progress / Circular Progress / Counter Progress flags (see [DWC Slider](dwc-slider.md#progress)).
+A standalone progress indicator (circular, bar, or counter) with its own full set of style controls. Drop it anywhere inside a Wrapper or Slider; it always tracks the **main** (or role-less) Slider, never a `thumbnails` Slider. This is the richer alternative to the Slider's own built-in Bar Progress / Circular Progress / Counter Progress flags (see [DWC Slider](dwc-slider.md#progress)).
 
 ***
 
@@ -28,7 +28,7 @@ A standalone progress indicator — circular, bar, or counter — with its own f
 
 | Setting            | Renders to        | Default  | Options |
 | ---------------------- | -------------------- | -------- | --------- |
-| **Progress Mode**       | `data-progress-mode`  | `slides` | `Slides` / `Timer` — Timer mode fills based on time remaining until the next autoplay advance (requires Auto Play to be on for the tracked Slider) |
+| **Progress Mode**       | `data-progress-mode`  | `slides` | `Slides` / `Timer`. Timer mode fills based on time remaining until the next autoplay advance (requires Auto Play to be on for the tracked Slider) |
 
 | Setting  | Description |
 | ------------ | -------------- |
@@ -44,7 +44,7 @@ Shown when Progress type is Counter, or when it's Circular with Circular Counter
 
 | Setting               | CSS variable            | Default                       |
 | -------------------------- | ---------------------------- | ---------------------------------- |
-| **Visibility**              | –                              | `Default` — options: `Default` / `Hide Total` / `Hide Current` |
+| **Visibility**              | –                              | `Default`. Options: `Default` / `Hide Total` / `Hide Current` |
 | **Total Color**             | `--total-clr`                 | `#8888a0`                          |
 | **Active Color**            | `--progress-clr-active`       | `#ff4d6a`                          |
 | **Font Size**               | `--progress-font-size`        | `0.8rem`                           |

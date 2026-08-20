@@ -4,7 +4,7 @@ icon: grid-2
 
 # Premade Templates
 
-Slider Pro ships with a set of ready-made, pre-styled slider templates — drop one straight into your page and customize it, instead of building from scratch. Each template is built from the same DWC Slider components you already have, so everything stays fully editable afterwards.
+Slider Pro ships with a set of ready-made, pre-styled slider templates. Drop one straight into your page and customize it, instead of building from scratch. Each template is built from the same DWC Slider components you already have, so everything stays fully editable afterwards.
 
 ## Where to find them
 
@@ -20,7 +20,7 @@ The templates are **included with Slider Pro**, with no separate purchase. They 
 
 1. Open the template's `.json` from your Gumroad dashboard and **copy its entire contents**.
 2. In Etch, paste it into the **Structure Panel** at the point where you want the slider to appear. This drops in the ready-made slider (and registers any DWC Slider components it needs, if they aren't already in your project).
-3. Select the slider and customize it — swap the slide content, adjust settings, and restyle with CSS variables as usual.
+3. Select the slider and customize it: swap the slide content, adjust settings, and restyle with CSS variables as usual.
 
 > This is the same paste-into-the-Structure-Panel flow used for the [component JSON](getting-started.md); a template just also brings a fully built slider with it.
 
@@ -32,17 +32,28 @@ When you paste an **updated** component or template, first enable **"Overwrite o
 
 ## The templates
 
-- **Slider Zeon** — A full-bleed hero: the active image fills the background behind a headline, description, and CTA, with a row of portrait thumbnail cards, a vertical step indicator, and arrows, counter, and play controls.
-- **Slider Chronos** — A horizontal timeline slider: year-marked nodes along a center line, with the active entry highlighted (image, year, title, description) while neighbours fade back.
-- **Slider Flow** — A cover-flow carousel: the active slide sits front-and-center with angled, perspective-tilted slides flanking it, over a category tag and title, with arrows and dots.
-- **Slider Team** — A staff showcase with a split layout: the selected member fills a large portrait on one side while the other shows their name and a synced strip of headshot cards (name + role).
-- **Slider Marquee** — A continuous logo/brand marquee: auto-scrolling rows of auto-width slides that loop seamlessly, with the row edges softly faded (Edge Fade). The rows drift in opposite directions for a layered ticker effect. Great for logo walls, partner strips, and "as seen in" bars.
+### Sliders
+
+- **Slider Zeon**: a full-bleed hero. The active image fills the background behind a headline, description, and CTA, with a row of portrait thumbnail cards, a vertical step indicator, and arrows, counter, and play controls.
+- **Slider Chronos**: a horizontal timeline slider. Year-marked nodes along a center line, with the active entry highlighted (image, year, title, description) while neighbours fade back.
+- **Slider Flow**: a cover-flow carousel. The active slide sits front-and-center with angled, perspective-tilted slides flanking it, over a category tag and title, with arrows and dots.
+- **Slider Team**: a staff showcase with a split layout. The selected member fills a large portrait on one side while the other shows their name and a synced strip of headshot cards (name + role).
+- **Slider Stack**: a real slider with a **synced 3-D card deck** beside it. A stack of image cards on one side, a slider of text panels (title, description, button) on the other, moving as one via [Sync Custom Element](components/dwc-slider.md#sync-custom-element). The cards fan and shuffle like a deck, and clicking one jumps the slider to it. Stacks into a single column on narrow screens.
+- **Slider Marquee**: a continuous logo/brand marquee. Auto-scrolling rows of auto-width slides that loop seamlessly, with the row edges softly faded (Edge Fade). The rows drift in opposite directions for a layered ticker effect. Great for logo walls, partner strips, and "as seen in" bars.
+
+### Card stacks
+
+Templates marked **(Sliderless)** hold no DWC Slider at all: cards sit stacked in 3-D and the wrapper cycles them with [Sync Without Slider](components/dwc-slider-wrapper.md#sync-without-slider) instead of a track. They have their own settings, so they get their own guide: **[Card Stack Templates](card-stack-templates.md)**.
+
+- **Deck Featured (Sliderless)**: a 3-D deck of product cards fanned either side of the front one, shuffling forward as it cycles. Loops, plays by itself, and a card can be clicked to bring it forward.
+- **Deck Testimonial (Sliderless)**: the same deck built for quotes. A square card with a quote mark, the quote, and an avatar with a name. Follows your theme's colours.
+- **Fall (Sliderless)**: cards queue up behind one another, each showing its top edge, and the finished card drops away off the bottom when you move on. Stops at the last card by design, which is good for steps and walkthroughs.
 
 **New templates are added regularly**, so check your Gumroad dashboard for the latest set.
 
 ## Customizing a template's animations
 
-Templates include their own CSS classes that style and animate the slides beyond the standard settings panels. Some of these use a fixed `transition` marked `!important`, which means panel settings like **MOTION → Speed** won't change those template-specific animations — the **Speed** setting controls Splide's slide transition, not a template's custom CSS animation.
+Templates include their own CSS classes that style and animate the slides beyond the standard settings panels. Some of these use a fixed `transition` marked `!important`, which means panel settings like **MOTION → Speed** won't change those template-specific animations. The **Speed** setting controls Splide's slide transition, not a template's custom CSS animation.
 
 To retime a template animation, edit that template's CSS class directly. For example, the **Slider Zeon** background zoom/fade is defined on `.slider-zeon__bg-thumb … .splide__slide`:
 

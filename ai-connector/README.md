@@ -4,7 +4,7 @@ icon: sparkles
 
 # AI Connector
 
-*Coming soon.* An AI agent connector for Slider Pro — build and configure sliders through a conversational AI agent, mirroring the one available for [Mega Menu Pro](https://design-with-cracka.gitbook.io/megamenupro/ai-connector) — is planned but not yet available.
+*Coming soon.* An AI agent connector for Slider Pro is planned but not yet available. It will let you build and configure sliders through a conversational AI agent, mirroring the one available for [Mega Menu Pro](https://design-with-cracka.gitbook.io/megamenupro/ai-connector).
 
 In the meantime, here's everything you need to build sliders yourself:
 

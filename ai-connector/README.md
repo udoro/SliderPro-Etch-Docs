@@ -58,10 +58,6 @@ Options: `--force` / `-f` to overwrite an existing install, a path argument to i
 
 Then point your agent at `slider-skills/slider-pro-skills.md` and ask for what you want.
 
-> **While the package is being published**, download the two files directly from
-> [the docs repository](https://github.com/udoro/SliderPro-Etch-Docs/tree/master/ai-connector/slider-skills)
-> and put them in a `slider-skills/` folder in your project.
-
 ***
 
 ## What the agent can build

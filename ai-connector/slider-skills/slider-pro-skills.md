@@ -147,19 +147,56 @@ await etch.saveAsync()
 
 ### Component instances are the unit of work
 
-A Slider Pro build is a tree of `etch/component` blocks, each carrying `ref` (the component id) and
-a flat `attributes` map of prop values:
+A Slider Pro build is a tree of `etch/component` blocks, each naming a component and carrying a
+flat `attributes` map of prop values. **Two different shapes describe the same tree, and mixing
+them up is the first thing that goes wrong in a session.**
+
+**The live shape**, which `etch.blocks.getTree()` returns and `etch.blocks.create()` accepts:
 
 ```json
 {
-  "blockName": "etch/component",
-  "attrs": {
-    "metadata": { "name": "-  Flow" },
-    "ref": 6455,
-    "attributes": { "wrapperHeight": "350px", "spaceBetweenSliders": "50px" }
-  }
+  "type": "etch/component",
+  "version": 1,
+  "context": {},
+  "children": [],
+  "componentId": 6455,
+  "attributes": { "wrapperHeight": "350px", "spaceBetweenSliders": "50px" }
 }
 ```
+
+`version`, `context` and `children` are required. Block ids are strings (`"ot2wnef"`), not numbers.
+
+**The export shape**, which you only ever see inside a premade template `.json` file, uses
+`blockName`, nests under `attrs`, and calls the component id `ref`:
+
+```json
+{ "blockName": "etch/component", "attrs": { "ref": 6455, "attributes": {} }, "innerBlocks": [] }
+```
+
+Never pass the export shape to `create()`. It is rejected with
+`Invalid block JSON: expected string, received undefined` at `path: ["type"]`. To put a template on
+the page, hand its whole `gutenbergBlock` to `etch.blocks.pasteAsync()` instead.
+
+### Children go in a slot, never directly on the component
+
+A component's children must be wrapped in an `etch/slot-content` node naming the slot they fill.
+Putting a Slider straight inside a Wrapper's `children` renders nothing.
+
+```json
+{ "type": "etch/slot-content", "version": 1, "context": {}, "children": [], "slotName": "Slides" }
+```
+
+| Component | Slots |
+| --- | --- |
+| DWC Slider Wrapper | `Sliders_and_Controls` |
+| DWC Slider | `Top__Controls`, `Slides`, `Bottom__Controls` |
+| DWC Slide | `Content` |
+| DWC Slider Pagination | `PaginationButtons` |
+| DWC Slider Nav Button | `Nav_Btn_Content` |
+| DWC Slider Progress, DWC Slider Play-Pause | none |
+
+Controls are siblings of the Slider inside `Sliders_and_Controls`, or children of the Slider's own
+`Top__Controls` / `Bottom__Controls`. Both work, because controls find their own slider.
 
 ### Group props and the one-extra-brace rule
 
@@ -305,9 +342,9 @@ unit. `props.pauseSlidersOnHover` on the Wrapper pauses both rows together.
 
 Infinite Scroll needs the Auto-Scroll extension enabled in admin settings, which is the default.
 
-### Synced elements (Zeon, Chronos, Team)
+### Synced elements (Team, Stack)
 
-The pattern behind the full-bleed hero, the timeline and the staff showcase is one prop.
+Driving arbitrary elements on the page from the slider is one prop.
 
 ```js
 setGroup(sliderId, 'sliderSetup', { syncCustomElement: '.timeline-node',
@@ -319,7 +356,22 @@ moves, and with nav on, clicking one jumps the slider to it. **You write the CSS
 states.** The elements do not need to be inside the slider and do not need to match the slide
 count.
 
+The selector takes a comma-separated list, so one slider can drive several groups at once. Team
+uses `'.slider-team__sync, .slider-team__sync-heading'` to move a portrait and a heading together.
+
 Grep `## 3. Sync Custom Element` in the reference for multiple selectors and the overlap caveat.
+
+### Main and thumbnails in one wrapper (Zeon)
+
+A full-bleed hero with a thumbnail strip needs no sync prop at all, just roles:
+
+```js
+setGroup(mainId,  'sliderSetup', { sliderRole: 'main',       transitionType: 'Fade' });
+setGroup(thumbId, 'sliderSetup', { sliderRole: 'thumbnails', transitionType: 'Loop' });
+```
+
+Both inside the same Wrapper and they pair automatically. A Wrapper can hold more than one
+thumbnail slider, which is how Zeon runs a background layer and a strip off the same main.
 
 ### Carousel on mobile, grid on desktop
 
@@ -345,22 +397,50 @@ setGroup(wrapperId, 'sliderlessSync', {
 
 CSS handles the front card and its two neighbours from `is-active` / `is-prev` / `is-next`. What
 CSS cannot do is know that a given card is *three* back, so the rows behind, the z-index ladder and
-the click targets need a script. That is case 1 of the native-first gate. The shipped script does
-exactly three things:
+the click targets need a script. That is case 1 of the native-first gate.
+
+The contract between that script and the CSS is one attribute, **`data-pos`**, which the script
+derives from `is-active` and writes on every card. It is a **signed** offset from the active card,
+so the CSS can fan the left and right sides in opposite directions:
+
+```css
+.deck-stack-featured &:is([data-pos='2'], [data-pos='-2']) { /* ring 2, both sides */ }
+```
+
+The stack container carries **`data-tiers`**, the number of rings the CSS defines, which lets the
+same CSS serve a three-ring fan and a one-ring stack.
+
+Writing an unsigned rank, or naming the attribute anything else, produces a flat pile: the rules
+above simply never match. The script does three things:
 
 ```js
 // 1. make a custom property interpolable, so a blur can animate (case 2)
 CSS.registerProperty({ name: '--stack-focus', syntax: '<number>',
                        inherits: true, initialValue: '0' });
 
-// 2. per card: distance from the active one, capped at the deepest tier the CSS defines
-var rank = Math.abs(distanceFromActive);
-card.setAttribute('data-tier', Math.min(rank, MAX_TIERS));
+// 2. per card: SIGNED offset from the active card, clamped to the deepest ring
+var signed = index - activeIndex;
+card.setAttribute('data-pos', String(Math.max(-MAX_TIERS, Math.min(MAX_TIERS, signed))));
 
-// 3. hit-testing: stack order by rank, and clicks off beyond the clickable rings
+// 3. hit-testing: stack order by distance, and clicks off beyond the clickable rings
+var rank = Math.abs(signed);
 card.style.zIndex = String(total - rank);
 lift.style.pointerEvents = rank <= NAV_RINGS ? 'auto' : 'none';
 ```
+
+Recompute on every change: watch the stack with a `MutationObserver` filtered to `class`, since
+`is-active` moving is the only signal you get.
+
+### Where a script goes
+
+There is no script block type. Add a `script` element inside the wrapper:
+
+```js
+el('script', {}, [ text(SOURCE) ])
+```
+
+Component `<script>` elements are left alone on Sync Without Slider wrappers, which is why a deck
+script keeps working. Do not add one to a wrapper that contains a real slider and expect the same.
 
 Step 3 is not optional. Stacked cards are coplanar, so the browser hit-tests them by DOM order and
 a click near the front card can land on one three positions away.
@@ -392,19 +472,30 @@ function setGroup(id, key, patch) {
   etch.blocks.setAttribute(id, key, '{' + JSON.stringify(next) + '}');
 }
 
-function component(ref, attributes, children) {
-  return {
-    blockName: 'etch/component',
-    attrs: { ref: ref, attributes: attributes || {} },
-    innerBlocks: children || []
-  };
+function node(extra, children) {
+  return Object.assign({ version: 1, context: {}, children: children || [] }, extra);
 }
 
-function findByRef(nodes, ref, out) {
+function component(componentId, attributes, children) {
+  return node({ type: 'etch/component', componentId: componentId,
+                attributes: attributes || {} }, children);
+}
+
+function slot(slotName, children) {
+  return node({ type: 'etch/slot-content', slotName: slotName }, children);
+}
+
+function el(tag, attributes, children) {
+  return node({ type: 'etch/element', tag: tag, attributes: attributes || {} }, children);
+}
+
+function text(t) { return node({ type: 'etch/text', text: t }); }
+
+function findByRef(nodes, componentId, out) {
   out = out || [];
   for (const n of nodes || []) {
-    if (n.componentId === ref || (n.attrs && n.attrs.ref === ref)) out.push(n);
-    findByRef(n.children || n.innerBlocks || [], ref, out);
+    if (n.componentId === componentId) out.push(n);
+    findByRef(n.children, componentId, out);
   }
   return out;
 }
@@ -415,17 +506,26 @@ function findByRef(nodes, ref, out) {
 ```js
 const C = comps();
 const slides = [];
-for (let i = 0; i < 5; i++) slides.push(component(C['DWC Slide'], {}));
+for (let i = 0; i < 5; i++) {
+  slides.push(component(C['DWC Slide'], {}, [
+    slot('Content', [ el('div', {}, [ text('Slide ' + (i + 1)) ]) ])
+  ]));
+}
 
 const id = etch.blocks.create(
   component(C['DWC Slider Wrapper'], {}, [
-    component(C['DWC Slider'], {}, slides),
-    component(C['DWC Slider Nav Button'], {}),
-    component(C['DWC Slider Pagination'], {})
+    slot('Sliders_and_Controls', [
+      component(C['DWC Slider'], {}, [ slot('Slides', slides) ]),
+      component(C['DWC Slider Nav Button'], {}),
+      component(C['DWC Slider Pagination'], {})
+    ])
   ])
 );
 return id;
 ```
+
+An empty Slide has no content and so no height. Give slides something to size before wondering why
+the slider is a flat line.
 
 Build **one** first, screenshot it, then scale to the full count. Do not generate twenty slides
 before you have seen one render.

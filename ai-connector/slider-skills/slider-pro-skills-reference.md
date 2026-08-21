@@ -444,19 +444,28 @@ handler inside `ready()`: the slider mounted before your code ran, so it has alr
 Before configuring an unfamiliar slider, check whether it is a premade template. If it is, use
 that template's documented knobs rather than inventing new CSS.
 
-| Template | Identify by | Script | Guide |
-| --- | --- | --- | --- |
-| Slider Zeon | `.slider-zeon`, `.main-slider-zeon` | no | `../../premade-templates.md` |
-| Slider Chronos | `.slider-chronos` | no | `../../premade-templates.md` |
-| Slider Flow | `.slider-flow` | no | `../../premade-templates.md` |
-| Slider Team | `.slider-team` | no | `../../premade-templates.md` |
-| Slider Stack | `.slider-stack`, `.slider-stack__card` | no | `../../card-stack-templates.md` |
-| Slider Marquee | no class prefix. Identify by the combination: Infinite Scroll on, Edge Fade on, Slide Auto Width on, two wrappers whose rows scroll in opposite directions | no | `../../premade-templates.md` |
-| Deck Featured | `.deck-stack-featured`, `.deck-card-featured` | yes | `../../card-stack-templates.md` |
-| Deck Testimonial | `.deck-stack-testimonial`, `.deck-card-testimonial` | yes | `../../card-stack-templates.md` |
-| Fall | `.fall-stack`, `.fall-card` | yes | `../../card-stack-templates.md` |
+Every template names its Wrapper, so one class on the Wrapper identifies all nine. Check that
+first; the second column is confirmation.
 
-All nine use Sync Custom Element.
+| Template | Wrapper class | Also present | Script | Guide |
+| --- | --- | --- | --- | --- |
+| Slider Zeon | `.slider-zeon-wrapper` | `.slider-zeon__bg-thumb`, `.main-slider-zeon__content` | no | `../../premade-templates.md` |
+| Slider Chronos | `.slider-chronos-wrapper` | `.slider-chronos__slide`, `.slider-chronos__year` | no | `../../premade-templates.md` |
+| Slider Flow | `.slider-flow-wrapper` | `.slider-flow__slide`, `.slider-flow__slide-bg-media` | no | `../../premade-templates.md` |
+| Slider Team | `.slider-team-wrapper` | `.slider-team__grid`, `.slider-team__sync` | no | `../../premade-templates.md` |
+| Slider Stack | `.slider-stack-wrapper` | `.slider-stack__card`, `.slider-stack__card-lift` | no | `../../card-stack-templates.md` |
+| Slider Marquee | `.slider-marquee-wrapper` | two rows, Infinite Scroll on, Edge Fade on the Wrapper | no | `../../premade-templates.md` |
+| Deck Featured | `.slider-wrapper-deck-featured` | `.deck-stack-featured`, `.deck-card-featured` | yes | `../../card-stack-templates.md` |
+| Deck Testimonial | `.slider-wrapper-deck-testimonial` | `.deck-stack-testimonial`, `.deck-card-testimonial` | yes | `../../card-stack-templates.md` |
+| Fall | `.slider-wrapper-fall` | `.fall-stack`, `.fall-card` | yes | `../../card-stack-templates.md` |
+
+Note the two naming schemes: the six slider templates suffix the name (`.slider-flow-wrapper`),
+the three card stacks infix it (`.slider-wrapper-fall`).
+
+Five of the nine sync elements outside the track, and they do not all use the same prop. Team and
+Stack set `sliderSetup.syncCustomElement` on the Slider; the three card stacks set
+`sliderlessSync.customElement` on the Wrapper. Zeon pairs sliders by `sliderSetup.sliderRole`
+instead, and Chronos, Flow and Marquee sync nothing.
 
 The three that carry a script expose named constants at the top of it. On the two Deck templates,
 `MAX_TIERS` is the deepest ring the CSS defines and `NAV_RINGS` is how many rings stay clickable.

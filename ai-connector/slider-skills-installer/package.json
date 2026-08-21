@@ -1,6 +1,6 @@
 {
   "name": "sliderpro-agentic-skills-etch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Installs the Slider Pro for Etch AI Connector skills files and component docs into any project",
   "type": "module",
   "bin": {

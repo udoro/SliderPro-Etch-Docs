@@ -58,11 +58,15 @@ Options: `--force` / `-f` to overwrite an existing install, a path argument to i
 
 Then point your agent at `slider-skills/slider-pro-skills.md` and ask for what you want.
 
+> **While the package is being published**, download the two files directly from
+> [the docs repository](https://github.com/udoro/SliderPro-Etch-Docs/tree/master/ai-connector/slider-skills)
+> and put them in a `slider-skills/` folder in your project.
+
 ***
 
 ## What the agent can build
 
-Anything Slider Pro supports, built from the components rather than pasted from a template:
+Anything Slider Pro supports:
 
 * Carousels, heroes, product galleries and testimonial rows
 * Main and thumbnail pairs that sync automatically
@@ -71,9 +75,8 @@ Anything Slider Pro supports, built from the components rather than pasted from 
 * Sliders that turn into a plain CSS grid at a breakpoint
 * Any elements on your page synced to the slider, including 3-D card decks with no slider at all
 
-The skills teach the agent to reach for Slider Pro's own settings first and to write custom
-JavaScript only where the plugin genuinely cannot express a design, which is rare: six of the nine
-premade templates contain no custom script at all.
+The agent builds these from Slider Pro's own settings and CSS, and writes custom JavaScript only
+where a design needs something the plugin cannot express.
 
 ***
 
@@ -85,4 +88,4 @@ premade templates contain no custom script at all.
 | `slider-pro-skills-reference.md` | Lookup only. Every prop on all seven components, the CSS variables, and the template signatures. The agent searches it when it needs a specific value. |
 
 The prop tables are generated from the Etch component export, so they match the components you
-have installed rather than being transcribed by hand.
+have installed.

@@ -61,9 +61,8 @@ existing page as a side effect of adding a slider.
 
 ### 3. Resolve component IDs by name, every session
 
-**Component IDs are site-specific. Never hardcode them.** The IDs in this repo's export
-(Wrapper 6455, Slider 6467, Slide 6511, Progress 6555, Play-Pause 7296, Pagination 7316,
-Nav Button 8719) are that export's, not the user's.
+**Component IDs are site-specific. Never hardcode them.** Resolve all seven by name at the start of
+every session and keep the map for the rest of it.
 
 ```js
 const byName = {};
@@ -73,9 +72,7 @@ for (const c of etch.components.list()) byName[c.name] = c.id;
 
 ### 4. The native-first gate
 
-**Slider Pro is props and CSS. It is almost never JavaScript.** Six of the nine shipped premade
-templates, including the cover-flow carousel and the logo marquee, contain **no custom script at
-all**.
+**Slider Pro is props and CSS. It is almost never JavaScript.**
 
 Before you write a single line of script, you must be able to say which of these two cases you are
 in. If neither applies, you are about to do something the plugin already does:
@@ -248,11 +245,11 @@ Four rules follow from it:
 
 ## Decision tree
 
-**Build from scratch.** The premade templates are proof of what the features reach, not a parts
-bin. Build with components and props, then style with CSS.
+**Build from scratch:** components and props first, then CSS.
 
-Reach for a template only when the user names one ("use Deck Featured"). Then paste its JSON and
-customise, and read `../../card-stack-templates.md` or `../../premade-templates.md` for its knobs.
+Reach for a premade template only when the user names one ("use Deck Featured"). Then paste its
+JSON and customise, and read `../../card-stack-templates.md` or `../../premade-templates.md` for
+its knobs.
 
 **If the user points at an existing slider**, first check whether it is a premade template. Grep
 `## 5. Recognising an existing setup` in the reference for the signature classes, and if it matches,
@@ -262,8 +259,7 @@ configure it the way its documentation describes instead of inventing new CSS ov
 
 ## Design recipes
 
-Each of these is a shipped template reduced to the settings that produce it. They are the proof
-that the native features go further than they look. Values below are the real ones.
+Each of these is a shipped template reduced to the settings that produce it.
 
 ### Cover-flow carousel (Slider Flow): no script, no CSS
 

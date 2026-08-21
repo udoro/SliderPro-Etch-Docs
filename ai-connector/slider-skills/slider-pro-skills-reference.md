@@ -9,12 +9,11 @@ read this file in full at session start. Grep into the one section a task needs,
 "When to consult the reference file" guidance in the main file.
 
 > **Full prose reference (local, preferred):** the tables here are lookup summaries. For the
-> descriptions, slot documentation and per-component examples they omit, read this repo's
-> `components/` folder (`../../components/dwc-slider.md`, `dwc-slider-wrapper.md`, `dwc-slide.md`,
-> `dwc-slider-progress.md`, `dwc-slider-play-pause.md`, `dwc-slider-pagination.md`,
-> `dwc-slider-nav-button.md`, relative to this file). **Not present if you only downloaded the
-> `slider-skills` folder on its own**: it is the same folder the live GitBook "Components" pages
-> publish from, kept single-source there rather than duplicated here.
+> descriptions, slot documentation and per-component examples they omit, read the `components/`
+> folder next to this one (`../../components/dwc-slider.md`, `dwc-slider-wrapper.md`,
+> `dwc-slide.md`, `dwc-slider-progress.md`, `dwc-slider-play-pause.md`,
+> `dwc-slider-pagination.md`, `dwc-slider-nav-button.md`). If that folder is not present, use the
+> online docs instead.
 >
 > **Full reference (online):** <https://design-with-cracka.gitbook.io/etchsliderpro>
 
@@ -22,13 +21,8 @@ read this file in full at session start. Grep into the one section a task needs,
 
 ## 1. Prop reference
 
-Every settable prop on all seven components, generated from the Etch component export
-(`RELEASE/Etch-Slider-Pro-v1.2.0.json` in the plugin repo) by `tools/gen-prop-tables.mjs`. Do not
-hand-edit this section: regenerate it with
-
-```
-node tools/gen-prop-tables.mjs --splice "<path>/ai-connector/slider-skills/slider-pro-skills-reference.md"
-```
+Every settable prop on all seven components. Generated from the Etch component export, so it
+matches the components installed on the site. Do not hand-edit this section.
 
 **Reading the tables**
 
@@ -266,16 +260,15 @@ node tools/gen-prop-tables.mjs --splice "<path>/ai-connector/slider-skills/slide
 
 ### Attributes with no prop behind them
 
-The engine reads these, but no component prop writes them. **`etch.blocks.setAttribute` validates
-the key against the component's registered properties**, so none of these can be set on a component
-instance that way. They are listed for recognition when reading a page, not as settings to reach for.
+The engine reads these, but no component prop writes them, and `etch.blocks.setAttribute` only
+accepts keys registered on the component. Use this table to recognise them when reading a page.
 
 | Attribute | Notes |
 | --- | --- |
-| `data-auto-height` | Declared on the Slider element with a hardcoded empty value and documented nowhere. Inert: treat it as not available. |
-| `data-autoplay-progress` | Read by the engine (`isOn(splideEl, "autoplay-progress")`) but not declared by the component. Use the Progress component or the Slider's own Bar/Circular Progress props instead. |
-| `data-fixed-height` | Same as `data-auto-height`: hardcoded empty, undocumented, inert. |
-| `data-sc-template` | Marks which child of a custom pagination is the template to clone. The engine sets it on the first child when absent, so you rarely set it yourself. |
+| `data-auto-height` | Hardcoded to an empty value on the Slider element and not documented. Inert: treat it as unavailable. |
+| `data-autoplay-progress` | Read by the engine but not declared by the component. Use the Progress component, or the Slider's own Bar/Circular Progress props. |
+| `data-fixed-height` | Hardcoded to an empty value on the Slider element and not documented. Inert: treat it as unavailable. |
+| `data-sc-template` | Marks which child of a custom pagination is the template to clone. The engine sets it on the first child when absent. |
 
 <!-- GENERATED:PROPS end -->
 
@@ -426,10 +419,9 @@ overwrite it.
 3. **`setOptions()` / `ready()`** from your own JavaScript, for structured settings such as
    per-breakpoint values that Custom Options cannot express. See `../../javascript-api.md`.
 
-There is no "just set the attribute" step in that list, deliberately.
 `etch.blocks.setAttribute` validates the key against the component's registered properties, so an
-arbitrary `data-*` cannot be set on a component instance at all. The four attributes with no prop
-behind them are listed in section 1 for recognition only.
+arbitrary `data-*` cannot be set on a component instance. The four attributes with no prop behind
+them are listed in section 1 for recognition when reading a page.
 
 ```js
 // Turn on a Splide setting the panel does not expose
@@ -464,13 +456,12 @@ that template's documented knobs rather than inventing new CSS.
 | Deck Testimonial | `.deck-stack-testimonial`, `.deck-card-testimonial` | yes | `../../card-stack-templates.md` |
 | Fall | `.fall-stack`, `.fall-card` | yes | `../../card-stack-templates.md` |
 
-All nine use Sync Custom Element. Six use **no custom script at all**, which is the point: these
-are props and CSS, not JavaScript.
+All nine use Sync Custom Element.
 
-The three that do carry a script expose named constants at the top of it. On the two Deck
-templates, `MAX_TIERS` is the deepest ring the CSS defines and `NAV_RINGS` is how many rings stay
-clickable. `MIN_LOOP` is a safety rule about how few cards a loop can hide a wrap behind: leave it
-alone. Fall's script has nothing to adjust.
+The three that carry a script expose named constants at the top of it. On the two Deck templates,
+`MAX_TIERS` is the deepest ring the CSS defines and `NAV_RINGS` is how many rings stay clickable.
+`MIN_LOOP` is a safety rule about how few cards a loop can hide a wrap behind: leave it alone.
+Fall's script has nothing to adjust.
 
 ***
 

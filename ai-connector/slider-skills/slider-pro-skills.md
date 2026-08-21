@@ -142,6 +142,9 @@ etch.blocks.create(json, parentId?, index?)  // returns new id
 etch.components.list()                       // [{ id, name }, ...]
 etch.components.getJson(id)                  // .properties and .blocks
 etch.styles.list()                           // [{ id, selector, type, collection, css }]
+etch.styles.create(selector, css)            // returns a STYLE ID; pass it to a class prop
+etch.blocks.addClass(blockId, name)          // plain elements only; throws on a component
+etch.blocks.getJson(id).script               // { code }, the JavaScript code block
 await etch.saveAsync()
 ```
 
@@ -197,6 +200,47 @@ Putting a Slider straight inside a Wrapper's `children` renders nothing.
 
 Controls are siblings of the Slider inside `Sliders_and_Controls`, or children of the Slider's own
 `Top__Controls` / `Bottom__Controls`. Both work, because controls find their own slider.
+
+### Classes: two different mechanisms
+
+Adding a class to a plain element and adding one to a component are **not the same operation**, and
+the component path is the one that matters here, because everything Slider Pro ships is a component.
+
+**On a component**, `addClass` throws `Block "<id>" is not an HTML block.` Classes go through the
+component's own class-typed prop, and the value is the **style id**, not the class name:
+
+```js
+const styleId = etch.styles.create('.flow-demo', 'border-radius: 1rem;');  // returns an id
+etch.blocks.setAttribute(wrapperId, 'customClass', styleId);
+```
+
+Etch resolves the id to the selector name when it renders, so the page gets
+`class="dwc-slider-wrapper flow-demo"`. The id never appears in the output. Store the id, not the
+name, so the class survives being renamed in the Etch UI.
+
+The class-typed props, one per component:
+
+| Component | Prop |
+| --- | --- |
+| DWC Slider Wrapper | `customClass` |
+| DWC Slider | `sliderClass` |
+| DWC Slide, Progress, Play-Pause, Pagination | `class` |
+| DWC Slider Nav Button | `buttonClass`, `buttonWrapperClass` |
+
+**On a plain element**, use `addClass` with the bare class name, no dot and no id:
+
+```js
+const id = etch.blocks.create(el('article', {}, []));
+etch.blocks.addClass(id, 'fall-card');
+```
+
+Passing a style id here does not resolve. It is treated as a literal name and sanitised, so
+`30xsolr` silently becomes the class `xsolr`. Creating the element with `attributes: { class: '...' }`
+works too and is fine when you are building a subtree in one call.
+
+Either way the CSS rule itself is `etch.styles.create('.fall-card', '...')`, which is what the
+selector has to match.
+
 
 ### Group props and the one-extra-brace rule
 
@@ -407,43 +451,79 @@ so the CSS can fan the left and right sides in opposite directions:
 .deck-stack-featured &:is([data-pos='2'], [data-pos='-2']) { /* ring 2, both sides */ }
 ```
 
-The stack container carries **`data-tiers`**, the number of rings the CSS defines, which lets the
-same CSS serve a three-ring fan and a one-ring stack.
+The stack container carries **`data-tiers`**, how many rings are actually in play. It is computed,
+not fixed: a looping deck needs spare cards to hide the wrap behind, so the script reduces the
+tiers when there are too few cards.
 
 Writing an unsigned rank, or naming the attribute anything else, produces a flat pile: the rules
-above simply never match. The script does three things:
+above simply never match. The shipped script does this:
 
 ```js
 // 1. make a custom property interpolable, so a blur can animate (case 2)
 CSS.registerProperty({ name: '--stack-focus', syntax: '<number>',
                        inherits: true, initialValue: '0' });
 
-// 2. per card: SIGNED offset from the active card, clamped to the deepest ring
-var signed = index - activeIndex;
-card.setAttribute('data-pos', String(Math.max(-MAX_TIERS, Math.min(MAX_TIERS, signed))));
+// 2. how many rings this deck can afford, given looping and the card count
+var mayLoop = wrap.dataset.loop === 'true' && total >= MIN_LOOP;
+stack.dataset.tiers = mayLoop ? Math.min(MAX_TIERS, Math.floor((total - 3) / 2)) : MAX_TIERS;
 
-// 3. hit-testing: stack order by distance, and clicks off beyond the clickable rings
-var rank = Math.abs(signed);
+// 3. per card: SIGNED offset from the active card. On a looping deck the offset
+//    wraps, so the far end of the list reads as the near side, not as distance 8.
+var d = n - active;
+if (mayLoop) {
+  if (d >  total / 2) d -= total;
+  if (d < -total / 2) d += total;
+}
+card.dataset.pos = d;
+
+// 4. hit-testing: stack order by distance, and clicks off beyond the clickable rings
+var rank = Math.abs(d);
 card.style.zIndex = String(total - rank);
 lift.style.pointerEvents = rank <= NAV_RINGS ? 'auto' : 'none';
 ```
+
+Do not clamp `data-pos` to the tier count. Cards past the deepest ring should match no rule and
+stay stacked at the back; clamping piles them onto the last visible ring instead.
+
+Both decks also set `--i` on each line of card content so the CSS can stagger it:
+
+```js
+card.querySelectorAll('.deck-card-featured__content > *')
+    .forEach(function (line, j) { line.style.setProperty('--i', j); });
+```
+
+Step 4 is Deck only. **Fall's script is much smaller**: it sets `--i` and a signed `data-pos`, and
+nothing else. Fall never loops, so there is no wrap to fold and no z-index ladder to maintain,
+because the cards fall past each other rather than fanning around a front card.
 
 Recompute on every change: watch the stack with a `MutationObserver` filtered to `class`, since
 `is-active` moving is the only signal you get.
 
 ### Where a script goes
 
-There is no script block type. Add a `script` element inside the wrapper:
+**Not in a `<script>` element.** Etch silently drops one from the render, so the page looks right
+in the builder and ships with no behaviour at all.
+
+Every block has an optional `script` field (`EtchBlockScript`), which is Etch's JavaScript code
+block. Put the code on the **component instance that owns the markup**, which for a card stack is
+the Wrapper:
 
 ```js
-el('script', {}, [ text(SOURCE) ])
+const wrapperId = etch.blocks.create({
+  type: 'etch/component', version: 1, context: {}, children: [ /* ... */ ],
+  componentId: C['DWC Slider Wrapper'], attributes: {},
+  script: { code: "(function () { /* ... */ })();" }
+});
 ```
 
-Component `<script>` elements are left alone on Sync Without Slider wrappers, which is why a deck
-script keeps working. Do not add one to a wrapper that contains a real slider and expect the same.
+`code` is **plain source** over the API. The base64 you see in a premade template `.json` is only
+how the export serialises it; do not encode it yourself.
 
-Step 3 is not optional. Stacked cards are coplanar, so the browser hit-tests them by DOM order and
-a click near the front card can land on one three positions away.
+Etch renders it as `<script type="module" defer>`, so it runs after parsing and top-level `await`
+is available. Read it back with `etch.blocks.getJson(id).script`.
+
+Component scripts are also the reason a card deck keeps working: the bridge leaves Sync Without
+Slider wrappers unreconstructed precisely so an author's script keeps observing the original nodes.
 
 Card counts for a looping deck: three are always visible (front plus two), and a loop needs a
 hidden slot at each end, so **five is the minimum** and nine gives the full three-row fan. Fall

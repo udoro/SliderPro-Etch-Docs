@@ -275,6 +275,29 @@ Inside an element's **own** entry, nesting is preferred for media queries, pseud
 (`.splide__slide.is-active &`) and child tag selectors (`& img`, `& svg`). Do **not** nest another
 class's rules (`&__title`) inside a different class's entry: that class gets its own entry.
 
+**Wrap px values in `to-rem()`.** Etch preprocesses style-entry CSS and converts them, so write
+`to-rem(80px)`, never a raw `80px` and never a hand-converted `5rem`. It works inside media queries
+too. Leave unitless values alone (`z-index`, `opacity`, `line-height`, aspect ratios).
+
+```css
+--offset: to-rem(80px);
+@media (width <= to-rem(767px)) { --offset: to-rem(40px); }
+```
+
+**Every rule for an element belongs in the entry its class prop already points at.** It is tempting
+to answer a specificity problem with a second, more specific entry, for example
+`.dwc-slider-pagination-wrapper.my-class`. Do not. That entry is attached to no block, so selecting
+the element in Etch does not reveal it and the author cannot find the rule to edit. Nest the
+stronger selector inside the element's own entry instead, which gives the same specificity:
+
+```css
+/* inside the .my-class entry */
+&.dwc-slider-pagination-wrapper { display: grid; }
+```
+
+A style entry that no block references also survives deleting the element it was written for.
+
+
 **Renaming is not one operation.** A style entry's selector and a block's `class` attribute are
 independent. Renaming the selector rewrites the rendered class only where the class came from a
 **component class prop**, because that prop stores the style id and resolves it at render. On a
@@ -513,26 +536,68 @@ etch.blocks.setAttribute(pagId, 'customPaginationMode', 'Template');
 Do not force one mechanism to do both. Template mode cannot give each clone its own text, and
 faking it with a script to fill the clones is the kind of work the native features already cover.
 
-**Lining the two columns up.** They are separate subtrees, so nothing makes row *n* of one match
-row *n* of the other. Let a shared grid do it: put both in the same parent row so they are the same
-height, then divide that height equally in each.
+**Give the template two levels.** The cloned root has to stretch to its row so it can carry the
+connecting line, while the circle stays a fixed square at the top:
 
-```css
-.rail  { display: grid; grid-template-columns: auto 1fr; gap: 0 1.5rem; }
-.marks,
-.steps { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); }
+```
+.mark          <- the cloned root; receives is-active, fills the row, draws the line
+  .mark-dot    <- the circle and the number
 ```
 
-Two traps here, both silent:
+State travels from the root to the dot through custom properties, so no descendant selector has to
+fight the plugin for the same box:
+
+```css
+.mark            { --dot-bg: #e5e7eb; --dot-fg: #4b5563; }
+.mark.is-active  { --dot-bg: #45bf55; --dot-fg: #fff; }
+.mark-dot        { background: var(--dot-bg); color: var(--dot-fg); }
+```
+
+**Let the row count come from the slides, not the stylesheet.** Put both columns in one parent row
+so they are the same height, then give each `grid-auto-rows`. Marker *n* then lines up with card
+*n* whatever the copy length, and adding a slide needs no CSS change:
+
+```css
+.rail  { display: grid; grid-template-columns: auto 1fr; gap: 0 to-rem(24px); }
+.marks,
+.steps { display: grid; grid-auto-rows: minmax(0, 1fr); }
+```
+
+**Hang the connecting line off each marker, not the container.** A single line drawn on the
+container has to be told where to stop, which means hardcoding the count. Per marker it is
+self-terminating:
+
+```css
+.mark:not(:last-child)::after {
+  content: ""; position: absolute;
+  inset-inline-start: 50%; transform: translateX(-50%);
+  inset-block-start: calc(var(--dot-top) + var(--dot-size));
+  inset-block-end: 0;
+  inline-size: to-rem(2px); background: #e5e7eb;
+}
+```
+
+The last marker gets no line for free, at any slide count.
+
+Three traps, all silent:
 
 * **Use `minmax(0, 1fr)`, not `1fr`.** `1fr` means `minmax(auto, 1fr)`, so a longer description
   expands its own row and the two columns drift apart by a few pixels per row.
-* **Match `gap` on both.** The pagination carries a flex `gap` of its own, which shortens every row
-  on that side only. Set it explicitly, including `0`.
+* **Match `gap` on both columns.** The pagination carries a flex `gap` of its own, which shortens
+  every row on that side only. Set it explicitly, including `0`.
+* **The pagination will not accept your layout without a co-class.** It sets `display: flex` and
+  `block-size: fit-content` on `.dwc-slider-pagination-wrapper`, which ties with a single class of
+  yours and wins on order. Write the override **inside the entry its class prop already points at**,
+  so it stays findable from the element:
 
-The pagination also needs a co-class to accept your grid at all, since it sets `display: flex` and
-`block-size: fit-content` on its own class: write
-`.dwc-slider-pagination-wrapper.marks { ... }`.
+```css
+/* the .marks entry itself */
+position: relative;
+
+&.dwc-slider-pagination-wrapper {
+  display: grid; grid-auto-rows: minmax(0, 1fr); block-size: 100%; gap: 0;
+}
+```
 
 
 ### Carousel on mobile, grid on desktop

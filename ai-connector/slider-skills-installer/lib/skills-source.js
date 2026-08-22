@@ -40,9 +40,14 @@ export function applyRewrites(content) {
   return out;
 }
 
-/** Links left pointing outside the package would 404 for every installed user. */
+/**
+ * Only a markdown LINK TARGET pointing outside the package is a defect: it would
+ * 404 for every installed user. A bare ../../ path in prose is not, because the
+ * skills files deliberately reference optional local files and always say what
+ * to do when they are absent.
+ */
 export function findStaleLinks(content) {
-  return [...content.matchAll(/\.\.\/\.\.\/[A-Za-z0-9._/-]+/g)].map((m) => m[0]);
+  return [...content.matchAll(/\]\((\.\.\/\.\.\/[^)]+)\)/g)].map((m) => m[1]);
 }
 
 export function rawUrl(ref, repoPath) {

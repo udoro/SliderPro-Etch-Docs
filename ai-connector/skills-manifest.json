@@ -1,0 +1,43 @@
+{
+  "generated": "2026-08-22",
+  "skills": [
+    {
+      "repo": "ai-connector/slider-skills/slider-pro-skills-reference.md",
+      "out": "slider-skills/slider-pro-skills-reference.md"
+    },
+    {
+      "repo": "ai-connector/slider-skills/slider-pro-skills.md",
+      "out": "slider-skills/slider-pro-skills.md"
+    }
+  ],
+  "components": [
+    {
+      "repo": "components/dwc-slide.md",
+      "out": "components/dwc-slide.md"
+    },
+    {
+      "repo": "components/dwc-slider-nav-button.md",
+      "out": "components/dwc-slider-nav-button.md"
+    },
+    {
+      "repo": "components/dwc-slider-pagination.md",
+      "out": "components/dwc-slider-pagination.md"
+    },
+    {
+      "repo": "components/dwc-slider-play-pause.md",
+      "out": "components/dwc-slider-play-pause.md"
+    },
+    {
+      "repo": "components/dwc-slider-progress.md",
+      "out": "components/dwc-slider-progress.md"
+    },
+    {
+      "repo": "components/dwc-slider-wrapper.md",
+      "out": "components/dwc-slider-wrapper.md"
+    },
+    {
+      "repo": "components/dwc-slider.md",
+      "out": "components/dwc-slider.md"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+// Single source of truth for where the skills come from and how their links are
+// rewritten for an installed project. Both scripts/build.js (which bundles a
+// copy at publish time) and bin/cli.js (which prefers a live copy at install
+// time) import this, so the two paths cannot drift in how they rewrite links.
+
+export const REPO = "udoro/SliderPro-Etch-Docs";
+export const DEFAULT_REF = "master";
+export const DOCS_URL = "https://design-with-cracka.gitbook.io/etchsliderpro";
+
+// Where things live in the docs repo.
+export const REPO_SKILLS_DIR = "ai-connector/slider-skills";
+export const REPO_COMPONENTS_DIR = "components";
+export const REPO_MANIFEST = "ai-connector/skills-manifest.json";
+
+// Where they land in a user's project.
+export const OUT_SKILLS_DIR = "slider-skills";
+export const OUT_COMPONENTS_DIR = "components";
+
+// The docs repo nests slider-skills/ two levels below the root
+// (ai-connector/slider-skills/), so it links components/ as ../../components/.
+// Installed, slider-skills/ sits directly under the project root, so that
+// becomes ../components/.
+//
+// The sibling doc pages the skills link to do not ship in the package at all,
+// so point those at the public site rather than leave a link resolving to
+// nothing.
+export const PATH_REWRITE = [
+  [/\.\.\/\.\.\/components\//g, "../components/"],
+  [/\.\.\/\.\.\/card-stack-templates\.md/g, `${DOCS_URL}/card-stack-templates`],
+  [/\.\.\/\.\.\/premade-templates\.md/g, `${DOCS_URL}/premade-templates`],
+  [/\.\.\/\.\.\/javascript-api\.md/g, `${DOCS_URL}/javascript-api`],
+  [/\.\.\/\.\.\/styling-and-responsive\.md/g, `${DOCS_URL}/styling-and-responsive`],
+  [/\.\.\/\.\.\/admin-settings\.md/g, `${DOCS_URL}/admin-settings`],
+  [/\.\.\/\.\.\/troubleshooting\.md/g, `${DOCS_URL}/troubleshooting`],
+];
+
+export function applyRewrites(content) {
+  let out = content;
+  for (const [pattern, replacement] of PATH_REWRITE) out = out.replace(pattern, replacement);
+  return out;
+}
+
+/** Links left pointing outside the package would 404 for every installed user. */
+export function findStaleLinks(content) {
+  return [...content.matchAll(/\.\.\/\.\.\/[A-Za-z0-9._/-]+/g)].map((m) => m[0]);
+}
+
+export function rawUrl(ref, repoPath) {
+  return `https://raw.githubusercontent.com/${REPO}/${ref}/${repoPath}`;
+}
+
+/**
+ * A fetched file only counts if it is non-empty markdown. A proxy or an error
+ * page returning 200 with HTML would otherwise be written out as a skills file.
+ */
+export function looksLikeMarkdown(text) {
+  if (!text || text.trim().length < 200) return false;
+  const head = text.slice(0, 400).toLowerCase();
+  return !head.includes("<!doctype html") && !head.includes("<html");
+}

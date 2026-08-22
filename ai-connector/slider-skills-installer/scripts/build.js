@@ -1,14 +1,25 @@
 #!/usr/bin/env node
 
-// Syncs the canonical skills and component docs into skills-package/ before
-// publish. The source files stay single-source in ../slider-skills and
-// ../../components. This script is the only place that duplicates them, and it
-// rewrites the relative path used to link them so the copies still resolve once
-// installed one folder shallower in a user's project.
+// Bundles a copy of the canonical skills and component docs into
+// skills-package/ before publish, and writes the manifest the CLI uses to know
+// which files exist.
+//
+// The bundle is the OFFLINE FALLBACK, not the primary path: bin/cli.js fetches
+// the current files from the repo at install time and only falls back to this
+// copy when the network is unavailable. It still has to be correct, because
+// that fallback is what an offline user gets.
 
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  applyRewrites,
+  findStaleLinks,
+  OUT_COMPONENTS_DIR,
+  OUT_SKILLS_DIR,
+  REPO_COMPONENTS_DIR,
+  REPO_SKILLS_DIR,
+} from "../lib/skills-source.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageRoot = join(__dirname, "..");
@@ -17,60 +28,52 @@ const SOURCE_SKILLS = join(packageRoot, "..", "slider-skills");
 const SOURCE_COMPONENTS = join(packageRoot, "..", "..", "components");
 
 const OUT_ROOT = join(packageRoot, "skills-package");
-const OUT_SKILLS = join(OUT_ROOT, "slider-skills");
-const OUT_COMPONENTS = join(OUT_ROOT, "components");
+const OUT_SKILLS = join(OUT_ROOT, OUT_SKILLS_DIR);
+const OUT_COMPONENTS = join(OUT_ROOT, OUT_COMPONENTS_DIR);
 
-// The docs repo nests slider-skills/ two levels below the root
-// (ai-connector/slider-skills/), so it links components/ as ../../components/.
-// The installed package is one level shallower, with slider-skills/ directly
-// under the target project root, so that becomes ../components/.
-//
-// The same applies to the sibling doc pages the skills link to
-// (../../card-stack-templates.md and friends), which do not ship in the
-// package at all: point those at the public site instead of leaving a link
-// that resolves to nothing.
-const DOCS_URL = "https://design-with-cracka.gitbook.io/etchsliderpro";
-const PATH_REWRITE = [
-  [/\.\.\/\.\.\/components\//g, "../components/"],
-  [/\.\.\/\.\.\/card-stack-templates\.md/g, `${DOCS_URL}/card-stack-templates`],
-  [/\.\.\/\.\.\/premade-templates\.md/g, `${DOCS_URL}/premade-templates`],
-  [/\.\.\/\.\.\/javascript-api\.md/g, `${DOCS_URL}/javascript-api`],
-  [/\.\.\/\.\.\/styling-and-responsive\.md/g, `${DOCS_URL}/styling-and-responsive`],
-  [/\.\.\/\.\.\/admin-settings\.md/g, `${DOCS_URL}/admin-settings`],
-  [/\.\.\/\.\.\/troubleshooting\.md/g, `${DOCS_URL}/troubleshooting`],
-];
+// Committed to the repo so the CLI can fetch it and learn the current file
+// list, even when files have been added since the last publish.
+const REPO_MANIFEST_PATH = join(packageRoot, "..", "skills-manifest.json");
 
-function copyMarkdownWithRewrite(srcDir, destDir) {
+function markdownIn(dir) {
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".md"))
+    .map((e) => e.name)
+    .sort();
+}
+
+function writeRewritten(srcDir, destDir, names) {
   rmSync(destDir, { recursive: true, force: true });
   mkdirSync(destDir, { recursive: true });
-
-  for (const entry of readdirSync(srcDir, { withFileTypes: true })) {
-    if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
-
-    let content = readFileSync(join(srcDir, entry.name), "utf8");
-    for (const [pattern, replacement] of PATH_REWRITE) {
-      content = content.replace(pattern, replacement);
-    }
-    writeFileSync(join(destDir, entry.name), content);
+  for (const name of names) {
+    writeFileSync(join(destDir, name), applyRewrites(readFileSync(join(srcDir, name), "utf8")));
   }
 }
 
-function copyComponents(srcDir, destDir) {
-  rmSync(destDir, { recursive: true, force: true });
-  mkdirSync(destDir, { recursive: true });
-  cpSync(srcDir, destDir, { recursive: true });
-}
+const skills = markdownIn(SOURCE_SKILLS);
+const components = markdownIn(SOURCE_COMPONENTS);
 
-copyMarkdownWithRewrite(SOURCE_SKILLS, OUT_SKILLS);
-copyComponents(SOURCE_COMPONENTS, OUT_COMPONENTS);
+writeRewritten(SOURCE_SKILLS, OUT_SKILLS, skills);
+writeRewritten(SOURCE_COMPONENTS, OUT_COMPONENTS, components);
+
+const manifest = {
+  generated: new Date().toISOString().slice(0, 10),
+  skills: skills.map((n) => ({ repo: `${REPO_SKILLS_DIR}/${n}`, out: `${OUT_SKILLS_DIR}/${n}` })),
+  components: components.map((n) => ({
+    repo: `${REPO_COMPONENTS_DIR}/${n}`,
+    out: `${OUT_COMPONENTS_DIR}/${n}`,
+  })),
+};
+const json = JSON.stringify(manifest, null, 2) + "\n";
+writeFileSync(REPO_MANIFEST_PATH, json);
+writeFileSync(join(OUT_ROOT, "manifest.json"), json);
 
 // A link left pointing at ../../ would silently 404 for every installed user,
 // so fail the build rather than publish it.
 let stale = 0;
 for (const name of readdirSync(OUT_SKILLS)) {
-  const body = readFileSync(join(OUT_SKILLS, name), "utf8");
-  for (const m of body.matchAll(/\.\.\/\.\.\/[A-Za-z0-9._/-]+/g)) {
-    console.error(`  unrewritten link in ${name}: ${m[0]}`);
+  for (const link of findStaleLinks(readFileSync(join(OUT_SKILLS, name), "utf8"))) {
+    console.error(`  unrewritten link in ${name}: ${link}`);
     stale++;
   }
 }
@@ -79,6 +82,7 @@ if (stale) {
   process.exit(1);
 }
 
-console.log("Synced skills-package/ from:");
+console.log("Synced skills-package/ (offline fallback) from:");
 console.log(`  ${SOURCE_SKILLS}`);
 console.log(`  ${SOURCE_COMPONENTS}`);
+console.log(`Manifest: ${skills.length} skills file(s), ${components.length} component doc(s)`);

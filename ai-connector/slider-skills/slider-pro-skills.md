@@ -242,6 +242,46 @@ Either way the CSS rule itself is `etch.styles.create('.fall-card', '...')`, whi
 selector has to match.
 
 
+### CSS conventions
+
+Match the shipped templates. An install that already has premade sliders on it has these
+conventions everywhere, and a build that ignores them reads as foreign.
+
+**Naming.** The block is the slider, named after the design:
+
+| Thing | Pattern | Example |
+| --- | --- | --- |
+| Wrapper class, slider designs | `.slider-<name>-wrapper` | `.slider-flow-wrapper` |
+| Wrapper class, card stacks | `.slider-wrapper-<name>` | `.slider-wrapper-fall` |
+| Slider class | `.slider-<name>` | `.slider-chronos` |
+| Elements | `.slider-<name>__<element>` | `.slider-team__sync` |
+| Modifiers | `.slider-<name>__<element>--<variant>` | `.slider-afterform__word--form` |
+
+The wrapper class carries the word `wrapper` and the slider class carries the word `slider`. Do not
+invent a short prefix of your own.
+
+**One style entry per element class.** Never one nested parent entry holding the whole component.
+`etch.styles.create()` per class, each with its own CSS:
+
+```js
+const S = {};
+S.wrapper = etch.styles.create('.slider-afterform-wrapper', '/* ... */');
+S.caption = etch.styles.create('.slider-afterform__caption', '/* ... */');
+S.title   = etch.styles.create('.slider-afterform__caption-title', '/* ... */');
+```
+
+Inside an element's **own** entry, nesting is preferred for media queries, pseudo-elements
+(`&::after`), states (`&:hover`, `&.is-active`), ancestor states
+(`.splide__slide.is-active &`) and child tag selectors (`& img`, `& svg`). Do **not** nest another
+class's rules (`&__title`) inside a different class's entry: that class gets its own entry.
+
+**Renaming is not one operation.** A style entry's selector and a block's `class` attribute are
+independent. Renaming the selector rewrites the rendered class only where the class came from a
+**component class prop**, because that prop stores the style id and resolves it at render. On a
+plain element the `class` attribute is literal, so a selector rename leaves it pointing at a
+selector that no longer exists. Rename both, or the element silently loses its CSS.
+
+
 ### Group props and the one-extra-brace rule
 
 Most Slider props live in groups (`layout`, `motion`, `slides`, `autoplay`, ...). A group is stored
@@ -416,6 +456,38 @@ setGroup(thumbId, 'sliderSetup', { sliderRole: 'thumbnails', transitionType: 'Lo
 
 Both inside the same Wrapper and they pair automatically. A Wrapper can hold more than one
 thumbnail slider, which is how Zeon runs a background layer and a strip off the same main.
+
+### Animating slide content: no script
+
+Splide puts `is-active` on the current `.splide__slide`, which is all you need to animate anything
+inside it. Give the element its resting state, then reveal it from the active slide:
+
+```css
+/* in .slider-<name>__figure's own entry */
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 820ms cubic-bezier(0.22, 0.68, 0.24, 1),
+            transform 820ms cubic-bezier(0.22, 0.68, 0.24, 1);
+
+.splide__slide.is-active & { opacity: 1; transform: translateY(0); }
+```
+
+Stagger a caption by putting the same pair on each line with a growing `transition-delay`
+(thumbnail 140ms, status 200ms, title 260ms, body 320ms) so the block assembles rather than
+appearing at once.
+
+Two things that bite:
+
+* **Keep layout transforms in the animated transform.** An element centred with
+  `translateX(-50%)` must animate as `translateX(-50%) translateY(30px)`, or it jumps sideways on
+  every transition. Where a breakpoint drops the centring, restate the transform there too.
+* **A slow drift on the backdrop** (`scale(1.06)` to `scale(1)` over several seconds) makes a
+  change read as movement rather than a cut. Put it on the image, not the slide, so it does not
+  fight the transition.
+
+This works with the Fade transition, which crossfades the slides underneath while the contents
+move independently.
+
 
 ### Carousel on mobile, grid on desktop
 
@@ -660,6 +732,47 @@ sliders and the lightbox do not. If the site has When to Load Slider Assets on "
 rather than debugging a slider that will never start.
 
 **Do not touch the plugin's own stylesheet.** Style through the Slider Class and CSS variables.
+
+**A prop that gates a component's internals must be set explicitly, even to its default.** This is
+the one exception to "never set a prop to its default", and it is invisible when you hit it. A
+component's declared default populates the Etch settings panel; it is **not** written onto an
+instance you create programmatically. When a condition inside the component reads a
+flag prop and the key is absent, the expression does not resolve and the condition returns
+false **whichever operator it uses**. Both branches vanish at once.
+
+The worked case: a DWC Slider Nav Button created with `navigationType` alone renders
+`<button>` with no icon. The default arrow sits behind `useCustomArrow isFalsy` and the custom SVG
+behind `useCustomArrow isTruthy`, and neither appears. Writing `useCustomArrow: '{false}'`, which is
+already the default, makes the arrow render. If a component renders structurally but its inner
+content is missing, this is the first thing to check.
+
+**Give the slider a builder height when slide content is absolutely positioned.** A slide whose
+children are all `position: absolute` has no intrinsic height, so before the slider initialises it
+collapses to nothing and the layout is unusable in the builder. Guard it:
+
+```css
+&.etch-builder-block { min-block-size: 640px; }
+```
+
+**Do not anchor against a neighbour that stops shrinking.** A `vw` offset tuned at one width
+silently collides at another, because `min()` and `clamp()` neighbours stop shrinking while the
+`vw` keeps going. Derive the clearance from the neighbour's real footprint instead:
+
+```css
+/* wrong: fits at 1771, overlaps the column from 1024 to 1430 */
+right: 17.6vw;
+/* right: reserve exactly what the column occupies */
+right: calc(4vw + min(15vw, 195px) + 2.5vw);
+```
+
+Check the mid range explicitly. Between the widest layout and the first breakpoint is where
+side-by-side compositions fail, and it is the range nobody screenshots.
+
+**A save can lag the front end.** `etch.saveAsync()` resolves before the change is necessarily
+readable on the published page, so a fetch straight afterwards can return the previous value and
+look like a failed write. Re-read through `etch.blocks.getAttribute` to confirm intent, and treat a
+stale page as latency rather than loss. Reloading the builder tab flushes anything pending.
+
 
 ### Do not
 

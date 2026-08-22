@@ -58,3 +58,41 @@ Set **Custom Pagination Mode** to `Template` and design the *first* item as your
 
 - **Numbers** count up starting from whatever number you type, so `1` produces `1, 2, 3, ...` while `2003` produces `2003, 2004, 2005, ...`. Leading zeros are preserved as the number grows (`007` → `007, 008, ..., 010, 011, ...`).
 - **Letters and roman numerals** (`a`, `A`, `i`, `I`) always start at the beginning of their sequence (a/b/c…, i/ii/iii…). Only numbers support a custom starting point.
+
+## Styling the active item
+
+Slider Pro adds the class `is-active` to whichever pagination item matches the slide on screen. Use
+it to style the current one:
+
+```css
+.my-dot           { background: #e5e7eb; }
+.my-dot.is-active { background: #45bf55; }
+```
+
+The class moves on its own as the slider changes, so you do not need any JavaScript. It works the
+same in `Default` and `Template` mode.
+
+***
+
+## If your own layout does not apply
+
+The pagination lays itself out as a flex row or column, using the **Direction** and **Gap**
+settings above, and it is only as tall as its items.
+
+If you write your own layout on it, for example a grid, and nothing seems to happen, this is why:
+your rule and the plugin's rule are equally specific, so the plugin's wins. Put the plugin's class
+in front of yours to make your rule stronger:
+
+```css
+/* has no effect on its own */
+.my-pagination { display: grid; }
+
+/* wins */
+.dwc-slider-pagination-wrapper.my-pagination {
+  display: grid;
+  block-size: 100%;
+  gap: 0;
+}
+```
+
+Remember to reset `gap` if you set your own spacing, because the flex gap still applies.

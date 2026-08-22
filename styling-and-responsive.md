@@ -199,3 +199,51 @@ Set the Slider's **data-slider-id** prop to one of these built-in preset names f
 | --------------------- | ------------------------------------------------------------------------------------------ |
 | `scale-fade-in`        | A single-slide crossfade + scale transition. Requires **Slides Per Page** to be `1`. With a responsive value it applies at whichever breakpoints resolve to `1`, e.g. `1 sm:2` gives the effect on desktop but not on phones. |
 | `thumbnail-grid`       | Forces a thumbnail Slider's slide list into a 2-column grid instead of a scrolling row.    |
+
+***
+
+## Why something looks hidden or squashed while you are editing
+
+Slider Pro marks the slide on screen with the class `is-active`, and its neighbours with `is-prev`
+and `is-next`. These are what you style against when you want the current slide to look different.
+
+The slider runs when you press **Preview**, but not while you are editing. In edit mode nothing is
+marked active, so anything you have written that waits for `is-active` never turns on:
+
+* Something set to `opacity: 0` until it becomes active stays invisible.
+* A height that only comes from the active slide collapses, and the area looks empty.
+
+Press Preview to see the real thing at any time. To keep the area usable while you edit, add one
+more rule that applies only when nothing is active yet:
+
+```css
+.my-caption { opacity: 0; }
+.splide__slide.is-active .my-caption { opacity: 1; }
+
+/* nothing is active yet, so show it */
+.splide:not(:has(.splide__slide.is-active)) .my-caption { opacity: 1; }
+```
+
+That last rule switches itself off the moment the slider starts, so Preview and your live site are
+unaffected. There is nothing to remember to remove later.
+
+**Where to put the check depends on which element gets the class.** Above, the slide is the one
+that becomes active and the caption sits inside it, so the check goes on a shared parent. If you
+are using Sync Custom Element, your own elements get `is-active` themselves, so check their
+container instead:
+
+```css
+.my-steps:not(:has(.my-step.is-active)) .my-step { opacity: 1; }
+```
+
+***
+
+## Entrance effects and static layout
+
+When a slider is in **static** layout at a breakpoint it becomes a plain grid, with no active
+slide. Slider Pro clears `transform`, `opacity` and `transition` on the contents of each slide
+there, so everything shows at once.
+
+This means an entrance effect you wrote for the slider will not play at that breakpoint. That is
+deliberate, because in a static grid every item is on screen together and there is nothing to
+animate in. If you want movement on those screens, animate on scroll instead.

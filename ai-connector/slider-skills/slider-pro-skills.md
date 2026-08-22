@@ -489,6 +489,52 @@ This works with the Fade transition, which crossfades the slides underneath whil
 move independently.
 
 
+### Numbered steps beside a slider: no script
+
+A vertical list of steps next to an image, where the number highlights as the image changes, uses
+**two mechanisms on one slider**, split by whether the content repeats:
+
+* **What repeats goes in the pagination.** The numbered markers are identical except for the digit,
+  which is exactly what `customPaginationMode: 'Template'` does: put one item in the
+  `PaginationButtons` slot with a literal `1` in it and the engine clones it per slide, substituting
+  the number. Add a slide later and the marker appears by itself. The active marker gets
+  `is-active`, and each is a real button, so clicking navigates.
+* **What differs goes in a synced set.** Titles and descriptions are per step, and a clone cannot
+  carry them, so those are your own elements driven by
+  `sliderSetup.syncCustomElement` with `syncCustomElementNav` on.
+
+```js
+setGroup(sliderId, 'sliderSetup', { transitionType: 'Fade',
+                                    syncCustomElement: '.step',
+                                    syncCustomElementNav: '{true}' });
+etch.blocks.setAttribute(pagId, 'customPaginationMode', 'Template');
+```
+
+Do not force one mechanism to do both. Template mode cannot give each clone its own text, and
+faking it with a script to fill the clones is the kind of work the native features already cover.
+
+**Lining the two columns up.** They are separate subtrees, so nothing makes row *n* of one match
+row *n* of the other. Let a shared grid do it: put both in the same parent row so they are the same
+height, then divide that height equally in each.
+
+```css
+.rail  { display: grid; grid-template-columns: auto 1fr; gap: 0 1.5rem; }
+.marks,
+.steps { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); }
+```
+
+Two traps here, both silent:
+
+* **Use `minmax(0, 1fr)`, not `1fr`.** `1fr` means `minmax(auto, 1fr)`, so a longer description
+  expands its own row and the two columns drift apart by a few pixels per row.
+* **Match `gap` on both.** The pagination carries a flex `gap` of its own, which shortens every row
+  on that side only. Set it explicitly, including `0`.
+
+The pagination also needs a co-class to accept your grid at all, since it sets `display: flex` and
+`block-size: fit-content` on its own class: write
+`.dwc-slider-pagination-wrapper.marks { ... }`.
+
+
 ### Carousel on mobile, grid on desktop
 
 ```js
@@ -733,28 +779,72 @@ rather than debugging a slider that will never start.
 
 **Do not touch the plugin's own stylesheet.** Style through the Slider Class and CSS variables.
 
-**A prop that gates a component's internals must be set explicitly, even to its default.** This is
-the one exception to "never set a prop to its default", and it is invisible when you hit it. A
-component's declared default populates the Etch settings panel; it is **not** written onto an
-instance you create programmatically. When a condition inside the component reads a
-flag prop and the key is absent, the expression does not resolve and the condition returns
-false **whichever operator it uses**. Both branches vanish at once.
+**A component's declared default is never written onto an instance you create.** Defaults populate
+the Etch settings panel. They are not present in the attributes map of a block you create through
+the API, so `getAttribute` returns nothing for them. This is the one exception to "never set a prop
+to its default", and it fails silently in two different ways.
 
-The worked case: a DWC Slider Nav Button created with `navigationType` alone renders
-`<button>` with no icon. The default arrow sits behind `useCustomArrow isFalsy` and the custom SVG
-behind `useCustomArrow isTruthy`, and neither appears. Writing `useCustomArrow: '{false}'`, which is
-already the default, makes the arrow render. If a component renders structurally but its inner
-content is missing, this is the first thing to check.
+**Symptom one, a condition that never matches.** When a condition inside the component reads a flag
+prop and the key is absent, the expression does not resolve and the condition returns false
+**whichever operator it uses**, so both branches vanish at once. A DWC Slider Nav Button created
+with `navigationType` alone renders `<button>` with no icon: the default arrow sits behind
+`useCustomArrow isFalsy` and the custom SVG behind `useCustomArrow isTruthy`, and neither appears.
+Writing `useCustomArrow: '{false}'`, already the default, makes the arrow render. If a component
+renders structurally but its inner content is missing, check this first.
 
-**Give the slider a builder height when slide content is absolutely positioned.** A slide whose
-children are all `position: absolute` has no intrinsic height, so before the slider initialises it
-collapses to nothing and the layout is unusable in the builder. Guard it:
+**Symptom two, a class prop that silently replaces the default.** Class props are arrays of
+**space-separated style ids**. Writing one id does not add to the default, it becomes the whole
+value, and the default is gone with no error. Setting `sliderClass` to your own class alone drops
+`.slider-navigation-vars`, which carries the arrow, pagination, play/pause and progress variables,
+and nothing looks wrong until one of those controls misbehaves. Read, append, write back:
 
-```css
-&.etch-builder-block { min-block-size: 640px; }
+```js
+const ids = (etch.blocks.getAttribute(sliderId, 'sliderClass') || '').split(/\s+/).filter(Boolean);
+ids.push(myStyleId);
+etch.blocks.setAttribute(sliderId, 'sliderClass', ids.join(' '));
 ```
 
+**Recover a default by selector, not by the documented id.** The prop reference records
+`sliderClass`'s default as a style id, but that id may not exist on the install you are working on.
+Resolve the style you actually want by its selector:
+
+```js
+const navVars = etch.styles.list().find(s => s.selector === '.slider-navigation-vars');
+```
+
+The premade templates all carry two ids for this reason, for example Chronos holds its own vars
+class plus `.slider-chronos`.
+
+**Anything whose resting state waits on `is-active` breaks in edit mode.** The slider runs in
+Preview but not while the user is editing, so in edit mode no slide carries `is-active` and none of
+your active-state rules apply. Height that comes from the active slide collapses; an element
+resting at `opacity: 0` stays invisible. Guard on the condition "nothing is active yet", which is
+true only in edit mode and switches itself off the moment the slider runs:
+
+```css
+.figure { opacity: 0; }
+.splide__slide.is-active .figure { opacity: 1; }
+.splide:not(:has(.splide__slide.is-active)) .figure { opacity: 1; }
+```
+
+**Where the check goes depends on which element receives the class.** Above, the slide becomes
+active and the figure is inside it, so the test sits on a shared ancestor. With Sync Custom Element
+your own elements receive `is-active` themselves, so test their container instead:
+`.steps:not(:has(.step.is-active)) .step`. A single canned selector does not fit every case; work
+out which element actually gets the class first.
+
+`.etch-builder-block` alone is not enough. It says "in the builder", not "not running", so a rule
+gated only on it can also suppress the effect in Preview.
+
+**Read computed style, not source, to decide what the plugin already does.** `getComputedStyle(el)`
+answers directly and in one call. Do not conclude from page source that a rule is absent: component
+styles are inlined into the page but the engine's stylesheet is a separate file, so a rule can be
+in force while being nowhere in the HTML. Presence in the DOM is not visibility either, since a
+hidden element is still there.
+
 **Do not anchor against a neighbour that stops shrinking.** A `vw` offset tuned at one width
+silently collides at another, because `min()` and `clamp()` neighbours stop shrinking while the
+`vw` keeps going. Derive the clearance from the neighbour's real footprint instead:
 silently collides at another, because `min()` and `clamp()` neighbours stop shrinking while the
 `vw` keeps going. Derive the clearance from the neighbour's real footprint instead:
 

@@ -860,25 +860,61 @@ renders structurally but its inner content is missing, check this first.
 **Symptom two, a class prop that silently replaces the default.** Class props are arrays of
 **space-separated style ids**. Writing one id does not add to the default, it becomes the whole
 value, and the default is gone with no error. Setting `sliderClass` to your own class alone drops
-`.slider-navigation-vars`, which carries the arrow, pagination, play/pause and progress variables,
-and nothing looks wrong until one of those controls misbehaves. Read, append, write back:
+the slider's navigation variables, which carry the arrow, pagination, play/pause and progress
+styling, and nothing looks wrong until one of those controls misbehaves. Always read, append,
+write back, never overwrite.
+
+## `sliderClass` carries a minted per-instance class
+
+Every slider needs its **own copy** of the navigation variables so two sliders on one page can be
+styled independently. The plugin mints that copy for you as a class named `.dwc-slider-vars-XXXXXX`
+whose CSS is copied from `.slider-navigation-vars`. A correctly built slider holds the minted class
+plus any design class of your own, which is what every premade template does:
+
+```
+.dwc-slider-vars-vsj76d  .slider-chronos
+```
+
+**Never put `.slider-navigation-vars` into the slot yourself.** Resolving it by selector and writing
+that shared id looks right and renders right, so nothing warns you. It silently breaks duplication:
+the plugin only manages classes matching `.dwc-slider-vars-*`, so a slider carrying the shared
+default gets no fresh class when it is duplicated, and every copy then reads one set of variables.
+Recolouring one slider's arrows changes them all. This is the single easiest way to ship a slider
+that looks finished and is not.
+
+**Create first, append second.** Leave `sliderClass` alone when you create the slider. The plugin
+polls roughly every two seconds and mints a class for any instance that appeared after the builder
+loaded while the prop is still unset. Once it has, read the value back and append your design class
+to what it wrote:
 
 ```js
 const ids = (etch.blocks.getAttribute(sliderId, 'sliderClass') || '').split(/\s+/).filter(Boolean);
+// ids now starts with a minted .dwc-slider-vars-* id. Append to it, never replace it.
 ids.push(myStyleId);
 etch.blocks.setAttribute(sliderId, 'sliderClass', ids.join(' '));
 ```
 
-**Recover a default by selector, not by the documented id.** The prop reference records
-`sliderClass`'s default as a style id, but that id may not exist on the install you are working on.
-Resolve the style you actually want by its selector:
+If the prop is still empty after a few seconds, mint one yourself. Copy the CSS from
+`.slider-navigation-vars` and keep the required name shape, because a class named anything else is
+not managed:
 
 ```js
-const navVars = etch.styles.list().find(s => s.selector === '.slider-navigation-vars');
+const src = etch.styles.list().find(s => s.selector === '.slider-navigation-vars');
+const taken = new Set(etch.styles.list().map(s => s.selector));
+let selector;
+do {
+  selector = '.dwc-slider-vars-' + Math.random().toString(36).slice(2, 8);
+} while (taken.has(selector));
+const varsId = etch.styles.create(selector, src.css);
 ```
 
-The premade templates all carry two ids for this reason, for example Chronos holds its own vars
-class plus `.slider-chronos`.
+**Resolve by selector, not by the documented id.** The prop reference records `sliderClass`'s
+default as a style id, but that id differs per install, so look the style up by
+`.slider-navigation-vars` when you need its CSS to copy.
+
+**Verify the shape before you call the slider done.** Read `sliderClass` back and confirm it holds
+exactly one `.dwc-slider-vars-*` id, plus your design class if you added one. A slider holding
+`.slider-navigation-vars`, or holding no vars class at all, is a defect you introduced.
 
 **Anything whose resting state waits on `is-active` breaks in edit mode.** The slider runs in
 Preview but not while the user is editing, so in edit mode no slide carries `is-active` and none of

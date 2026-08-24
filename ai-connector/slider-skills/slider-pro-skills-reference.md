@@ -280,9 +280,13 @@ Arrows, dots, pagination, progress, play/pause and the lightbox are styled with 
 properties, not props. The template class is **`.slider-navigation-vars`**, holding 94 variables.
 
 **Per-slider styling.** Each Slider's **Slider Class** prop (`props.sliderClass`) names the class
-its variables are read from, so two sliders on one page style independently. The plugin renames
-the auto-generated class on save, so never style directly on `.slider-navigation-vars`: add your
-own class (e.g. `.my-slider`) and style that. Classes you add yourself are never renamed.
+its variables are read from, so two sliders on one page style independently. The plugin gives each
+slider its own minted `.dwc-slider-vars-*` copy of that class, and mints a fresh one whenever a
+slider is duplicated. So never style directly on `.slider-navigation-vars`, and never write that
+shared class into the prop: doing so stops the minting and makes every duplicate share one set of
+variables. Add your own class (e.g. `.my-slider`) alongside the minted one and style that. Classes
+you add yourself are never touched. See "`sliderClass` carries a minted per-instance class" in
+[slider-pro-skills.md](slider-pro-skills.md).
 
 ### Arrows
 

@@ -14,6 +14,12 @@ icon: arrows-retweet
 
 * Fixed the **Preview** and **Grid** buttons missing from the first slider you add to a page. They only appeared after reloading the builder. They now appear as soon as you add the slider.
 
+**AI Skills**
+
+* The skills documentation is now a short entry file that routes to a full building guide, so a small change to existing work no longer requires reading the whole document.
+* Agents check their work against your published page in their own browser, so they catch what only shows up once a page renders instead of reporting a change as done because the setting saved.
+* Agents no longer leave a second set of arrows, pagination dots or a play/pause button behind when they add your own controls.
+
 ## Version 1.2.0 - August 20, 2026
 
 **Slider Wrapper**

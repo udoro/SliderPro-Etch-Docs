@@ -189,6 +189,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Background Blur | `props.style.backgroundBlur` | `style` | `8px` | Shown when `props.progressType === "counter" \|\| (props.progressType === "circular" && props.circularCounter)` |
 | Progress Fill Color | `props.style.progressFillColor` | `style` | `#ff4d6a` | Shown when `props.progressType === "bar" \|\| props.progressType === "circular"` |
 | Progress Fill Color 2 | `props.style.progressFillColor2` | `style` | `#ff8fa3` | Shown when `props.progressType === "bar"` |
+| Progress Height | `props.style.progressHeight` | `style` | `3px` | Shown when `props.progressType === "bar"` |
 | Progress Track Color | `props.style.progressTrackColor` | `style` | `rgba(255, 255, 255, 0.1)` | Shown when `props.progressType === "bar" \|\| props.progressType === "circular"` |
 | Background Color | `props.style.backgroundColor` | `style` | `rgba(0, 0, 0, 0.4)` | Shown when `props.progressType === "counter"` |
 | Border Radius | `props.style.borderRadius` | `style` | `20px` | Shown when `props.progressType === "counter"` |

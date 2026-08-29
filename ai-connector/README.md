@@ -19,7 +19,7 @@ Etch Builder.
 
 | Agent | How to get it |
 |---|---|
-| [Claude Code](https://docs.anthropic.com/en/claude-code/getting-started) | VS Code / JetBrains extension, or CLI |
+| [Claude Code](https://code.claude.com/docs/en/overview) | VS Code / JetBrains extension, or CLI |
 | [Cursor](https://www.cursor.com) | Standalone AI IDE with built-in agent mode |
 | [OpenAI Codex](https://openai.com/codex) | CLI agent |
 
@@ -49,6 +49,7 @@ That drops the following into the current directory:
 
 ```
 slider-skills/slider-pro-skills.md
+slider-skills/slider-pro-skills-build.md
 slider-skills/slider-pro-skills-reference.md
 components/*.md
 ```
@@ -56,7 +57,8 @@ components/*.md
 Options: `--force` / `-f` to overwrite an existing install, a path argument to install elsewhere
 (e.g. `npx sliderpro-agentic-skills-etch ./my-site-project`), and `--help` / `-h`.
 
-Then point your agent at `slider-skills/slider-pro-skills.md` and ask for what you want.
+Then point your agent at `slider-skills/slider-pro-skills.md` and ask for what you want. It opens
+the other two files only when a task needs them.
 
 ***
 
@@ -76,12 +78,17 @@ where a design needs something the plugin cannot express.
 
 ***
 
-## The two files
+## The three files
 
 | File | Role |
 |---|---|
-| `slider-pro-skills.md` | The main file. The agent reads it in full at the start of a session. |
+| `slider-pro-skills.md` | The main file, and the only one the agent reads up front. |
+| `slider-pro-skills-build.md` | The building guide. The agent opens it when you ask for something new, and skips it when you are adjusting a slider you already have. |
 | `slider-pro-skills-reference.md` | Lookup only. Every prop on all seven components, the CSS variables, and the template signatures. The agent searches it when it needs a specific value. |
+
+Splitting the building guide out keeps small requests small. Asking for a colour change or a new
+breakpoint no longer makes the agent read the card deck and marquee walkthroughs first, which means
+a quick tweak costs a fraction of what a full build does.
 
 The prop tables are generated from the Etch component export, so they match the components you
 have installed.

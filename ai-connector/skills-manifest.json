@@ -1,6 +1,10 @@
 {
-  "generated": "2026-08-24",
+  "generated": "2026-08-29",
   "skills": [
+    {
+      "repo": "ai-connector/slider-skills/slider-pro-skills-build.md",
+      "out": "slider-skills/slider-pro-skills-build.md"
+    },
     {
       "repo": "ai-connector/slider-skills/slider-pro-skills-reference.md",
       "out": "slider-skills/slider-pro-skills-reference.md"

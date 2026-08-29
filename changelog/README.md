@@ -4,6 +4,16 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.2.1 - August 29, 2026
+
+**Progress**
+
+* New **Progress Height** setting for the bar progress, so you can set the bar's thickness on the component instead of writing CSS. Shown when Progress Type is **Bar**. It defaults to 3px, so existing bars are unchanged.
+
+**Builder**
+
+* Fixed the **Preview** and **Grid** buttons missing from the first slider you add to a page. They only appeared after reloading the builder. They now appear as soon as you add the slider.
+
 ## Version 1.2.0 - August 20, 2026
 
 **Slider Wrapper**

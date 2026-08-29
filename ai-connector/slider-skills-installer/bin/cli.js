@@ -140,6 +140,24 @@ function copyBundle(target) {
   }
 }
 
+// When each skills file is meant to be read. The split exists so that only the
+// entry file is read up front, so saying so here is part of the install.
+const SKILL_ROLES = {
+  "slider-pro-skills.md": "read this first, every session",
+  "slider-pro-skills-build.md": "read only when building from scratch",
+  "slider-pro-skills-reference.md": "lookup only, never read whole",
+};
+
+function installedSkills(target) {
+  try {
+    return readdirSync(join(target, OUT_SKILLS_DIR))
+      .filter((f) => f.endsWith(".md"))
+      .sort();
+  } catch {
+    return [];
+  }
+}
+
 function countComponents(target) {
   try {
     return readdirSync(join(target, OUT_COMPONENTS_DIR)).filter((f) => f.endsWith(".md")).length;
@@ -183,10 +201,13 @@ async function main() {
 
   console.log(`Installed Slider Pro AI Connector skills to ${target}`);
   console.log(`  source: ${source}`);
-  console.log(`  ${OUT_SKILLS_DIR}/slider-pro-skills.md`);
-  console.log(`  ${OUT_SKILLS_DIR}/slider-pro-skills-reference.md`);
+  for (const name of installedSkills(target)) {
+    const role = SKILL_ROLES[name];
+    console.log(`  ${OUT_SKILLS_DIR}/${name}${role ? ` (${role})` : ""}`);
+  }
   console.log(`  ${OUT_COMPONENTS_DIR}/ (${countComponents(target)} component prop docs)`);
   console.log(`\nPoint your AI coding agent at ${OUT_SKILLS_DIR}/slider-pro-skills.md to load it.`);
+  console.log("It reads the other two only when a task needs them.");
   console.log('Then tell the agent: "npx @digital-gravy/etch-connector serve"');
 }
 

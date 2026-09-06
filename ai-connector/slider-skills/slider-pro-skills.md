@@ -510,6 +510,15 @@ Styling them differs too: the built-in reads the `.dwc-slider-vars-*` variables 
 while the component shadows those variables with its own defaults and must be styled through its
 own props, or through its own class entry for what no prop covers.
 
+**Set the variable the plugin's rule reads, do not out-specify the rule.** Plugin rules like
+`&:has(.dwc-default-slider-nav-icon, ...) { border-radius: var(--arrow-radius) }` are `0,2,0`, so a
+co-class of your own ties and loses on source order. Declare the variable in the control's own
+entry instead: a declaration on the element beats the value it inherits from the wrapper, where the
+component writes its defaults inline. Two traps here. The plugin rule is gated behind `:has()`, so
+before the icon renders it does not match and an out-specified fix measures correct; it reverts the
+moment the icon appears. And a variable set elsewhere can mask the problem, so removing unrelated
+CSS later brings the bug back with nothing obviously connected to it.
+
 **Pagination dot size is derived from the dot font size. Change the font size, not the size.**
 `props.dot.size` is declared as `calc(var(--font-size) * 2)`, so it tracks `props.dot.fontSize`
 by design. Writing a fixed `size` severs that and the dots stop scaling with the type. Leave

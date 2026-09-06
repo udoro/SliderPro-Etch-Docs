@@ -56,7 +56,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Fade Distance | `props.fadeDistance` | `style` | `15%` | Set overall fade distance from the edge. Shown when `props.edgeFade` |
 | Fade Softness | `props.fadeSoftness` | `style` | `0.8` | Softness scale: 1 = softest fade, 0 = sharp edge. Shown when `props.edgeFade` |
 | Fade Opacity | `props.fadeOpacity` | `style` | `0%` | Shown when `props.edgeFade` |
-| Pause Sliders on Hover | `props.pauseSlidersOnHover` | `data-group-pause-on-hover` | `false` | `true` / `false` |
+| Pause Sliders on Hover | `props.pauseSlidersOnHover` | `data-group-pause-on-hover` | `false` | `true` / `false`. Makes the wrapper the single pause controller for its sliders, so it overrides each slider's own 'Pause On Hover'. Ideal for stacked logo-marquee rows that should behave as one unit. Nested sliders aren't affected |
 | Custom Element | `props.sliderlessSync.customElement` | `data-sync-custom-el` |  |  |
 | Custom Element Nav | `props.sliderlessSync.customElementNav` | `data-sync-custom-el-nav` | `false` | `true` / `false`. Shown when `props.sliderlessSync.customElement.includes(".")  \|\| props.sliderlessSync.customElement.includes("[")` |
 | Loop | `props.sliderlessSync.loop` | `data-loop` | `false` | `true` / `false`. Shown when `props.sliderlessSync.customElement.includes(".")  \|\| props.sliderlessSync.customElement.includes("[")` |
@@ -66,6 +66,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Autoplay | `props.sliderlessSync.autoplay` | `data-autoplay` | `true` | `true` / `false`. Shown when `props.sliderlessSync.customElement.includes(".")  \|\| props.sliderlessSync.customElement.includes("[")` |
 | Autoplay Interval | `props.sliderlessSync.autoplayInterval` | `data-interval` | `4000` | Shown when `props.sliderlessSync.autoplay` |
 | Pause on Hover | `props.sliderlessSync.pauseOnHover` | `data-pause-on-hover` | `false` | `true` / `false`. Shown when `props.sliderlessSync.autoplay` |
+| Edit Mode | `props.editMode` | `data-edit-mode` | `false` | `true` / `false`. Reveals content you have hidden on the live page so you can edit it in the builder. Write your CSS against [data-edit-mode="true"] to choose what appears. Preview ignores it. Turn it off when you are finished, or visitors will see it too |
 
 ### DWC Slider
 
@@ -76,38 +77,38 @@ matches the components installed on the site. Do not hand-edit this section.
 | Main/Thumbnail Sync Group | `props.sliderSetup.mainThumbnailSyncGroup` | `data-sync-group` |  |  |
 | Transition Type | `props.sliderSetup.transitionType` | `data-type` | `Slide` | `Slide` / `Fade` / `Loop` |
 | Sllde Direction | `props.sliderSetup.slldeDirection` | `data-direction` | `ltr` | Left to Right: ltr \| Right to Left: rtl \| Vertical: ttb \| Supports responsive shorthand e.g. ttb sm:ltr |
-| Sync Custom Element | `props.sliderSetup.syncCustomElement` | `data-sync-custom-el` |  | Syncs slider with other elements on your page. Enter a CSS selector for your own elements, e.g. .hero-title. As the slider moves, the plugin adds is-active to the matching element, plus is-prev / is-next to its neighbours, so you can style them in CSS (e.g. .hero-title.is-active). To extend this feature, use the JS API ready() helper. See docs. |
-| Sync Custom Element Nav | `props.sliderSetup.syncCustomElementNav` | `data-sync-custom-el-nav` | `false` | `true` / `false`. Shown when `props.sliderSetup.syncCustomElement.includes(".")  \|\| props.sliderSetup.syncCustomElement.includes("[")` |
-| Custom Options | `props.sliderSetup.customOptions` | `data-custom-options` |  | Advanced: add extra Splide settings that don't have their own control here. Type them as name: value pairs separated by commas, e.g. wheel: true, waitForTransition: false, drag: 'free', speed: 800. These override the settings here. For structured settings (like per-breakpoint values), use the setOptions() JavaScript API instead. See docs. |
-| Slide Title Delay | `props.sliderSetup.slideTitleDelay` | `data-slide-title-delay` | `200ms` | How long a Next/Prev nav button waits before swapping to the adjacent slide's title, so the button can resize first. Requires a [data-slide-title] element in the button. 0 = instant. See docs. |
+| Sync Custom Element | `props.sliderSetup.syncCustomElement` | `data-sync-custom-el` |  | Syncs slider with other elements on your page. Enter a CSS selector for your own elements, e.g. .hero-title. As the slider moves, the plugin adds is-active to the matching element, plus is-prev / is-next to its neighbours, so you can style them in CSS (e.g. .hero-title.is-active). To extend this feature, use the JS API ready() helper. See docs |
+| Sync Custom Element Nav | `props.sliderSetup.syncCustomElementNav` | `data-sync-custom-el-nav` | `false` | `true` / `false`. synced elements act as 'go-to buttons', clicking (or keyboard-activating) the element for a slide jumps to it. Requires 'Sync Custom Element'. Shown when `props.sliderSetup.syncCustomElement.includes(".")  \|\| props.sliderSetup.syncCustomElement.includes("[")` |
+| Custom Options | `props.sliderSetup.customOptions` | `data-custom-options` |  | Advanced: add extra Splide settings that don't have their own control here. Type them as name: value pairs separated by commas, e.g. wheel: true, waitForTransition: false, drag: 'free', speed: 800. These override the settings here. For structured settings (like per-breakpoint values), use the setOptions() JavaScript API instead. See docs |
+| Slide Title Delay | `props.sliderSetup.slideTitleDelay` | `data-slide-title-delay` | `200ms` | How long a Next/Prev nav button waits before swapping to the adjacent slide's title, so the button can resize first. Requires a [data-slide-title] element in the button. 0 = instant. See docs |
 | Slides Per Page | `props.layout.slidesPerPage` | `data-per-page` | `1` | Set for Base breakpoint and use breakpoint tokens for other breakpoints e.g. 3 md:2 sm:1 |
 | Slides per Move | `props.layout.slidesPerMove` | `data-per-move` | `1` |  |
-| Gap between Slides | `props.layout.gapBetweenSlides` | `data-gap` | `1rem` | Set for Base breakpoint and other breakpoints e.g. 1rem md:0.5rem sm:0.25rem. You can also use a single clamp value. |
-| Slider Edge Offset | `props.layout.sliderEdgeOffset` | `data-padding` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2%. |
-| -- Left Offset | `props.layout.leftOffset` | `data-padding-left` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2%. |
-| -- Right Offset | `props.layout.rightOffset` | `data-padding-right` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2%. |
+| Gap between Slides | `props.layout.gapBetweenSlides` | `data-gap` | `1rem` | Set for Base breakpoint and other breakpoints e.g. 1rem md:0.5rem sm:0.25rem. You can also use a single clamp value |
+| Slider Edge Offset | `props.layout.sliderEdgeOffset` | `data-padding` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2% |
+| -- Left Offset | `props.layout.leftOffset` | `data-padding-left` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2% |
+| -- Right Offset | `props.layout.rightOffset` | `data-padding-right` |  | Set splide padding for base and other breakpoints E.g. 8% lg:6% md:4% sm:2% |
 | Layout Mode | `props.layout.layoutMode` | `data-layout-mode` |  | Values: slider or static. Example: "slider md:static" = slider at desktop, static at/below md (e.g. for a mobile stacked-cards) |
-| Grid Columns | `props.layout.gridColumns` | `data-grid-columns` |  | Grid columns when slider is in static mode.. Shown when `props.layout.layoutMode.includes("static")` |
+| Grid Columns | `props.layout.gridColumns` | `data-grid-columns` |  | Grid columns when slider is in static mode. Shown when `props.layout.layoutMode.includes("static")` |
 | Padding Inline | `props.layout.paddingInline` | `style` | `0px` | Applies only on static layout. Shown when `props.layout.layoutMode.includes("static")` |
 | Padding Block | `props.layout.paddingBlock` | `style` | `0px` |  |
 | Slider Width | `props.dimensions.sliderWidth` | `data-width` |  |  |
 | Slider Height | `props.dimensions.sliderHeight` | `data-height` | `auto` | Set the base height, and use breakpoint tokens for other breakpoints, E.g. 700px lg:600px md:450px sm:300px. Property: --slide-height-active |
-| Aspect Ratio | `props.dimensions.aspectRatio` | `data-height-ratio` |  | Use `1.0` for a square (1:1), `0.75` for classic (4:3), `0.5625` for widescreen (16:9), `0.5` for panorama (2:1), or `0.4225` for ultrawide (21:9). Leave it empty to size the slider with Slider Height instead. It takes the responsive shorthand too, e.g. `0.5 md:0.5625 sm:0.75`.. Shown when `props.dimensions.sliderHeight === "auto"` |
-| Slide Auto Width | `props.dimensions.slideAutoWidth` | `data-slide-auto-width` | `false` | `true` / `false` |
+| Aspect Ratio | `props.dimensions.aspectRatio` | `data-height-ratio` |  | Use `1.0` for a square (1:1), `0.75` for classic (4:3), `0.5625` for widescreen (16:9), `0.5` for panorama (2:1), or `0.4225` for ultrawide (21:9). Leave it empty to size the slider with Slider Height instead. It takes the responsive shorthand too, e.g. `0.5 md:0.5625 sm:0.75`. Shown when `props.dimensions.sliderHeight === "auto"` |
+| Slide Auto Width | `props.dimensions.slideAutoWidth` | `data-slide-auto-width` | `false` | `true` / `false`. Each slide width is determined by its element width itself |
 | Loop | `props.motion.loop` | `data-loop` | `true` | `true` / `false` |
 | Rewind | `props.motion.rewind` | `data-rewind` | `false` | `true` / `false` |
 | Enable Drag | `props.motion.enableDrag` | `data-drag` | `true` | `true` / `false` |
 | Speed | `props.motion.speed` | `data-speed` | `400` |  |
 | Focus | `props.motion.focus` | `data-focus` | `0` | Determines which slide should be active if the carousel has multiple slides in a page. E.g. 0, 1, center |
-| Update on Move | `props.motion.updateOnMove` | `data-update-on-move` | `true` | `true` / `false` |
+| Update on Move | `props.motion.updateOnMove` | `data-update-on-move` | `true` | `true` / `false`. Updates the is-active status class just before moving the carousel |
 | Auto Play | `props.autoplay.autoPlay` | `data-autoplay` | `true` | `true` / `false` |
 | Interval | `props.autoplay.interval` | `data-interval` | `4000` |  |
 | Pause On Hover | `props.autoplay.pauseOnHover` | `data-pause-on-hover` | `false` | `true` / `false` |
-| Play/Pause Button | `props.autoplay.playPauseButton` | `data-autoplay-toggle` | `true` | `true` / `false` |
-| Bar Progress | `props.progress.barProgress` | `data-bar-progress` | `False` | `False` / `Slides` / `Timer` |
-| Circular Progress | `props.progress.circularProgress` | `data-circular-progress` | `False` | `False` / `Slides` / `Timer` |
+| Play/Pause Button | `props.autoplay.playPauseButton` | `data-autoplay-toggle` | `true` | `true` / `false`. For more control, consider using individual progress component: DWC Slider Play-Pause |
+| Bar Progress | `props.progress.barProgress` | `data-bar-progress` | `False` | `False` / `Slides` / `Timer`. To use timer mode, enable 'Auto Play' |
+| Circular Progress | `props.progress.circularProgress` | `data-circular-progress` | `False` | `False` / `Slides` / `Timer`. To use timer mode, enable 'Auto Play' |
 | Counter Progress | `props.progress.counterProgress` | `data-counter` | `false` | `true` / `false` |
-| Counter Leading Zeros | `props.progress.counterLeadingZeros` | `data-leading-zeros` | `false` | `true` / `false`. Shown when `props.progress.circularProgress !== "False" \|\| props.progress.counterProgress` |
+| Counter Leading Zeros | `props.progress.counterLeadingZeros` | `data-leading-zeros` | `false` | `true` / `false`. Adds '0' before the counter number e.g. 01/04. Shown when `props.progress.circularProgress !== "False" \|\| props.progress.counterProgress` |
 | Infinite Scroll | `props.autoscroll.infiniteScroll` | `data-auto-scroll` | `false` | `true` / `false` |
 | Scroll Speed | `props.autoscroll.scrollSpeed` | `data-auto-scroll-speed` | `4` | Shown when `props.autoscroll.infiniteScroll` |
 | Pause on Hover | `props.autoscroll.pauseOnHover` | `data-auto-scroll-pause-on-hover` | `true` | `true` / `false`. Shown when `props.autoscroll.infiniteScroll` |
@@ -120,7 +121,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Edge Fade | `props.overlay.edgeFade` | `data-edge-fade` | `false` | `true` / `false` |
 | Fade Distance | `props.overlay.fadeDistance` | `style` | `15%` | Set overall fade distance from the edge. Shown when `props.overlay.edgeFade` |
 | Fade Softness | `props.overlay.fadeSoftness` | `style` | `0.8` | Softness scale: 1 = softest fade, 0 = sharp edge. Shown when `props.overlay.edgeFade` |
-| Fade Opacity | `props.overlay.fadeOpacity` | `style` | `0%` | `0%` fades it fully out (default), up to `100%` for no fade at the edge.. Shown when `props.overlay.edgeFade` |
+| Fade Opacity | `props.overlay.fadeOpacity` | `style` | `0%` | `0%` fades it fully out (default), up to `100%` for no fade at the edge. Shown when `props.overlay.edgeFade` |
 | Overflow | `props.slides.overflow` | `data-overflow` | `false` | `true` / `false` |
 | Opacity | `props.slides.opacity` | `style` | `1` |  |
 | Opacity-Active | `props.slides.opacityActive` | `style` | `1` |  |
@@ -129,10 +130,10 @@ matches the components installed on the site. Do not hand-edit this section.
 | TranslateY | `props.slides.translateY` | `style` | `0` |  |
 | TranslateY-Active | `props.slides.translateYActive` | `style` | `0` |  |
 | TranslateX | `props.slides.translateX` | `style` | `0` |  |
-| Flip Next TranslateX | `props.slides.flipNextTranslateX` | `data-flip-translate-x` | `false` | `true` / `false`. Shown when `props.slides.translateX !== "0"` |
+| Flip Next TranslateX | `props.slides.flipNextTranslateX` | `data-flip-translate-x` | `false` | `true` / `false`. Flips the 'next' slide to mirror the 'prev' slide. Shown when `props.slides.translateX !== "0"` |
 | TranslateX-Active | `props.slides.translateXActive` | `style` | `0` |  |
 | RotateY | `props.slides.rotateY` | `style` | `0deg` |  |
-| Flip Next RotateY | `props.slides.flipNextRotateY` | `data-flip-rotate-y` | `false` | `true` / `false`. Shown when `props.slides.rotateY !== "0deg"` |
+| Flip Next RotateY | `props.slides.flipNextRotateY` | `data-flip-rotate-y` | `false` | `true` / `false`. Flips the 'next' slide to mirror the 'prev' slide. Shown when `props.slides.rotateY !== "0deg"` |
 | RotateY-Active | `props.slides.rotateYActive` | `style` | `0deg` |  |
 | RotateX | `props.slides.rotateX` | `style` | `0deg` |  |
 | RotateX-Active | `props.slides.rotateXActive` | `style` | `0deg` |  |
@@ -148,7 +149,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Lightbox Arrows | `props.lightbox.lightboxArrows` | `data-lightbox-arrows` | `true` | `true` / `false`. Shown when `props.lightbox.lightbox !== "False"` |
 | Lightbox Counter | `props.lightbox.lightboxCounter` | `data-lightbox-counter` | `true` | `true` / `false`. Shown when `props.lightbox.lightbox !== "False"` |
 | Lightbox Transition | `props.lightbox.lightboxTransition` | `data-lightbox-type` | `Rewind` | `Rewind` / `Loop` / `Slide` / `Fade`. Shown when `props.lightbox.lightbox !== "False"` |
-| Static Lightbox | `props.lightbox.staticLightbox` | `data-static-lightbox` | `true` | `true` / `false`. Shown when `props.lightbox.lightbox !== "False"` |
+| Static Lightbox | `props.lightbox.staticLightbox` | `data-static-lightbox` | `true` | `true` / `false`. Enables Lightbox when slider Layout Mode is 'static' i.e. grid layout. Shown when `props.lightbox.lightbox !== "False"` |
 | Lazy Load Slider | `props.performance.lazyLoadSlider` | `data-lazy-init` | `false` | `true` / `false` |
 | Lazy Preload Distance | `props.performance.lazyPreloadDistance` | `data-lazy-preload` | `200` | Shown when `props.performance.lazyLoadSlider` |
 | Thumbnail slide width | `props.builderPreview.thumbnailSlideWidth` | `style` | `350px` | Applies to thumbnails inside a Slider Wrapper |
@@ -164,14 +165,14 @@ matches the components installed on the site. Do not hand-edit this section.
 | Prop | Path | Attribute | Default | Values / notes |
 | --- | --- | --- | --- | --- |
 | Class  | `props.class` | `class` | `` |  |
-| Slide Title | `props.slideTitle` | `data-slide-title` |  | Add a slide title that will show on the custom next/prev buttons. Falls back to [data-slide-title] text, then to first heading in the slide. Note: a text with attribute [data-slide-title] must be added to the custom next/prev buttons to activate this feature. |
+| Slide Title | `props.slideTitle` | `data-slide-title` |  | Add a slide title that will show on the custom next/prev buttons. Falls back to [data-slide-title] text, then to first heading in the slide. Note: a text with attribute [data-slide-title] must be added to the custom next/prev buttons to activate this feature |
 
 ### DWC Slider Progress
 
 | Prop | Path | Attribute | Default | Values / notes |
 | --- | --- | --- | --- | --- |
 | Progress type | `props.progressType` | `data-progress-type` | `circular` | `Circular : circular` / `Bar : bar` / `Counter : counter` |
-| -- Circular Size (px) | `props.circularSizePx` | `data-circular-size` | `52` | Must be more than twice the Circular Radius.. Shown when `props.progressType === "circular"` |
+| -- Circular Size (px) | `props.circularSizePx` | `data-circular-size` | `52` | Must be more than twice the Circular Radius. Shown when `props.progressType === "circular"` |
 | -- Circular radius (px) | `props.circularRadiusPx` | `data-circular-radius` | `25` | Must be less than half the Circular Size. Shown when `props.progressType === "circular"` |
 | -- Circular Stroke (px) | `props.circularStrokePx` | `data-circular-stroke` | `3` | Shown when `props.progressType === "circular"` |
 | -- Circular Counter | `props.circularCounter` | `data-circular-counter` | `true` | `true` / `false`. Shown when `props.progressType === "circular"` |
@@ -238,7 +239,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | --- | --- | --- | --- | --- |
 | Navigation Type | `props.navigationType` | `data-go-to` | `next` | `Next Slide : next` / `Previous Slide : prev` / `First Slide : first` / `Last Slide : last` / `Go to Slide : custom` |
 | Custom Slide | `props.customSlide` | `data-go-to` | `1` | Shown when `props.navigationType === "custom"` |
-| Use Custom Arrow | `props.useCustomArrow` | style only | `false` | `true` / `false`. Shown when `props.navigationType === "next" \|\| props.navigationType === "prev"` |
+| Use Custom Arrow | `props.useCustomArrow` | style only | `false` | `true` / `false`. Allows you to use custom SVG. Shown when `props.navigationType === "next" \|\| props.navigationType === "prev"` |
 | Custom SVG | `props.customSvg` | style only |  | Paste SVG here. NOTE: To use custom SVG, enable 'Allow "unsafe" HTML' in Etch Settings. Shown when `props.useCustomArrow` |
 | Background | `props.styles.background` | `style` | `rgba(255, 255, 255, 0.06)` | Shown when `props.navigationType === "next" \|\| props.navigationType === "prev"` |
 | Hover Background | `props.styles.hoverBackground` | `style` | `color-mix(in oklch, var(--primary, #ff4d6a) 20%, transparent)` | Shown when `props.navigationType === "next" \|\| props.navigationType === "prev"` |

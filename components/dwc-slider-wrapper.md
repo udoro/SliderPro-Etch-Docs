@@ -15,6 +15,7 @@ The outer container. It holds one Slider (or a main Slider plus a thumbnail Slid
 | **Wrapper Height**      | `--slider-wrapper-height` | `auto`  | Sets a minimum height for the wrapper.       |
 | **Space Between Sliders** | `--sliders-gap` | –       | The space between a main Slider and its thumbnail Slider (or any other items placed directly in the wrapper). |
 | **Custom Class**        | `class`  | `[]`    | Add your own CSS class in this **Custom Class** field to style the wrapper.     |
+| **Edit Mode**           | `data-edit-mode` | `false` | Reveals content you have hidden on the live page so you can edit it in the builder. Does nothing on its own: you decide what appears by writing CSS against `[data-edit-mode="true"]`. Preview ignores it. See [Edit Mode](#edit-mode). |
 | **Lazy Load Sliders**   | `data-lazy-init` | `false` | Waits to build **every** slider in this wrapper until it's about to scroll into view, as one group. Good for wrappers below the fold. |
 | **Lazy Preload Distance** | `data-lazy-preload` | `200` | Shown once Lazy Load Sliders is on. How many pixels before the wrapper reaches the screen it should start (e.g. `200` or `300px`). |
 | **Pause Sliders on Hover** | `data-group-pause-on-hover` | `false` | When on, hovering or keyboard-focusing **any** slider in this wrapper pauses **all** of them together (both Infinite Scroll marquees and autoplay carousels); they resume once the pointer and focus have both left. See the note below. |
@@ -29,6 +30,100 @@ The outer container. It holds one Slider (or a main Slider plus a thumbnail Slid
 > **Pause Sliders on Hover** makes the wrapper the single pause controller for its sliders, so it overrides each slider's own **Pause On Hover**, so moving the pointer from one row to the next won't restart the row you just left. Ideal for stacked logo-marquee rows that should behave as one unit. Nested sliders aren't affected.
 
 > **Edge Fade** is also available per-slider on the [DWC Slider → EDGE FADE](dwc-slider.md#edge-fade) panel; enabling it on the wrapper fades a whole stack of sliders at once.
+
+***
+
+## Edit Mode
+
+Some slide content is meant to be hidden until a visitor does something. Detail text that only
+appears in the [lightbox](dwc-slider.md#lightbox) is the common case: it is `display: none` on the
+slide, so on the page it is invisible, and in the builder it is invisible **and** uneditable. You
+cannot click text that is not rendered.
+
+**Edit Mode** is the switch that brings it back while you work. Turning it on puts
+`data-edit-mode="true"` on the wrapper. Nothing changes by itself: you choose what appears by
+writing CSS against that attribute.
+
+### A worked example
+
+Say each slide holds a block of detail text that only visitors of the lightbox should see:
+
+```html
+<div class="room__details">
+  <p>Storage runs the length of one wall and disappears into it.</p>
+</div>
+```
+
+Hide it on the slide, and show it in both the lightbox and Edit Mode:
+
+```css
+/* the .room__details style entry */
+display: none;
+
+.dwc-lightbox &,
+:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview]) & {
+  display: block;
+  padding: to-rem(28px) to-rem(34px);
+}
+```
+
+Now the text is hidden on the page, visible to a visitor who opens the lightbox, and visible to you
+in the builder whenever Edit Mode is on. There is nothing to keep in sync, because both states use
+the same rule.
+
+### Always write both guards
+
+Edit Mode is a saved setting, so it stays on when you leave the builder. Two places should ignore
+it, and they need separate guards:
+
+```css
+:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview]) & { /* ... */ }
+```
+
+* **`body:not(.dwc-frontend)`** keeps it off your live site. The plugin adds `dwc-frontend` to the
+  body on the front end and never inside Etch, so this is what stops a forgotten toggle reaching
+  your visitors. `:where()` keeps it from affecting specificity.
+* **`:not([data-splide-preview])`** keeps it out of **Preview**, which is meant to show what a
+  visitor sees. The plugin marks the slider and the wrapper with that attribute while previewing.
+
+You need both. `dwc-frontend` is suppressed everywhere in Etch, Preview included, so it does not
+cover Preview on its own.
+
+### Do not use it to fix things that look broken while editing
+
+Edit Mode is for revealing markup that is **deliberately** hidden. It is not the tool for content
+that disappears in the builder for a different reason: that the slider is not running.
+
+A slider only runs on the live page and in Preview. While you are editing it is idle, so no slide
+carries `is-active` and no slide has the height the slider would have given it. Anything resting
+at `opacity: 0` stays invisible, and a slide whose content is positioned absolutely collapses to
+nothing.
+
+Those need to come back **on their own**, not wait for a toggle. Gate them on the slider not
+running instead, which is true while you edit and stops the moment the slider starts:
+
+```css
+/* the slide's own style entry */
+position: relative;
+
+.splide:not(:has(.splide__slide.is-active)) & {
+  min-block-size: to-rem(480px);
+}
+```
+
+Put that behind Edit Mode instead and your design looks broken in the builder until somebody finds
+the switch, which is the opposite of what the switch is for.
+
+| You want to | Use |
+| --- | --- |
+| Make the builder look like the live page | `.splide:not(:has(.splide__slide.is-active))` |
+| Reveal content that is hidden on the live page | `:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview])` |
+
+### Turn it off when you are done
+
+With the guards above a forgotten toggle cannot reach your visitors, because the rules stop applying
+the moment the page is served normally. Switching it off is still worth doing: it is how you see the
+real slide design while you work.
 
 ***
 

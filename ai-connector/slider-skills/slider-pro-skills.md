@@ -466,6 +466,27 @@ mistake, and `ltr sm:ttb` does the opposite of what it looks like.
 
 **Never set a prop to its default.** It adds noise to the markup and hides real intent.
 
+**Where the prop table shows `Label : value`, write the value.** A few selects list a display name
+and a stored value either side of a colon, like
+`Next Slide : next` or `Go to Slide : custom`. Write `next`, never `Next Slide`. Most selects list
+their values plainly (`Slide` / `Fade` / `Loop`) and those go in exactly as written, capital and
+all, because the engine lowercases them itself on the way to the attribute. Getting this wrong is
+silent from end to end: the value is accepted, stored, and read back exactly as you typed it, while
+the engine compares it against something else, matches nothing, and quietly uses the default. Read
+the attribute on the rendered page to settle it.
+
+**A check that finds nothing must count as a failure, not a pass.** When you verify by querying the
+page, a selector that matches nothing returns `0`, `null` or an empty list, and that reads as
+success in a result you skim. Assert the thing was found before you assert anything about it. Three
+ways this bites:
+
+* A selector for a class the component does not actually use reports "not there" whether the
+  feature is broken or your selector is wrong.
+* `[data-x]` matches the attribute whatever its value, so a control you just switched off still
+  counts. Write `[data-x="false"]`.
+* A count that quietly drops to zero still prints a clean result. `checked 0 items` is the most
+  dangerous output a check can produce, because it looks exactly like the best one.
+
 **Adding a control component does not remove the built-in one. Switch the built-in off yourself.**
 Three of them ship **on**, and each renders a second set of controls underneath your design:
 
@@ -623,6 +644,33 @@ position: relative;
 Build the design so the builder shows something honest. An author who cannot see the slide cannot
 edit its content.
 
+**Two different builder gates. Do not confuse them.** They answer different questions, and using
+the wrong one is a defect the author sees before you do.
+
+| Gate | Use it for | True when |
+| --- | --- | --- |
+| `.splide:not(:has(.splide__slide.is-active))` | Making the builder **look like** the front end: slide height, anything resting at `opacity: 0` | The slider is not running |
+| `:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview])` | **Revealing** markup that is deliberately hidden on the front end, so it can be edited | The Wrapper's Edit Mode is on, and Preview is off |
+
+**Never put the first job behind Edit Mode.** A slide with no height, or content resting at
+`opacity: 0`, has to come back on its own. Gate that on Edit Mode and the design is broken in the
+builder until somebody finds the toggle, which is the opposite of what the toggle is for.
+
+**Edit Mode needs two guards, not one.** `:where(body:not(.dwc-frontend))` keeps it off the live
+site: the plugin puts `dwc-frontend` on the body there and never inside Etch, and `:where()` keeps
+the test out of the specificity sum. That does **not** cover Preview, because the class is
+suppressed in every Etch context including Preview, which is why the second guard is separate.
+
+**Always pair Edit Mode with `:not([data-splide-preview])`.** `props.editMode` on DWC Slider
+Wrapper is a stored value, so it survives into Preview, and Preview is meant to show what a visitor
+sees. The bridge sets `data-splide-preview` on the slider and the wrapper before it starts Splide,
+and removes it on exit, so it is the signal to test. Do not reach for the active-slide check here
+instead: it only becomes false once Splide has mounted, so the editing layout flashes on every
+Preview.
+
+Edit Mode is also what makes content editable at all. Preview runs the slider but does not let the
+author type, so "just use Preview" is not an answer for text that is hidden in the carousel.
+
 **Read computed style, not source, to decide what the plugin already does.** `getComputedStyle(el)`
 answers directly and in one call. Do not conclude from page source that a rule is absent: component
 styles are inlined into the page but the engine's stylesheet is a separate file, so a rule can be
@@ -671,3 +719,41 @@ stale page as latency rather than loss. Reloading the builder tab flushes anythi
 * Rebuild a premade template's CSS from scratch when the user is asking you to adjust one.
 * Save after every attribute. Batch the change, then save once.
 * Report success without a screenshot.
+
+***
+
+## Before you say you are done
+
+End every task with a short report. Four lines, not a paragraph.
+
+**Time.** Take a timestamp before your first connector call and another at the end, and give
+the elapsed figure. Do not estimate it from memory afterwards.
+
+```bash
+date +%s        # before you start, and again at the end
+```
+
+**Round trips.** How many connector calls you made. This is the number that tracks what the
+task cost, because each one is a full request. A build that took twelve calls and one that took
+three are not the same task, whatever the clock says.
+
+**What changed.** Blocks, props and style entries you touched, by name. If you replaced or deleted
+anything, say so first.
+
+**What you verified, and how.** Say which level you reached. A read-back proves a value persisted;
+only looking at the rendered page proves it is right. If you could not check something, name it as
+unverified rather than leaving it inside a list of things that sound checked.
+
+**Do not report tokens or cost.** You have no way to measure either, and a number you cannot
+measure is a number you invented. The real figures are in the `/cost` command, which reads the
+tool's own accounting.
+
+Example:
+
+```
+7m 51s, 6 connector calls.
+Built: 1 wrapper, 1 slider, 7 slides, 11 style entries.
+Verified: rendered. Screenshot of the published page, dots measured at 10x10.
+Unverified: the builder view, which needs your session.
+```
+

@@ -10,12 +10,17 @@ up front:
 
 * **`slider-pro-skills-build.md`** is the building guide: block JSON, slots, the design recipes
   and the block builders. Read it when you are creating something from scratch, and not otherwise.
-* **`slider-pro-skills-reference.md`** is lookup-only. Grep into it, never read it whole.
+* **`slider-pro-skills-reference.md`** is lookup-only: grep into it rather than reading it whole.
+  The exception is building a component from scratch. Read that component's full prop table in
+  Section 1 first, once. They are short (DWC Slider is 92 lines) and it is the only way to learn
+  what the plugin already does. Grepping for a prop you have already decided to use confirms your
+  plan; it cannot tell you the plan was unnecessary.
 
 ### When to consult the reference file
 
 | You need | Section to Grep |
 | --- | --- |
+| What a component can already do, before you design anything | `## 1. Prop reference`, reading that component's whole table rather than grepping |
 | A prop's exact key, path, attribute or default | `## 1. Prop reference` |
 | A CSS variable name for arrows, dots, progress or the lightbox | `## 2. CSS variables` |
 | Sync Custom Element details, multiple selectors, the overlap caveat | `## 3. Sync Custom Element` |

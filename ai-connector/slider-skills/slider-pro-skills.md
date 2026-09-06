@@ -487,6 +487,11 @@ ways this bites:
 * A count that quietly drops to zero still prints a clean result. `checked 0 items` is the most
   dangerous output a check can produce, because it looks exactly like the best one.
 
+**Change one thing, then look.** When a fix does not work, verify before stacking a second change
+on the same symptom. Two changes and one screenshot cannot tell you which one worked, and the
+natural error is to credit the explanation you already had. If you cannot name the single change
+that moved the result, you do not know the cause yet.
+
 **Adding a control component does not remove the built-in one. Switch the built-in off yourself.**
 Three of them ship **on**, and each renders a second set of controls underneath your design:
 
@@ -500,6 +505,10 @@ Dropping in a DWC Slider Pagination while `paginationDots` is still `true` gives
 dots, and `playPauseButton` puts a circular toggle at the slider's bottom-right of a design that
 never asked for one. This is the one place the "never set a prop to its default" rule reads
 backwards: you are not setting a default, you are turning an unwanted default off.
+
+Styling them differs too: the built-in reads the `.dwc-slider-vars-*` variables from the slider,
+while the component shadows those variables with its own defaults and must be styled through its
+own props, or through its own class entry for what no prop covers.
 
 **Pagination dot size is derived from the dot font size. Change the font size, not the size.**
 `props.dot.size` is declared as `calc(var(--font-size) * 2)`, so it tracks `props.dot.fontSize`
@@ -548,9 +557,17 @@ renders structurally but its inner content is missing, check this first.
 **Symptom two, a class prop that silently replaces the default.** Class props are arrays of
 **space-separated style ids**. Writing one id does not add to the default, it becomes the whole
 value, and the default is gone with no error. Setting `sliderClass` to your own class alone drops
-the slider's navigation variables, which carry the arrow, pagination, play/pause and progress
-styling, and nothing looks wrong until one of those controls misbehaves. Always read, append,
-write back, never overwrite.
+the slider's navigation variables, which carry the styling for the **built-in** arrows,
+pagination, play/pause and progress, and nothing looks wrong until one of those controls
+misbehaves. Always read, append, write back, never overwrite.
+
+The standalone components do not take styling from here. Each renders its own props as inline
+CSS variables on itself, and an inline declaration beats anything inherited, so setting these
+variables on the wrapper or the slider can never reach them. Style a standalone control through
+**its own props** first; reach for the style entry its class prop points at only for what no
+prop covers, such as the Nav Button's shape, where the component exposes no styling prop at all.
+The trap is that nothing appears to break: the component writes its shipped defaults inline, so
+the control still looks correct while your value is ignored.
 
 ## `sliderClass` carries a minted per-instance class
 

@@ -137,8 +137,15 @@ This matters constantly here: you cannot query the DOM to check what a slider re
 ```js
 Object.keys(etch)
 // ["blocks", "loops", "styles", "stylesheets", "components",
-//  "navigation", "fields", "ui", "history",
-//  "saveAsync", "connectAs", "apiVersion", "version"]
+//  "navigation", "fields", "ui", "history", "skills", "ai",
+//  "environment", "saveAsync", "connectAs", "apiVersion", "version"]
+```
+
+`environment` is absent before Etch 1.6.7; treat a missing one as everything being available. It reports what the connected build actually backs:
+
+```js
+etch.environment.blockTypes    // every block type this build can construct
+etch.environment.capabilities  // { loops, fields, templates, wpMedia, dataSources }
 ```
 
 The ones this work uses:

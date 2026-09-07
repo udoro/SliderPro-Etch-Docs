@@ -5,8 +5,7 @@ icon: robot
 # AI Skills Reference
 
 Everything an agent needs to configure **Slider Pro for Etch** through the Etch AI Connector. Read
-this file in full at session start. It has two companions in the same folder, and neither is read
-up front:
+this file in full at session start. It ships with companions, and none of them is read up front:
 
 * **`slider-pro-skills-build.md`** is the building guide: block JSON, slots, the design recipes
   and the block builders. Read it when you are creating something from scratch, and not otherwise.
@@ -15,10 +14,14 @@ up front:
   Section 1 first, once. They are short (DWC Slider is 92 lines) and it is the only way to learn
   what the plugin already does. Grepping for a prop you have already decided to use confirms your
   plan; it cannot tell you the plan was unnecessary.
+* **`../../components/*.md`** are the seven per-component pages that ship alongside these files.
+  They cover behaviour and authoring traps the prop tables cannot express: Edit Mode and
+  lightbox-only content are in `dwc-slider-wrapper.md`. Open a component's page when you are doing
+  something to it that a prop table cannot describe.
 
-### When to consult the reference file
+### When to consult the other files
 
-| You need | Section to Grep |
+| You need | Where to look |
 | --- | --- |
 | What a component can already do, before you design anything | `## 1. Prop reference`, reading that component's whole table rather than grepping |
 | A prop's exact key, path, attribute or default | `## 1. Prop reference` |
@@ -27,6 +30,7 @@ up front:
 | Custom Options or the JavaScript API | `## 4. Escape hatches` |
 | Whether an existing build is a premade template | `## 5. Recognising an existing setup` |
 | Site-wide plugin settings | `## 6. Admin settings` |
+| How a component behaves beyond its props, and its authoring traps | `../../components/<component>.md`, not the reference |
 
 Everything else lives here.
 
@@ -675,13 +679,32 @@ position: relative;
 Build the design so the builder shows something honest. An author who cannot see the slide cannot
 edit its content.
 
+**Anything you hide on the front end is hidden from the author too.** `display: none` on a slide
+makes it invisible on the page, and in the builder invisible **and uneditable**: you cannot click
+text that is not rendered. The common case is detail content meant only for the lightbox. Reveal it
+in the same style entry as the rule that hid it, so the two cannot drift apart:
+
+```css
+/* the detail element's own entry */
+display: none;
+
+.dwc-lightbox &,
+:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview]) & {
+  display: block;
+}
+```
+
+Shipping a region nobody can reach is not a styling bug, and fetching the published page will never
+catch it: it renders correctly there by design. The Edit Mode half of that rule is not present on
+every install; see the version note below before you rely on it.
+
 **Two different builder gates. Do not confuse them.** They answer different questions, and using
 the wrong one is a defect the author sees before you do.
 
 | Gate | Use it for | True when |
 | --- | --- | --- |
 | `.splide:not(:has(.splide__slide.is-active))` | Making the builder **look like** the front end: slide height, anything resting at `opacity: 0` | The slider is not running |
-| `:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview])` | **Revealing** markup that is deliberately hidden on the front end, so it can be edited | The Wrapper's Edit Mode is on, and Preview is off |
+| `:where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview])` | **Revealing** markup that is deliberately hidden on the front end, so it can be edited: lightbox-only detail content, anything at `display: none` | The Wrapper's Edit Mode is on, and Preview is off |
 
 **Never put the first job behind Edit Mode.** A slide with no height, or content resting at
 `opacity: 0`, has to come back on its own. Gate that on Edit Mode and the design is broken in the
@@ -701,6 +724,36 @@ Preview.
 
 Edit Mode is also what makes content editable at all. Preview runs the slider but does not let the
 author type, so "just use Preview" is not an answer for text that is hidden in the carousel.
+
+**Edit Mode is a recent addition, and the plugin version is not the test.** The prop lives on the
+Wrapper component, so a wrapper pasted in from a site that has it can carry it into an install that
+does not, though only if Etch's **Overwrite on paste** setting was on at the time, since that is
+what replaces the local component definition with the incoming one. With it off, the instance binds
+to the older local component and there is no Edit Mode prop. Neither the plugin version nor the
+paste history tells you which one you are looking at, so ask the component:
+
+```js
+const wrapperId = etch.components.list().find((c) => c.name === 'DWC Slider Wrapper').id;
+const hasEditMode = etch.components.getJson(wrapperId).properties.some((p) => p.key === 'editMode');
+```
+
+That reads the component's registered properties and writes nothing. Do **not** probe by calling
+`setAttribute(id, 'editMode', '{true}')`: it does throw when the prop is absent, but when the prop
+is present it silently switches Edit Mode on, and a probe that changes what it measures leaves the
+author's builder in a state they did not ask for.
+
+Where the prop is missing, nothing ever writes `data-edit-mode` and the reveal gate matches
+nothing. That failure is silent in the worst way: the CSS is valid, the front end is correct, the
+lightbox still shows the content to visitors, and the author alone cannot reach it.
+
+**Do not substitute the other gate.** `.splide:not(:has(.splide__slide.is-active))` is tempting
+because it needs no prop and is true while you edit, but it is also true on the front end for the
+moment between the page parsing and Splide mounting. Reveal hidden content with it and every
+visitor gets a flash of the thing you meant to hide, on every page load. That is the reason Edit
+Mode exists as a switch rather than a condition.
+
+So on an install without the prop you have two honest options: get the components updated, or do
+not hide the content in the first place. Once it is hidden there is no way to edit it.
 
 **Read computed style, not source, to decide what the plugin already does.** `getComputedStyle(el)`
 answers directly and in one call. Do not conclude from page source that a rule is absent: component
@@ -750,6 +803,7 @@ stale page as latency rather than loss. Reloading the builder tab flushes anythi
 * Rebuild a premade template's CSS from scratch when the user is asking you to adjust one.
 * Save after every attribute. Batch the change, then save once.
 * Report success without a screenshot.
+* Ship content the author cannot see or reach in the builder.
 
 ***
 
@@ -769,7 +823,8 @@ task cost, because each one is a full request. A build that took twelve calls an
 three are not the same task, whatever the clock says.
 
 **What changed.** Blocks, props and style entries you touched, by name. If you replaced or deleted
-anything, say so first.
+anything, say so first. If you hid anything from the front end, say how the author reaches it in
+the builder.
 
 **What you verified, and how.** Say which level you reached. A read-back proves a value persisted;
 only looking at the rendered page proves it is right. If you could not check something, name it as

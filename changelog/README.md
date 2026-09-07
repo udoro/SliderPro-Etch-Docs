@@ -4,6 +4,16 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.2.2 - September 7, 2026
+
+**Slider Wrapper**
+
+* New **Edit Mode** setting. Content you have hidden on the live page, like detail text meant only for the lightbox, is invisible in the builder too, which means you cannot click it to edit it. Switch Edit Mode on to bring it back while you work, and off again when you are done. It changes nothing on your live page.
+
+**Slider**
+
+* Fixed the spelling of the **Overlay Background Inactive** setting. If you set it before this version, set it again after importing the component: the old value is no longer read, and the overlay falls back to its default.
+
 ## Version 1.2.1 - August 29, 2026
 
 **Progress**

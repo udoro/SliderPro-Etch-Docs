@@ -6,7 +6,7 @@ icon: books
 
 This is the **lookup-only** companion to `slider-pro-skills.md` (same folder). You do NOT need to
 read this file in full at session start. Grep into the one section a task needs, following the
-"When to consult the reference file" guidance in the main file.
+"When to consult the other files" guidance in the main file.
 
 > **Full prose reference (local, preferred):** the tables here are lookup summaries. For the
 > descriptions, slot documentation and per-component examples they omit, read the `components/`
@@ -117,7 +117,7 @@ matches the components installed on the site. Do not hand-edit this section.
 | Pagination Dots | `props.navigation.paginationDots` | `data-pagination` | `true` | `true` / `false` |
 | Enable | `props.overlay.enable` | `data-overlay` | `false` | `true` / `false` |
 | Overlay Background | `props.overlay.overlayBackground` | `style` | `var(--slider-overlay-bg-inactive)` | Shown when `props.overlay.enable` |
-| Overaly Background Inactive | `props.overlay.overalyBackgroundInactive` | `style` | `color-mix(in oklch, black 55%, transparent)` | Shown when `props.overlay.enable` |
+| Overlay Background Inactive | `props.overlay.overlayBackgroundInactive` | `style` | `color-mix(in oklch, black 55%, transparent)` | Shown when `props.overlay.enable` |
 | Edge Fade | `props.overlay.edgeFade` | `data-edge-fade` | `false` | `true` / `false` |
 | Fade Distance | `props.overlay.fadeDistance` | `style` | `15%` | Set overall fade distance from the edge. Shown when `props.overlay.edgeFade` |
 | Fade Softness | `props.overlay.fadeSoftness` | `style` | `0.8` | Softness scale: 1 = softest fade, 0 = sharp edge. Shown when `props.overlay.edgeFade` |

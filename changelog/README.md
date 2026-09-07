@@ -8,7 +8,7 @@ icon: arrows-retweet
 
 **Slider Wrapper**
 
-* New **Edit Mode** setting. Content you have hidden on the live page, like detail text meant only for the lightbox, is invisible in the builder too, which means you cannot click it to edit it. Switch Edit Mode on to bring it back while you work, and off again when you are done. It changes nothing on your live page.
+* New **Edit Mode** setting. Content you have hidden on the live page, like detail text meant only for the lightbox, is invisible in the builder too, which means you cannot click it to edit it. Switch Edit Mode on to bring it back while you work, and off again when you are done. It changes nothing on your live page. See [DWC Slider Wrapper → Edit Mode](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider-wrapper#edit-mode).
 
 **Slider**
 

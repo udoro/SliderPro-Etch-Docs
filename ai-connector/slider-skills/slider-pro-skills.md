@@ -694,8 +694,7 @@ display: none;
 }
 ```
 
-Shipping a region nobody can reach is not a styling bug, and fetching the published page will never
-catch it: it renders correctly there by design. The Edit Mode half of that rule is not present on
+Fetching the published page will never catch it: it renders correctly there by design. The Edit Mode half of that rule is not present on
 every install; see the version note below before you rely on it.
 
 **Two different builder gates. Do not confuse them.** They answer different questions, and using

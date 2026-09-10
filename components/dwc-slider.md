@@ -289,9 +289,26 @@ Then style them however you like:
 
 The elements can live anywhere on the page, and they don't have to be inside the slider. They also don't have to match the number of slides: if there are fewer elements than slides, several slides share an element; if there are more, the extras simply never light up. Leave the field empty to turn the feature off.
 
-> **Duplicating a slider? Give the copy its own class.** A slider looks for your selector across the whole page, not just inside itself. Duplicate a slider together with its elements and you now have two sliders matching both sets, so each one drives the other's elements as well as its own. Rename the class on the copied elements, then point the copy's **Sync Custom Element** at the new selector. Same for **Sync Custom Element Nav**: until you do, clicking a card in the second set moves the first slider too. This does not affect [Sync Without Slider](dwc-slider-wrapper.md#sync-without-slider), where a wrapper only ever drives elements inside itself, so duplicating one of those is safe.
+> **Duplicating a slider? The copy needs its own class.**
+>
+> A slider looks for your class across the whole page, not only inside itself. So if you duplicate a slider together with its elements, both sliders now control both sets. With **Sync Custom Element Nav** on, clicking an element in the second set moves the first slider too.
+>
+> Fix it on the copied elements. **Do not rename the class.** Renaming changes it everywhere it is used, including the originals, so you end up back where you started. Do this instead:
+>
+> 1. Add a new class to the copied elements, for example `slider-stack-2__card`.
+> 2. Remove the old class from those same elements.
+> 3. Copy your CSS across and point it at the new class.
+> 4. Set the second slider's **Sync Custom Element** to the new selector, `.slider-stack-2__card`.
+>
+> [Sync Without Slider](dwc-slider-wrapper.md#sync-without-slider) does not have this problem. A wrapper there only ever controls elements inside itself, so you can duplicate one freely.
 
-> **Match the counts when your CSS positions the elements.** A mismatch is fine when each element only styles itself, like a heading that fades in on its slide. It causes a visible jump when your CSS places elements relative to the active one: a card stack, a fanned deck, anything that uses `is-prev` and `is-next` to sit either side. With fewer elements than slides, the active class starts again from the first element part-way along the slider, and the layout snaps back instead of moving on. Give those designs one element per slide. The [Slider Stack template](../card-stack-templates.md#slider-stack-the-same-deck-driven-by-a-real-slider) is built this way: add a card and add a slide.
+> **Use one element per slide when your CSS positions them.**
+>
+> A different count is fine when each element only styles itself, like a heading that fades in on its slide.
+>
+> It breaks anything where the elements sit relative to each other: a card stack, a fanned deck, anything using `is-prev` and `is-next` to sit either side. With fewer elements than slides, the active class goes back to the first element part-way through, and the layout jumps backwards instead of moving on. It looks like a broken animation, but it is the count.
+>
+> The [Slider Stack template](../card-stack-templates.md#slider-stack-the-same-deck-driven-by-a-real-slider) works this way. Add a card, add a slide, and keep them equal.
 
 **Multiple sets at once.** You can list several selectors separated by commas, for example `.headings, .thumb-strip`, and each set is tracked **independently and at the same time**. Every set gets its own `is-active`/`is-prev`/`is-next` relative to the current slide, cycling within its own elements (so a 4-item set and a 2-item set each wrap on their own count). Commas *inside* a selector (`:is(.a, .b)`, `:not(.x, .y)`, `[data-role="a,b"]`) are left intact and count as one set. Keep the sets distinct: if one element happens to match two of your selectors, the last set listed wins for that element.
 

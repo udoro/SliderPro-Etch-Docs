@@ -137,9 +137,12 @@ wraps part-way along and the layout snaps back. Give those one element per slide
 
 **The selector is matched against the whole document, not against the slider.** Two sliders using
 the same selector each drive both sets, and with nav on a click on either set moves both sliders.
-When you duplicate a slider and its elements, rename the class on the copy and set the copy's
-`syncCustomElement` to the new selector. Sliderless mode (`sliderlessSync.customElement` on a
-Wrapper) is scoped to that Wrapper's own descendants, so duplicating one is safe.
+When you duplicate a slider and its elements, give the copied elements a **new class** and remove
+the old one from them, then set the copy's `syncCustomElement` to the new selector. Do not rename
+the existing class: a style entry is shared, so renaming its selector renames it on the originals
+too. See "Renaming is not one operation" in the entry file. Sliderless mode
+(`sliderlessSync.customElement` on a Wrapper) is scoped to that Wrapper's own descendants, so
+duplicating one is safe.
 
 The selector takes a comma-separated list, so one slider can drive several groups at once. Team
 uses `'.slider-team__sync, .slider-team__sync-heading'` to move a portrait and a heading together.

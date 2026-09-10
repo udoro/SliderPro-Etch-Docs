@@ -396,8 +396,10 @@ selector for your elements.
   shorter set wraps part-way along and the layout snaps back. Use one element per slide for those.
 * **The selector is resolved document-wide, not within the slider.** Two sliders using the same
   selector each drive both sets, and with nav on a click on either set moves both sliders.
-  Duplicating a slider means renaming the class on the copied elements and updating the copy's
-  `syncCustomElement`. Sliderless mode on a Wrapper is scoped to that Wrapper instead.
+  When duplicating a slider, add a **new** class to the copied elements, remove the old one from
+  them, and update the copy's `syncCustomElement`. Do not rename the existing class: the style
+  entry is shared, so a selector rename hits the originals too. Sliderless mode on a Wrapper is
+  scoped to that Wrapper instead.
 
 ### Without a slider
 

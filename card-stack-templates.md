@@ -291,11 +291,12 @@ The slider drives, the cards follow. Its **Sync Custom Element** is set to `.sli
 
 ### What that changes
 
-Three differences from the Deck templates on this page:
+Four differences from the Deck templates on this page:
 
 - **There is no script.** Deck carries a small script with `MAX_TIERS` and `NAV_RINGS`. Slider Stack has none: everything is CSS reacting to `is-active`, `is-prev` and `is-next`, which the slider applies for you. Nothing to adjust, nothing to break.
 - **Only three cards are ever visible**, the active one and the two beside it. Every other card sits at `--depth-far` with `opacity: 0`. There are no rows fanned out behind, so the loop-minimum table above does not apply here.
 - **Card count follows slide count.** Add a card and add a slide, or the two fall out of step. Loop is a normal slider setting, with no five-card minimum.
+- **A second Slider Stack on the same page needs its own card class.** A slider matches your selector anywhere on the page, so duplicating this template leaves both sliders driving both stacks, and a click on either one moves both. Rename the copy's card class, say `.slider-stack-2__card`, update its CSS to match, and set the second slider's **Sync Custom Element** to the new selector. Deck and Fall never need this: they're sliderless, and each wrapper only drives the cards inside it.
 
 ### The variables
 

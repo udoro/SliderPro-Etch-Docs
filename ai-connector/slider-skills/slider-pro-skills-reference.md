@@ -391,7 +391,13 @@ selector for your elements.
 * Commas **inside** a selector are safe: `:is(.a, .b)`, `:not(.x, .y)`, `[data-role="a,b"]` are
   left intact.
 * Elements can live anywhere on the page and do not have to be inside the slider.
-* They do not have to match the slide count.
+* They do not have to match the slide count, **unless the CSS positions them relative to the active
+  element** (card stacks, fanned decks, anything using `is-prev`/`is-next` to sit either side). A
+  shorter set wraps part-way along and the layout snaps back. Use one element per slide for those.
+* **The selector is resolved document-wide, not within the slider.** Two sliders using the same
+  selector each drive both sets, and with nav on a click on either set moves both sliders.
+  Duplicating a slider means renaming the class on the copied elements and updating the copy's
+  `syncCustomElement`. Sliderless mode on a Wrapper is scoped to that Wrapper instead.
 
 ### Without a slider
 

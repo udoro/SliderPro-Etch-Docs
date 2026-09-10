@@ -129,8 +129,17 @@ setGroup(sliderId, 'sliderSetup', { syncCustomElement: '.timeline-node',
 
 The plugin then moves `is-active`, `is-prev` and `is-next` across those elements as the slider
 moves, and with nav on, clicking one jumps the slider to it. **You write the CSS for the three
-states.** The elements do not need to be inside the slider and do not need to match the slide
-count.
+states.** The elements do not need to be inside the slider.
+
+They do not need to match the slide count either, **unless the CSS positions them relative to the
+active one** (stacks, fans, anything using `is-prev`/`is-next` to sit either side). A shorter set
+wraps part-way along and the layout snaps back. Give those one element per slide.
+
+**The selector is matched against the whole document, not against the slider.** Two sliders using
+the same selector each drive both sets, and with nav on a click on either set moves both sliders.
+When you duplicate a slider and its elements, rename the class on the copy and set the copy's
+`syncCustomElement` to the new selector. Sliderless mode (`sliderlessSync.customElement` on a
+Wrapper) is scoped to that Wrapper's own descendants, so duplicating one is safe.
 
 The selector takes a comma-separated list, so one slider can drive several groups at once. Team
 uses `'.slider-team__sync, .slider-team__sync-heading'` to move a portrait and a heading together.

@@ -71,8 +71,8 @@ The slider behaves differently in three contexts. This is handled automatically,
 ### Preview mode (click "Preview")
 - The slider is rebuilt and actually mounted with Splide, so it behaves exactly as it will on the live site: autoplay, arrows, drag, sync, everything.
 - Links inside slides are disabled while in Preview mode so clicking around doesn't navigate you away from the editor.
-- A **Refresh** button appears next to the Edit button while you're in Preview. Changes you make to a slider *while previewing* don't show up on their own, because Preview runs against a rebuilt copy of the slider that Etch can no longer reach. Refresh reloads the canvas and drops you straight back into Preview with your changes applied, so you don't have to click Edit and then Preview again.
-- Click the button again (now labeled "Edit") to leave Preview mode. This destroys the live slider instance, restores the edit grid, and automatically refreshes the Etch canvas.
+- A **Refresh** button appears next to the Edit button while you're in Preview. Changes you make to a slider *while previewing* don't show up on their own. Refresh rebuilds the slider with those changes and keeps you in Preview, so you don't have to click Edit and then Preview again.
+- Click the button again (now labeled "Edit") to leave Preview mode. This stops the live slider and brings the edit grid back, with any changes you made while previewing now visible.
 
 ### Live/published site
 - The frontend always loads and mounts the real slider directly, with no edit grid, no control bar, no Preview toggle.
@@ -85,4 +85,3 @@ Etch authors your components as WordPress blocks, so a slider built in Etch can 
 ### Things to know
 - **Don't be alarmed by console errors while in Edit mode.** Splide expects a strict parent/child DOM structure, and Etch's own editing wrapper elements interfere with that. These errors are expected inside the canvas and don't affect the published page.
 - If you add or remove slides while in Edit mode, the control bar and grid update automatically.
-- If something looks stuck after toggling Preview, a manual page reload of the Etch editor resolves it.

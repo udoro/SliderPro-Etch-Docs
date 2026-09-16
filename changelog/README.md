@@ -4,6 +4,20 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.2.3 - September 16, 2026
+
+_Update path from v1.2.2: Plugin & Components_
+
+**Slider**
+
+* Sliders are no longer placed in the Automatic.css content grid, so your slider takes the width you set for it. If you don't use ACSS, nothing changes.
+
+**Builder**
+
+* Fixed the Etch canvas going blank after clicking the **Edit** or **Refresh** button on a slider. If you hit this, the only way back was reloading the builder tab.
+* Changes you make to a slider while previewing now show up as soon as you leave Preview. The **Refresh** button still brings them in without leaving Preview, and it's instant now.
+* Fixed the builder opening straight into Preview when you hadn't asked for it. This could happen after the canvas went blank.
+
 ## Version 1.2.2 - September 7, 2026
 
 **Slider Wrapper**

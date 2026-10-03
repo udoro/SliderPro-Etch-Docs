@@ -39,13 +39,16 @@ Etch Builder.
 
 ## Installing the skills
 
-From your project folder:
+1. Create a new folder for your project, for example `Slider Pro`. The skills files go in here.
+2. Open that folder in your editor (VS Code, Cursor or similar) and start an AI agent session
+   there. Using a terminal agent like Codex? Open your terminal in that folder instead.
+3. Paste this command into the agent chat and send it:
 
 ```
 npx sliderpro-agentic-skills-etch
 ```
 
-That drops the following into the current directory:
+The agent runs it and adds these files to your folder:
 
 ```
 slider-skills/slider-pro-skills.md
@@ -54,11 +57,17 @@ slider-skills/slider-pro-skills-reference.md
 components/*.md
 ```
 
-Options: `--force` / `-f` to overwrite an existing install, a path argument to install elsewhere
-(e.g. `npx sliderpro-agentic-skills-etch ./my-site-project`), and `--help` / `-h`.
-
 Then point your agent at `slider-skills/slider-pro-skills.md` and ask for what you want. It opens
 the other two files only when a task needs them.
+
+**Already installed and want the latest files?** Send this instead:
+
+```
+npx sliderpro-agentic-skills-etch --force
+```
+
+To install into a different folder, add its path:
+`npx sliderpro-agentic-skills-etch ./my-site-project`. Add `--help` to see every option.
 
 ***
 

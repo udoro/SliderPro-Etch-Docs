@@ -83,6 +83,11 @@ for (const c of etch.components.list()) byName[c.name] = c.id;
 // byName['DWC Slider Wrapper'], byName['DWC Slider'], byName['DWC Slide'], ...
 ```
 
+Block ids last one builder session. They all change when the builder reloads, so find blocks again
+each session with `etch.blocks.find()` or `findByRef()`. Within a session, an id removed by
+`replace()` or `delete()` still returns its old JSON from `getJson()` without an error. Only an
+unknown id throws `BLOCK_NOT_FOUND`.
+
 ### 4. The native-first gate
 
 **Slider Pro is props and CSS. It is almost never JavaScript.**
@@ -166,6 +171,8 @@ etch.blocks.find({ type, class, attribute }) // ids of matching blocks
 etch.blocks.getAttribute(blockId, key)
 etch.blocks.setAttribute(blockId, key, value)
 etch.blocks.create(json, parentId?, index?)  // returns new id
+etch.blocks.update(id, patch)                // patch in place; no script key
+etch.blocks.replace(id, json)                // returns new id; every block inside gets a new id
 etch.components.list()                       // [{ id, name }, ...]
 etch.components.getJson(id)                  // .properties and .blocks
 etch.styles.list()                           // [{ id, selector, type, collection, css }]

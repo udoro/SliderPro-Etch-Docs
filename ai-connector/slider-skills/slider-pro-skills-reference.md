@@ -430,6 +430,8 @@ overwrite it.
    almost everything the engine reads is reachable this way.
 2. **Custom Options** (`props.sliderSetup.customOptions`) for a Splide setting with no control of
    its own. Written as `name: value` pairs, e.g. `wheel: true, waitForTransition: false`.
+   To open on a slide other than the first, set `start` to its zero-based index: `start: 1` opens
+   on slide 2. Synced elements get `is-active` from that slide at load.
 3. **`setOptions()` / `ready()`** from your own JavaScript, for structured settings such as
    per-breakpoint values that Custom Options cannot express. See `../../javascript-api.md`.
 

@@ -386,6 +386,23 @@ how the export serialises it; do not encode it yourself.
 Etch renders it as `<script type="module" defer>`, so it runs after parsing and top-level `await`
 is available. Read it back with `etch.blocks.getJson(id).script`.
 
+To add a script to a block that already exists, use `replace`. `etch.blocks.update()` has no
+`script` key.
+
+```js
+function toAuthoring(n) {
+  const out = {};
+  for (const k in n) if (k !== 'id' && k !== 'parentId' && k !== 'styles') out[k] = n[k];
+  out.children = (n.children || []).map(toAuthoring);
+  return out;
+}
+const newId = etch.blocks.replace(wrapperId,
+  Object.assign(toAuthoring(etch.blocks.getJson(wrapperId)), { script: { code: code } }));
+```
+
+`replace()` gives the block and every block inside it a new id. Use the id it returns and look
+children up again from `etch.blocks.getJson(newId)`.
+
 Component scripts are also the reason a card deck keeps working: the bridge leaves Sync Without
 Slider wrappers unreconstructed precisely so an author's script keeps observing the original nodes.
 
@@ -448,3 +465,10 @@ the slider is a flat line.
 
 Build **one** first, screenshot it, then scale to the full count. Do not generate twenty slides
 before you have seen one render.
+
+### Images
+
+When `etch.environment.capabilities.wpMedia === true`, bind slide images from the media library:
+an `etch/dynamic-image` block with its `mediaId` attribute. The `etch` API cannot upload. If the
+library has nothing suitable, ask the developer to upload images before you build. Use an outside
+image URL only as a placeholder the developer has agreed to.

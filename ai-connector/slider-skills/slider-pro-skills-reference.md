@@ -492,6 +492,9 @@ Fall's script has nothing to adjust.
 
 ## 6. Admin settings
 
+Etch for WordPress only. Etch Studio has no settings screen: Splide and the Auto-Scroll extension
+are always included and the breakpoints are 640, 1024 and 1120.
+
 Site-wide, at **Settings > Slider Pro for Etch**. An agent rarely changes these but may need to
 reason about them.
 

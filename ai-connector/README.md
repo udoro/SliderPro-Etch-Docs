@@ -12,7 +12,9 @@ Etch Builder.
 
 ## Requirements
 
-* Etch Builder with Slider Pro for Etch installed
+* Etch Builder with Slider Pro for Etch installed. This works in Etch Studio too. Connect with the
+  AI button, or run `etch.connectAs('name')` in the browser console. The agent can't publish your
+  site, so it asks you to publish before it checks the live page.
 * [Node.js](https://nodejs.org) (v18 or later)
 * An **AI coding agent with terminal access**. The agent needs to run terminal commands against
   your live Etch Builder tab, so a chat-only interface will not work.

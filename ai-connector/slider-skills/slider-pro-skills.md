@@ -66,6 +66,12 @@ return comps.filter(c => c.name.startsWith('DWC Slider') || c.name === 'DWC Slid
 If that returns fewer than seven, stop and tell the user the components are not installed or are
 out of date. Do not improvise replacements.
 
+**Etch Studio.** If `etch.environment.product` is `etch-studio`, there is no plugin and the engine
+is a component. Expect eight components: the seven above plus `DWC Slider Engine` (key
+`DwcSliderEngine`). If it is missing, stop and tell the user to paste the Engine file
+(`Etch-Slider-Pro-Engine-Studio-v<version>.json`) into the Structure Panel. Put exactly one DWC
+Slider Engine on every page with a slider, before you add the slider.
+
 ### 2. Scope clarification and user confirmation gate
 
 Before building, state back in one short paragraph: what you will create, where it will go, and
@@ -159,8 +165,11 @@ Object.keys(etch)
 
 ```js
 etch.environment.blockTypes    // every block type this build can construct
-etch.environment.capabilities  // { loops, fields, templates, wpMedia, dataSources }
+etch.environment.capabilities  // { loops, fields, templates, wpMedia, dataSources, routes, content, assets }
 ```
+
+On Etch Studio `loops` is false. Build repeated slides from an `etch/loop` block whose `target` is
+`data('<key>')`.
 
 The ones this work uses:
 
@@ -331,6 +340,10 @@ You cannot see the page from inside safe mode, and a read-back is not a substitu
 
 **You can reach rendered verification on your own.** The Etch builder sits behind the user's
 WordPress session, but the published page does not. Save first, or you will verify the old page.
+
+**On Etch Studio you cannot publish.** Ask the user to publish, then fetch the page. Find its path
+with `await etch.routes.getPathsAsync()`, and ask for the site address. Publishing sends the whole
+site.
 
 **1. Fetch the published page.** Cheapest, and often enough. Proves classes, attributes and text
 reached the markup.

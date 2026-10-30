@@ -386,6 +386,9 @@ how the export serialises it; do not encode it yourself.
 Etch renders it as `<script type="module" defer>`, so it runs after parsing and top-level `await`
 is available. Read it back with `etch.blocks.getJson(id).script`.
 
+On Etch Studio a component's script is printed once per instance, not once per page, so a script
+that must run once needs its own guard.
+
 To add a script to a block that already exists, use `replace`. `etch.blocks.update()` has no
 `script` key.
 
@@ -468,7 +471,15 @@ before you have seen one render.
 
 ### Images
 
-When `etch.environment.capabilities.wpMedia === true`, bind slide images from the media library:
-an `etch/dynamic-image` block with its `mediaId` attribute. The `etch` API cannot upload. If the
-library has nothing suitable, ask the developer to upload images before you build. Use an outside
-image URL only as a placeholder the developer has agreed to.
+Bind slide images with an `etch/dynamic-image` block and its `mediaId` attribute. On WordPress
+(`etch.environment.capabilities.wpMedia === true`) it is a media library id, and the `etch` API
+cannot upload. On Etch Studio (`assets === true`) it is an asset id as text, and the API can upload:
+
+```js
+const asset = await etch.assets.uploadAsync({ data: base64, fileName: 'hero.jpg',
+  alt: 'Describe the image', compress: { format: 'webp', quality: 80 } });
+// mediaId: String(asset.id)
+```
+
+Always set `alt`. If you have no suitable images, ask the developer to upload some before you
+build. Use an outside image URL only as a placeholder the developer has agreed to.

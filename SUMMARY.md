@@ -2,6 +2,7 @@
 
 * [Documentation](README.md)
 * [Installation & Getting Started](getting-started.md)
+* [Etch Studio](etch-studio.md)
 * [Premade Templates](premade-templates.md)
 * [Card Stack Templates](card-stack-templates.md)
 * [Admin Settings](admin-settings.md)

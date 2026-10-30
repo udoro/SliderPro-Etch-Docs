@@ -4,6 +4,8 @@ icon: gear
 
 # Admin Settings
 
+> **Etch for WordPress only.** Etch Studio has no plugin and no settings screen. See [Etch Studio](etch-studio.md#what-is-different-from-wordpress) for what replaces each setting.
+
 The plugin adds a **Settings → Slider Pro for Etch** screen in wp-admin with four sections.
 
 ## Splide Library Source

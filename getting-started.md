@@ -4,7 +4,9 @@ icon: desktop-arrow-down
 
 # Installation & Getting Started
 
-## Installation
+> **Using Etch Studio?** It has its own installation steps. See [Etch Studio](etch-studio.md). The rest of this page applies to both.
+
+## Installation (Etch for WordPress)
 
 Slider Pro for Etch ships as two pieces: a small WordPress plugin (loads the Splide library and the CSS automatically, with no manual stylesheet paste needed) and an Etch component JSON export (the 7 reusable DWC Slider components).
 
@@ -78,6 +80,8 @@ The slider behaves differently in three contexts. This is handled automatically,
 - The frontend always loads and mounts the real slider directly, with no edit grid, no control bar, no Preview toggle.
 
 ### WordPress block editor (Gutenberg)
+*This applies to Etch for WordPress only.*
+
 Etch authors your components as WordPress blocks, so a slider built in Etch can be dropped onto an ordinary post or page. Inside the block editor:
 - It renders **live**: the real Splide slider mounts and runs just like the frontend (autoplay, arrows, drag). There's no edit grid or Preview toggle here; those are Etch-canvas concepts.
 - Its blocks are **locked**: the slider wrapper and everything inside it can't be moved, dragged, duplicated, or deleted, so the structure Etch authored can't be displaced by accident. Edit the slider's design or content in Etch. The lock applies only in the editor and never changes your saved page.

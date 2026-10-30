@@ -80,7 +80,7 @@ it, and they need separate guards:
 :where(body:not(.dwc-frontend)) [data-edit-mode="true"]:not([data-splide-preview]) & { /* ... */ }
 ```
 
-* **`body:not(.dwc-frontend)`** keeps it off your live site. The plugin adds `dwc-frontend` to the
+* **`body:not(.dwc-frontend)`** keeps it off your live site. The plugin (the **DWC Slider Engine**, in Etch Studio) adds `dwc-frontend` to the
   body on the front end and never inside Etch, so this is what stops a forgotten toggle reaching
   your visitors. `:where()` keeps it from affecting specificity.
 * **`:not([data-splide-preview])`** keeps it out of **Preview**, which is meant to show what a

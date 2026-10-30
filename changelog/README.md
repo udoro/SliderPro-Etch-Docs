@@ -4,6 +4,26 @@ icon: arrows-retweet
 
 # Changelog
 
+## Version 1.2.4 - October 30, 2026
+
+_Update path from v1.2.3: nothing is needed on WordPress. New on Etch Studio: Engine & Components_
+
+**Etch Studio**
+
+* Slider Pro now works in Etch Studio. You build sliders with the same seven components and the same settings, and Edit and Preview work in the Etch Studio canvas the same way they do in Etch for WordPress. Installation is different, because Etch Studio has no plugins. See [Etch Studio](https://design-with-cracka.gitbook.io/etchsliderpro/etch-studio).
+* New **DWC Slider Engine** component. In Etch Studio it does the job the plugin does in WordPress. Add it once to each page that has a slider.
+* If you add a slider and forget the **DWC Slider Engine**, a reminder shows at the bottom of the Etch Studio canvas. It goes away when you add the engine.
+* Each slider gets its own **Slider Class**, and a duplicated slider gets a fresh one, the same as on WordPress.
+
+**Docs**
+
+* Added a note to the Infinite Scroll section: the Play/Pause button and the **DWC Slider Play-Pause** component don't work with it, and Infinite Scroll doesn't pause for visitors who prefer reduced motion. See [Marquee mode](https://design-with-cracka.gitbook.io/etchsliderpro/components/dwc-slider#marquee-mode).
+* Added a Troubleshooting entry for card text that is cut off at the bottom.
+
+**WordPress**
+
+* No changes. The plugin is now version 1.2.4 so it matches the components.
+
 ## Version 1.2.3 - September 16, 2026
 
 _Update path from v1.2.2: Plugin & Components_

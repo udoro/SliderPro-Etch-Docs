@@ -28,7 +28,7 @@ The templates are **included with Slider Pro**, with no separate purchase. They 
 
 Always make sure you're on the **latest version of the plugin _and_ the components** before using or updating a template. Templates rely on the current component definitions and CSS, so an out-of-date install can render or behave incorrectly.
 
-When you paste an **updated** component or template, first enable **"Overwrite on paste"** in Etch's settings. This makes the newer definitions replace the existing ones instead of creating duplicates.
+When you paste an **updated** component or template, first enable **"Overwrite on paste"** in Etch's settings. This makes the newer definitions replace the existing ones instead of creating duplicates. This applies to Etch Studio too: with the setting off, Etch Studio keeps your old components and ignores the new ones.
 
 ## The templates
 

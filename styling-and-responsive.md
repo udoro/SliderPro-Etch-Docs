@@ -68,7 +68,7 @@ Two things to watch:
 
 ### Setting the breakpoint pixel values
 
-The 640 / 1024 / 1120 pixel values above are the defaults. They're configurable site-wide from the [Admin Settings](admin-settings.md) screen in wp-admin, and each Slider can additionally override them for itself via its **Laptop/Tablet/Phone Breakpoint** settings (`data-breakpoint-lg/md/sm`). See the [DWC Slider BREAKPOINTS panel](components/dwc-slider.md#breakpoints). Leave a slider's breakpoint blank to inherit the site-wide value.
+The 640 / 1024 / 1120 pixel values above are the defaults. On WordPress they're configurable site-wide from the [Admin Settings](admin-settings.md) screen in wp-admin. In Etch Studio they are fixed at these values. On both, each Slider can additionally override them for itself via its **Laptop/Tablet/Phone Breakpoint** settings (`data-breakpoint-lg/md/sm`). See the [DWC Slider BREAKPOINTS panel](components/dwc-slider.md#breakpoints). Leave a slider's breakpoint blank to inherit the site-wide value.
 
 > **Testing responsiveness inside Etch:** responsive settings, and Layout Mode below, are evaluated live in **Preview**. Switch Etch's responsive device/width and the slider re-lays-out to match. In **Edit** mode the real slider isn't mounted (you see a static grid of the slides), so responsiveness only kicks in once you enter Preview.
 

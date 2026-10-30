@@ -21,8 +21,10 @@ icon: wrench
 | Symptom                                          | Likely cause                                                                                                                    |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Slider doesn't move / arrows do nothing               | If you're viewing this inside the Etch editor, make sure you're in **Preview** mode. Arrows, pagination, and autoplay are intentionally inactive in Edit mode since the real slider isn't mounted there. See [Installation & Getting Started](getting-started.md#using-the-slider-inside-etch-editor-vs.-preview-vs.-live-site). |
-| Nothing works anywhere on the site (arrows, drag, autoplay all dead) | The Splide library failed to load. See [Admin Settings](admin-settings.md#splide-library-source) and try switching between Local (bundled) and CDN (jsDelivr) in case one is being blocked. |
-| Infinite Scroll / marquee slider doesn't move (in Preview or on the live site) | The **Auto-Scroll Extension** may be turned off. Enable it in [Admin Settings](admin-settings.md#auto-scroll-extension). (In the Etch editor, sliders are intentionally inactive in Edit mode, so use **Preview**.) |
+| Nothing works anywhere on the site (arrows, drag, autoplay all dead) | On WordPress, the Splide library failed to load. See [Admin Settings](admin-settings.md#splide-library-source) and try switching between Local (bundled) and CDN (jsDelivr) in case one is being blocked. In Etch Studio, check that the page has the **DWC Slider Engine**. See [Etch Studio](etch-studio.md#add-the-engine-to-every-page-with-a-slider). |
+| Infinite Scroll / marquee slider doesn't move (in Preview or on the live site) | On WordPress, the **Auto-Scroll Extension** may be turned off. Enable it in [Admin Settings](admin-settings.md#auto-scroll-extension). In Etch Studio it is always on, so check that the page has the **DWC Slider Engine**. (In the Etch editor, sliders are intentionally inactive in Edit mode, so use **Preview**.) |
+| The Play/Pause button does nothing, or doesn't appear, on an Infinite Scroll slider | Expected. Infinite Scroll doesn't use Auto Play, so neither the **Play/Pause Button** nor the **DWC Slider Play-Pause** component works with it. See [Marquee mode](components/dwc-slider.md#marquee-mode). |
+| Text at the bottom of a card is cut off | The slider has a fixed height. **Aspect Ratio** or a **Slider Height** gives every slide the same height, so taller content is clipped. For cards that grow with their content, leave **Slider Height** on `auto` and leave **Aspect Ratio** empty. |
 | Thumbnails don't sync to the main slider               | Confirm one Slider's Slider Role is `main` and the other is `thumbnails`; if they're in different Wrappers, give both the same Sync Group. |
 | A lazy-loaded slider loads right away, plus a console note about a "sync-group … initializing immediately" | Expected safety behavior: a synced main/thumbnail pair can only be lazy-loaded if both defer together. If they're split (one lazy and one not, or in two different lazy wrappers) the whole group loads immediately so sync can't break. Put both sliders in **one** lazy Wrapper to lazy-load them. See [Lazy loading](styling-and-responsive.md#lazy-loading-below-the-fold-sliders). |
 | Lazy-loaded slider never appears / stays blank          | It should activate ~`Lazy Preload Distance` px before entering view. If it never does, check the element actually scrolls into (or near) the viewport; a slider that's permanently off-screen won't initialize. Very old browsers without `IntersectionObserver` fall back to loading immediately. |
@@ -45,7 +47,7 @@ icon: wrench
 
 ## Checking your version
 
-To see which version of the plugin a site is running, open the page on the live site, open your browser's developer console, and look for this line:
+To see which version of the plugin a site is running (or the **DWC Slider Engine**, in Etch Studio), open the page on the live site, open your browser's developer console, and look for this line:
 
 ```
 DWC Slider Pro for Etch: Initialized { version: "1.0" }

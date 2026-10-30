@@ -12,7 +12,7 @@ Settings are grouped into panels matching the groups below. Each row shows the s
 
 ## BREAKPOINTS
 
-Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in. Enter a pixel width (a `max-width`, so it applies at that size and below). Leave blank to inherit the site-wide [Admin Settings](../admin-settings.md) values.
+Set where this slider's `sm:` / `md:` / `lg:` breakpoints kick in. Enter a pixel width (a `max-width`, so it applies at that size and below). Leave blank to inherit the site-wide [Admin Settings](../admin-settings.md) values (in Etch Studio: 640, 1024 and 1120).
 
 | Setting          | Renders to          | Default | Description |
 | ------------------- | ---------------------- | ------- | -------------- |
@@ -106,7 +106,7 @@ Autoplay also automatically pauses when a slide or control receives keyboard foc
 | **Infinite Scroll**   | `data-auto-scroll`          | `false` | Continuous, non-stop scrolling (like a logo marquee) instead of discrete slide steps. |
 | **Scroll Speed**      | `data-auto-scroll-speed`    | `4`     | Shown only when Infinite Scroll is on. Pixels moved per frame; negative numbers reverse direction. |
 
-> **Note:** Infinite Scroll only animates when the **Auto-Scroll Extension** is enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (it is on by default).
+> **Note:** Infinite Scroll only animates when the **Auto-Scroll Extension** is enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (it is on by default). In Etch Studio it is always on.
 
 ### Pause Sliders on Hover (wrapper-level)
 
@@ -217,7 +217,7 @@ To defer a **whole wrapper** (every slider inside it) instead of one slider, use
 
 **Slides Per Page**, **Gap between Slides**, **Slider Height**, **Aspect Ratio**, **Slider Edge Offset**, **Left Offset**, **Right Offset**, **Focus**, and **Sllde Direction** all accept the same responsive shorthand: a base value followed by `lg:`, `md:`, and/or `sm:` overrides, e.g. `3 md:2 sm:1`. **Layout Mode** and **Grid Columns** use it too. See [Styling & Responsive Behaviour](../styling-and-responsive.md#responsive-breakpoints) for exactly how the cascade works. It's desktop-first (max-width), not mobile-first.
 
-The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values, but each slider can override them individually via the [BREAKPOINTS](#breakpoints) panel above.
+The pixel widths those `sm:`/`md:`/`lg:` tokens map to default to the site-wide [Admin Settings](../admin-settings.md) values (fixed at 640, 1024 and 1120 in Etch Studio), but each slider can override them individually via the [BREAKPOINTS](#breakpoints) panel above.
 
 The length fields (**Gap**, **Slider Width**, **Slider Height**, and the edge-offset settings) additionally accept CSS functions (`clamp()`, `calc()`, `var()`, `min()`, `max()`) for values that scale fluidly with the viewport instead of stepping at breakpoints. See [Fluid values](../styling-and-responsive.md#fluid-values-with-clamp-calc-and-var).
 
@@ -236,7 +236,9 @@ Clicking a thumbnail jumps the main Slider to that slide, and the active thumbna
 
 ## Marquee mode
 
-Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel. This requires the **Auto-Scroll Extension** to be enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (on by default). If it's off, the slider won't move.
+Turning on **Infinite Scroll** (Auto Scroll) automatically switches the slider into looping mode, turns off arrows/pagination/autoplay, and sets drag to "free" so it feels like a marquee rather than a snap-to-slide carousel. This requires the **Auto-Scroll Extension** to be enabled in [Admin Settings](../admin-settings.md#auto-scroll-extension) (on by default, and always on in Etch Studio). If it's off, the slider won't move.
+
+**The Play/Pause control doesn't work with Infinite Scroll.** Infinite Scroll runs on its own engine, not on Auto Play, so the built-in **Play/Pause Button** and the **DWC Slider Play-Pause** component add nothing to an Infinite Scroll slider. The slider pauses on hover and on keyboard focus (see **Pause on Hover** and **Pause on Focus** above), and the Wrapper's **Pause Sliders on Hover** pauses several together. It does not pause for visitors who prefer reduced motion, so if you need that, add your own control or rule.
 
 ***
 

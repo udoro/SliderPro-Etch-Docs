@@ -4,7 +4,7 @@ icon: images
 
 # Documentation
 
-**Slider Pro for Etch** is a component-based slider/carousel system built for the Etch page builder for WordPress, powered by [Splide](https://splidejs.com/). Every visible piece (the slide track, arrows, dots, counter, progress bar, thumbnails) is its own Etch component with its own settings panel. You build a slider by combining these components and adjusting their settings; you never need to write code.
+**Slider Pro for Etch** is a component-based slider/carousel system built for the Etch page builder, on WordPress or in [Etch Studio](etch-studio.md), powered by [Splide](https://splidejs.com/). Every visible piece (the slide track, arrows, dots, counter, progress bar, thumbnails) is its own Etch component with its own settings panel. You build a slider by combining these components and adjusting their settings; you never need to write code.
 
 There are two levels of components: a **Wrapper** that holds one or more sliders (plus any extra pieces like a counter or progress bar), and one or more **Slider** components, the actual sliding track, placed inside it. Everything else (navigation buttons, pagination, counters, progress indicators, the autoplay toggle) is a small component you drop wherever you want it to appear inside the same Wrapper. It finds the Slider automatically, no manual linking required.
 
@@ -36,6 +36,8 @@ The result: sliders that are accessible, quick to load, and genuinely capable: t
 | [DWC Slider Play-Pause](components/dwc-slider-play-pause.md)     | A standalone play/pause button for autoplay, with its own style controls                      |
 | [DWC Slider Pagination](components/dwc-slider-pagination.md)     | Splide's default dots, or a fully custom pagination template                                  |
 | [DWC Slider Nav Button](components/dwc-slider-nav-button.md)     | A clickable prev/next/first/last/jump-to-slide control, with optional custom SVG icon         |
+
+**Etch Studio** also gets a small eighth component, the **DWC Slider Engine**, which does the job the WordPress plugin does. See [Etch Studio](etch-studio.md).
 
 **Coming soon:** an [AI Connector](https://design-with-cracka.gitbook.io/etchsliderpro/ai-connector) that lets you build and configure sliders through a conversational AI agent.
 

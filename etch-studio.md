@@ -16,8 +16,8 @@ Two files from your Gumroad download, version 1.2.4 or newer:
 
 | File | What it is |
 | --- | --- |
-| `Etch-Slider-Pro-v1.2.4.json` | The seven slider components. This is the same file WordPress users import. |
-| `Etch-Studio-Slider-Pro-Engine-v1.2.4.json` | The **DWC Slider Engine** component. Only Etch Studio needs it. |
+| The **components file**. Its name starts with `Etch-Slider-Pro-v`. | The seven slider components. This is the same file WordPress users import. |
+| The **engine file**. Its name starts with `Etch-Studio-Slider-Pro-Engine-v`. | The **DWC Slider Engine** component. Only Etch Studio needs it. |
 
 You don't need the plugin `.zip` file. That one is for WordPress.
 
@@ -28,9 +28,9 @@ You don't need the plugin `.zip` file. That one is for WordPress.
 Do these steps in order.
 
 1. Open any page in the Etch Studio builder.
-2. Open `Etch-Slider-Pro-v1.2.4.json` in a text editor. Select all of it and copy it.
+2. Open the components file in a text editor. Select all of it and copy it.
 3. Click the **Structure Panel** and paste. The seven DWC Slider components are now in your project. A sample slider appears on the page.
-4. Open `Etch-Studio-Slider-Pro-Engine-v1.2.4.json`, copy all of it, and paste it into the **Structure Panel** the same way. A **DWC Slider Engine** component appears on the page.
+4. Open the engine file, copy all of it, and paste it into the **Structure Panel** the same way. A **DWC Slider Engine** component appears on the page.
 5. Delete the sample slider if you don't want it on this page. The components stay in your project.
 6. Publish your site.
 
@@ -84,11 +84,14 @@ Everything else runs on the same engine and works the same, including Sync Custo
 ## Updating
 
 1. Turn on **Overwrite on paste** in Etch Studio's settings. It's the same setting as in Etch for WordPress.
-2. Paste the new `Etch-Slider-Pro-v1.2.4.json` into the **Structure Panel**.
-3. Paste the new `Etch-Studio-Slider-Pro-Engine-v1.2.4.json` into the **Structure Panel**.
-4. Publish your site.
+2. Paste the new components file into the **Structure Panel**.
+3. Paste the new engine file into the **Structure Panel**.
+4. Turn **Overwrite on paste** off again.
+5. Publish your site.
 
 Don't skip step 1. With **Overwrite on paste** off, Etch Studio keeps your old components and ignores the new ones, and you get no error. With it on, the new components replace the old ones and your sliders stay as they are.
+
+Don't skip step 4 either. Leave **Overwrite on paste** on only while you update. If it stays on, any later paste of a component with the same name replaces yours, and you lose the changes you made to that component.
 
 ***
 
@@ -100,7 +103,7 @@ Open a published page, open your browser's developer console, and look for this 
 DWC Slider Pro for Etch: Initialized { version: "1.2.4" }
 ```
 
-That is the engine version on that page.
+That is the engine version on that page. The number you see is the version you installed.
 
 ***
 
@@ -110,6 +113,6 @@ That is the engine version on that page.
 | --- | --- |
 | The slider shows on the live site but doesn't move | The page has no **DWC Slider Engine**. Add it once to the page and publish again. |
 | The reminder at the bottom of the canvas doesn't go away | Add the **DWC Slider Engine** to this page. If it's already there, reload the builder tab. |
-| I pasted the new files but nothing changed | Turn on **Overwrite on paste** and paste both files again. See [Updating](#updating). |
+| I pasted the new files but nothing changed | Turn on **Overwrite on paste**, paste both files again, then turn it off. See [Updating](#updating). |
 
 For anything about the slider itself, see [Troubleshooting](troubleshooting.md).

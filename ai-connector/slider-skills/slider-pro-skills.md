@@ -69,7 +69,7 @@ out of date. Do not improvise replacements.
 **Etch Studio.** If `etch.environment.product` is `etch-studio`, there is no plugin and the engine
 is a component. Expect eight components: the seven above plus `DWC Slider Engine` (key
 `DwcSliderEngine`). If it is missing, stop and tell the user to paste the Engine file
-(`Etch-Slider-Pro-Engine-Studio-v<version>.json`) into the Structure Panel. Put exactly one DWC
+(`Etch-Studio-Slider-Pro-Engine-v<version>.json`) into the Structure Panel. Put exactly one DWC
 Slider Engine on every page with a slider, before you add the slider.
 
 ### 2. Scope clarification and user confirmation gate

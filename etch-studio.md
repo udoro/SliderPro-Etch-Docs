@@ -17,7 +17,7 @@ Two files from your Gumroad download, version 1.2.4 or newer:
 | File | What it is |
 | --- | --- |
 | `Etch-Slider-Pro-v1.2.4.json` | The seven slider components. This is the same file WordPress users import. |
-| `Etch-Slider-Pro-Engine-Studio-v1.2.4.json` | The **DWC Slider Engine** component. Only Etch Studio needs it. |
+| `Etch-Studio-Slider-Pro-Engine-v1.2.4.json` | The **DWC Slider Engine** component. Only Etch Studio needs it. |
 
 You don't need the plugin `.zip` file. That one is for WordPress.
 
@@ -30,7 +30,7 @@ Do these steps in order.
 1. Open any page in the Etch Studio builder.
 2. Open `Etch-Slider-Pro-v1.2.4.json` in a text editor. Select all of it and copy it.
 3. Click the **Structure Panel** and paste. The seven DWC Slider components are now in your project. A sample slider appears on the page.
-4. Open `Etch-Slider-Pro-Engine-Studio-v1.2.4.json`, copy all of it, and paste it into the **Structure Panel** the same way. A **DWC Slider Engine** component appears on the page.
+4. Open `Etch-Studio-Slider-Pro-Engine-v1.2.4.json`, copy all of it, and paste it into the **Structure Panel** the same way. A **DWC Slider Engine** component appears on the page.
 5. Delete the sample slider if you don't want it on this page. The components stay in your project.
 6. Publish your site.
 
@@ -85,7 +85,7 @@ Everything else runs on the same engine and works the same, including Sync Custo
 
 1. Turn on **Overwrite on paste** in Etch Studio's settings. It's the same setting as in Etch for WordPress.
 2. Paste the new `Etch-Slider-Pro-v1.2.4.json` into the **Structure Panel**.
-3. Paste the new `Etch-Slider-Pro-Engine-Studio-v1.2.4.json` into the **Structure Panel**.
+3. Paste the new `Etch-Studio-Slider-Pro-Engine-v1.2.4.json` into the **Structure Panel**.
 4. Publish your site.
 
 Don't skip step 1. With **Overwrite on paste** off, Etch Studio keeps your old components and ignores the new ones, and you get no error. With it on, the new components replace the old ones and your sliders stay as they are.

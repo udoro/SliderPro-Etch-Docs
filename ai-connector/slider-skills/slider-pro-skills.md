@@ -590,13 +590,10 @@ the Etch settings panel. They are not present in the attributes map of a block y
 the API, so `getAttribute` returns nothing for them. This is the one exception to "never set a prop
 to its default", and it fails silently in two different ways.
 
-**Symptom one, a condition that never matches.** When a condition inside the component reads a flag
-prop and the key is absent, the expression does not resolve and the condition returns false
-**whichever operator it uses**, so both branches vanish at once. A DWC Slider Nav Button created
-with `navigationType` alone renders `<button>` with no icon: the default arrow sits behind
-`useCustomArrow isFalsy` and the custom SVG behind `useCustomArrow isTruthy`, and neither appears.
-Writing `useCustomArrow: '{false}'`, already the default, makes the arrow render. If a component
-renders structurally but its inner content is missing, check this first.
+**Symptom one, a condition that never matches.** A condition inside the component can read a flag
+prop whose key is absent on your instance. If the component renders structurally but its inner
+content is missing, set that flag to its default value and read the page again. A DWC Slider Nav
+Button needs no flag: with `navigationType` alone it renders the default arrow.
 
 **Symptom two, a class prop that silently replaces the default.** Class props are arrays of
 **space-separated style ids**. Writing one id does not add to the default, it becomes the whole

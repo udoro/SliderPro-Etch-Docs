@@ -295,6 +295,8 @@ A style entry that no block references also survives deleting the element it was
 nothing**. The call looks like it worked. Read the entry back from `etch.styles.list()` and compare
 the CSS before believing an update landed.
 
+**Read `etch.styles.list()` again before each update of the same entry.** A list read once at the top of a script holds the CSS from that moment. Two updates built from it overwrite each other, so the second erases the first, and nothing throws.
+
 **Renaming is not one operation.** A style entry's selector and a block's `class` attribute are
 independent. Renaming the selector rewrites the rendered class only where the class came from a
 **component class prop**, because that prop stores the style id and resolves it at render. On a
@@ -374,6 +376,8 @@ looks right.
 
 Write attribute probes as `[data-x="false"]`, not `[data-x]`: the bare attribute selector matches
 whatever the value is, so a switched-off control still counts and you will report it as still there.
+
+**3. Check the first load, not only the finished page.** A flash is over by the time a screenshot is taken. Before `Page.navigate`, call `Page.addScriptToEvaluateOnNewDocument` with a `requestAnimationFrame` loop. Whenever they change, it records each slider's `visibility` and `is-initialized` state, its section's height, and the computed `transform` or `opacity` of every element that animates. Start reading at the first frame that has content, and stop before autoplay moves a slide. Run it at widths 390 and 1440, with `Emulation.setCPUThrottlingRate` at 1 and at 6. It passes when no slider is visible before it starts, and the first frame already has the final heights and states. Also load the page with `Emulation.setScriptExecutionDisabled` on: that is what a visitor sees before the scripts run. With scripts off, read the page with `Runtime.evaluate`, because the recording loop does not run.
 
 > **Do not use the connector's `shot`, `html` or `computed`, and never ask the user to relaunch
 > their browser with `--remote-debugging-port=9222`.** Those attach to the user's own Chrome, so
@@ -570,6 +574,8 @@ arrows to a slider that is static at every breakpoint.
 **Slide Auto Width disables Slides Per Page.** Each slide takes its content's width, so the slides
 need their own sizing.
 
+**A slide's content sits in a centring grid and is only as wide as its content.** The plugin makes the slide's inner element (`.splide__slide > div`, the one your DWC Slide `class` is on) a grid with `justify-items: center`. A block you put in it shrinks to its content and sits in the middle. For a full-width layout, give that block `inline-size: 100%` and `min-inline-size: 0`.
+
 **A vertical slider needs a height.** `slldeDirection: 'ttb'` cannot derive height from width, so
 set `dimensions.sliderHeight` or `aspectRatio`. Both take the shorthand.
 
@@ -663,7 +669,8 @@ exactly one `.dwc-slider-vars-*` id, plus your design class if you added one. A 
 Preview but not while the user is editing, so in edit mode no slide carries `is-active` and none of
 your active-state rules apply. Height that comes from the active slide collapses; an element
 resting at `opacity: 0` stays invisible. Guard on the condition "nothing is active yet", which is
-true only in edit mode and switches itself off the moment the slider runs:
+true while the slider is not running (in edit mode, and on the live page before it mounts) and
+switches itself off the moment the slider runs:
 
 ```css
 .figure { opacity: 0; }
@@ -728,6 +735,39 @@ the wrong one is a defect the author sees before you do.
 **Never put the first job behind Edit Mode.** A slide with no height, or content resting at
 `opacity: 0`, has to come back on its own. Gate that on Edit Mode and the design is broken in the
 builder until somebody finds the toggle, which is the opposite of what the toggle is for.
+
+**Make the page before the slider starts look like the page after it.** Until Splide mounts, the live page has no active slide. Anything that changes size, position or opacity at start-up shows as a jump or an animation on every load. Rule 1 is for any page where Splide's own CSS is not in the page head: always on Etch Studio, and on WordPress when the plugin's When to Load Slider Assets setting is "Only when needed". Read it from the published page: `grep -o '"loadSplide":"[a-z]*"' page.html` gives `auto` for "Only when needed" and `always` for "Every page". With "Every page" (the default), the head already has Splide's CSS, which hides the slider until it starts, so skip rule 1. Rules 2, 3 and 4 apply everywhere. The width line in rule 2 is for Etch Studio only. Each rule switches off the moment the slider runs.
+
+1. **Hide the slider until it starts, and lay its list out as a row.** (Skip it when Splide's CSS is already in the head.) Put this in the Slider Class entry (`.slider-<name>`). The slide basis is `100%` divided by Slides Per Page, at each breakpoint.
+
+```css
+&:not(.is-initialized, .is-rendered) { visibility: hidden; }
+&:not(.is-initialized) .splide__track { overflow: hidden; }
+&:not(.is-initialized) .splide__list { display: flex; }
+&:not(.is-initialized) .splide__slide { flex: 0 0 100%; }
+```
+
+2. **Reserve the slide's final height.** In the slide's own entry, repeat the Height prop value as `min-block-size`, with the same breakpoints. Change both together. On Etch Studio only, also give the slide's inner element a width, because before the engine's CSS arrives it has none:
+
+```css
+.splide:not(.is-initialized) & { inline-size: 100%; }
+```
+
+3. **Start in the final state, with no transition.** An element that animates in from `is-active` (a caption, an image drifting from `scale(1.06)`) must already be in its final state on the first frame. In that element's own entry:
+
+```css
+.splide:not(:has(.splide__slide.is-active)) & { transform: scale(1); transition: none; }
+```
+
+4. **Style the first item of a Sync Custom Element set as already active.** In the entry of the synced element, with `transition: none`:
+
+```css
+.tabs:not(:has(.tab.is-active)) &:first-child { color: var(--ink); transition: none; }
+```
+
+The bridge forces slides visible with `!important` in the builder, so rule 1 does not hide them there.
+
+**Never gate these rules on `[data-edit-mode="false"]`, and never hide slides 2 and later with `display: none` before the slider starts.** Edit Mode is also off in the builder, and the builder shows the not-started slider, so the slides disappear and the author cannot edit them.
 
 **Edit Mode needs two guards, not one.** `:where(body:not(.dwc-frontend))` keeps it off the live
 site: the plugin puts `dwc-frontend` on the body there and never inside Etch, and `:where()` keeps

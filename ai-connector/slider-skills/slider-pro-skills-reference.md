@@ -298,6 +298,8 @@ you add yourself are never touched. See "`sliderClass` carries a minted per-inst
 
 Hover: `--arrow-hover-bg`, `--arrow-hover-clr`, `--arrow-hover-opacity`, `--arrow-hover-border-clr`
 
+The built-in arrows start at `--arrow-opacity: 0` and show on hover (`--arrow-hover-opacity: 1`). For arrows that are always visible, set `--arrow-opacity: 1` in the Slider Class.
+
 Position, per side: `--prev-arrow-top/-bottom/-left/-right/-transform` and
 `--next-arrow-top/-bottom/-left/-right/-transform`
 

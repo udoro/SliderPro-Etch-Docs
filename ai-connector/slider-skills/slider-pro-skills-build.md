@@ -187,7 +187,9 @@ Two things that bite:
   every transition. Where a breakpoint drops the centring, restate the transform there too.
 * **A slow drift on the backdrop** (`scale(1.06)` to `scale(1)` over several seconds) makes a
   change read as movement rather than a cut. Put it on the image, not the slide, so it does not
-  fight the transition.
+  fight the transition. It replays on every page load unless the image also starts at `scale(1)`
+  while no slide is active. See "Make the page before the slider starts look like the page after
+  it" in `slider-pro-skills.md`.
 
 This works with the Fade transition, which crossfades the slides underneath while the contents
 move independently.
